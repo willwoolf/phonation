@@ -9,7 +9,7 @@
 \usepackage{graphicx}
 \usepackage{biblatex}
 
-\addbibresource{sources}
+\addbibresource{source  s.bib}
 
 \title{MATH30000 Project - Phonation}
 \author{Will Woolfenden}
@@ -26,20 +26,7 @@ Phonation is the human process in which respiratory exhalation and vocal cord os
 Air is projected from the lungs in a fluid motion through the airways.
 When passing through the larynx, the forced oscillations of the contained vocal cords interact with the air particles and induce the sound of speech.
 
-The goal of this project is to cover a \textit{complete} mathematical understanding of the mechanical processes involved in phonation.
-We will apply mathematical models in order to provide an analytical understanding of mechanical systems,
-and we will be able to, for example, manipulate parameters and inspect behaviour on an entirely theoretical level.
-We aim to provide modelling which can accurately depict physical behaviours of real phonation,
-particularly looking at the frequency-amplitude behaviour of sounds projected from the larynx.
-
-In respect of scope, we will not be able to introduce a mathematical model that both accurately and completely describes phonation.
-The mathematical models we apply will be relatively simple, allowing us to discuss primarily the fundamental aspects of the phonation process.
-Approximations will be made, particularly where they allow analysis to continue while avoiding the intense complications that come with completeness. %the complications of including advanced mechanics, which itself is a consequence of analysis. 
-
-\subsection{Topics}
-
-This project will cover the two main aspects of phonation: the fluid mechanics of the air passage, and the induced oscillations of the vocal cords.
-Once we begin describing complete models of this process, we can begin to cover the interaction of these two features.
+The goal of this project is to explore models of the phonation process.
 
 
 
@@ -118,7 +105,14 @@ If we plug this back into $f$, we can deduce the condition.
     &= 1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}}
 \end{align*}
 
-We clearly find that $1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}} > 0$ is the requirement for there to exist an interval $I_0$
+We obtain the result
+
+\begin{equation}
+    1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}} > 0,
+    \label{eqn:osc_condition}
+\end{equation}
+
+being the requirement for there to exist an interval $I_0$
 such that if $b\in I_0$ then $f$ is positive.
 In other words, if this condition is met then oscillations may occur.
 Further on, we will be regularly making the assumption that this condition is satisfied,
@@ -184,15 +178,24 @@ allowing us to apply methods on solutions and analysis of linear systems.
         U \\
         V
     \end{pmatrix}
+    \label{eqn:matrix}
 \end{equation}
 
 We now have a matrix approximation for the differential operator $\frac{d}{dt}$.
 The matrix and vectors are defined in the vector space spanned by the vectors $U,V$,
 and so the eigenvalues of this matrix are directly related to vectors in the $b,\dot{b}$ vector space,
-which itself is referred to as the \textit{phase-plane}.
+which itself is referred to as the \textit{phase portrait}.
 And if the matrix has eigenvectors, we can inspect those eigenvectors (which are local to the point $b=b_0$),
 allowing us to evaluate the behaviour of the model, in the phase-plane,
 when local to $b=b_0$.
+
+Note that this analysis is governed by being local to the zeroes of $f(b)$.
+It only provides insight on the behaviour of the model when considering these points.
+When oscillations occur, it is a consequence of the condition of Equation \ref{eqn:osc_condition},
+which is the condition of $f(b)$ having two positive zeroes.
+Thus, the matrix equation analysis is only valid at two points,
+being these solutions of $f(b)$ at the bounds of oscillation.
+
 
 \subsection{Eigenvectors in the Phase-Plane}
 
@@ -218,8 +221,8 @@ If helps to perform some more analysis on the governing equation from a mechanic
 \subsection{Further Mechanics}
 
 Recall Equation \ref{eqn:master}, of the form $\frac{d^2b}{dt^2} = 1 - q - b - \frac{\mu q^2}{2 b^2} = f(b)$.
-Assume the right hand side $f(b)$ is the derivative (with respect to $t$) of some function $P(b)$,
-i.e. $\frac{d}{dt}\left(P(b)\right) = f(b)\frac{db}{dt} $ %some of this might be abusive. consider in terms of d/db
+Assume the right hand side $f(b)$ is the derivative (with respect to $b$, remaining aware that $b$ depends on $t$) of some function $P(b)$,
+so $\frac{d}{dt}\left(P(b)\right) = f(b)\frac{db}{dt}.$ %some of this might be abusive. consider in terms of d/db
 Multiply both sides of the equation by $\frac{db}{dt}$ to obtain
 
 \begin{equation*}
@@ -232,6 +235,7 @@ Hence, we obtain
 
 \begin{equation}
     \frac{1}{2}\left(\frac{db}{dt}\right)^2 = P(b) + C
+    \label{eqn:integral_kinetic_energy}
 \end{equation}
 
 for an arbitrary constant $C$. This represents a family of solutions.
@@ -242,6 +246,13 @@ We already have a direct expression for $f$,
 so we can use our knowledge of the $f(b)$ vs $b$ graph and integrate $f(b)$ with respect to $b$
 in order to obtain an explicit $P(b)$.
 
+Extremely important to note is that we have an equation in terms of $\frac{db}{dt}$ and $b$, which are the vectors defining the phase portrait.
+Hence the curves that appear in the phase portrait represent all the curves that appear for different $+C$.
+
+%figure with the $P(b)$ curves matched to phase portrait curves
+
+This provides analytical means for inspecting the range of oscillations.
+
 We must be careful with considering how we are able to do this, and how it provides valid analysis.
 The Equation \ref{eqn:master} is autonomous,
 so the same initial conditions will always exhibit the same behaviour regardless if we start at $t=1$ or $t=100$.
@@ -250,25 +261,51 @@ Autonomy allows us to graph $f$ and $P$ over $b$ and analyse.
 
 \subsection{Oscillations and the Parameter Space}
 
-Recall the result
-
-\begin{equation}
-    1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}} > 0.
-\end{equation}
-
-In the derivation of the governing equation of the model, $\mu$ and $q$ are strictly positive\footnote{They represent forces related to the viscous resistance and the changes in pressure. The properties of these parameters will be discussed later}.
+Recall Equation \ref{eqn:osc_condition}. In the derivation of the governing equation of the model, $\mu$ and $q$ are strictly positive\footnote{They represent forces related to the viscous resistance and the changes in pressure. The properties of these parameters will be discussed later}.
 To aid our understanding, consider the \textit{parameter space,} i,e, the vector space spanned by vectors $\mu, q$.
-A specific form of Equation \ref{eqn:master} belongs to a point in the parameter space,
+Any specific form of Equation \ref{eqn:master} belongs to a point in the parameter space,
 and we can deduce that its position in the space influences the range of initial $b$ for which oscillations will occur. 
 
 % graphs of KE, d2b, for different mu, q
 
-% consideration of why this occurs. potential wells
+The function $P(b)$ is defined as the definite integral of $f(b)$ with respect to $b$.
+
+\begin{equation}
+    \begin{aligned}
+        P(b) &= \int f(b) db \\
+        &= \int 1 - q - b - \frac{\mu q^2}{2 b^2} db \\
+        &= (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b}.
+    \end{aligned}
+    \label{eqn:ke_integral}
+\end{equation}
+
+A curve $P(b)$ is a continuous function of $b$ such that $\frac{1}{2}\left(\frac{db}{dt}\right)^2 = P(b) +C$ for all $C \in \mathds{R}$
+represents all curves in the phase portrait. Therefore, the shape of $P(b)$ and the location of its critical points (turning points and zeroes)
+represent the range in which oscillations will occur.
+
+Given $\mu, q$ satisfactory for oscillations to occur,
+it is evident that there exists a $C$ such that $P(b)+C$ will have exactly two zeroes,
+and this interval is exactly the region in which we observe the largest oscillation,
+being which the first zero is a point observed in our analysis and derivation of Equation \ref{eqn:matrix}.
+
+Given $P(b)$ as defined in Equation \ref{eqn:ke_integral},
+our query is to find the case where the following equation is satisfied:
+
+\begin{equation}
+    (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} + C = 0,
+\end{equation}
+
+such that there exist solutions for exactly $2$ values of $b$.
+
+Since oscillations are guaranteed to occur (because we assumed so),
+we can guarantee that \ref{eqn:osc_condition} is satisfied.
+
+% derivation of the conditions on +C which guarantee the closed orbit. 
 
 % rigorous understanding of the range of oscillations
 
 
-% behaviour of oscillations local to the "matrix points"
+% behaviour of oscillations local to the "matrix points", tie in the analysis to the matrix methods.
 
 % comparison of phaseplane and distance-time graphs
 
