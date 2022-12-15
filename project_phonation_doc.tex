@@ -5,11 +5,8 @@
 \usepackage{amsmath}
 \usepackage{dsfont}
 \usepackage[a4paper, total={6in,8in}]{geometry}
-\usepackage{hyperref}
 \usepackage{graphicx}
-\usepackage{biblatex}
-
-\addbibresource{source  s.bib}
+\usepackage{hyperref}
 
 \title{MATH30000 Project - Phonation}
 \author{Will Woolfenden}
@@ -30,31 +27,77 @@ The goal of this project is to explore models of the phonation process.
 
 
 
-\section{Model}
+\section{Principles of the single-mass model}
 
 \subsection{Derivation}
 
-The model in Theory and Measurement of Snores \cite{gavriely_jensen_1993} models inspiratory respiration.
-The fluid flow $\dot{V}$ enters through the upper airway, which has flow resistance $R_{ua}$,
-before passing through a constricted volume with a wall at a variable position.
-The flow then leads out of the constricting region to the lungs.
+The first model we will study is taken from Theory and Measurement of Snores \cite{gavriely_jensen_1993}.
+It models the inspiratory process, designed to investigate snoring as a symptom of obstructive sleep apnea.
+The model proposes that the inspiratory path consists of first a region of the upper airway,
+which has a given viscous resistance.
+Then, there is a region of a channel between two walls of given area, where one wall is a suspended plate rather than being fixed in place.
+The term we wish to investigate is $b$, which describes the positive displacement between the fixed wall and the suspended wall opposite. 
+The walls themselves are assumed to be of equal dimensions, and behave such that the surfaces are always parallel to each other.
+Also necessary to note is that the plate may only move in the direction of $b$ which is the normal to its surface,
+hence $b$ is the only degree of freedom of the plate.
 
-Principles of fluid motion lead to families of behaviour exhibited by the channel wall,
-where we denote the distance between the opposing walls as $b$.
-In a steady flow, along a streamline, Bernoulli's equation is defined as 
+%figure on diagram of the model
+
+The oscillations in $b$ that may take place, depending on conditions, is the subject of our analysis.
+In the original paper, the oscillations are regarded as snores,
+whereas here they will be regarded as the production of phones.
+The idea is the same, since the mathematical principles applied in the definition of the model are not exclusive in any way to particular studies of sleep apnea or the like.
+
+Oscillations are the event where, given certain constraints, $b$ will behave similar to a simple harmonic oscillator.
+In the model provided, indefinite oscillations can very much be observed given the right conditions,
+however it is important to be aware of some properties of the model,
+namely the region in which our attention is focussed. Given physical attributes are associated with the model,
+and so, for example, behaviours of $b$ when negative are ignored in the investigation.
+
+There are three forces acting on the plate in the airway, which govern the motion we are investigating.
+The plate is suspended in place by an elastic force $F_k$, namely a conventional Hooke spring with spring constant $k$.
+This spring force suspends the plate such that it resists the closure of the airway,
+so the tension force on the plate is acting tangent to the direction of positive displacement of the plate.
+
+% schematic with opposing walls and illustration of spring direction.
+
+Since the upper airway has a resistance $R$ to the inspiratory fluid flow,
+this leads to a pressure drop in the airways.
+Simply put, if a fluid is passing through a region,
+an increase in viscous resistance means less fluid is passing through a cross-sectional area than would otherwise.
+
+An internal increase in pressure would produce an outward force on the airway,
+which in this model would be tangent to the positive displacement direction.
+Since there is instead a \textit{decrease} in pressure, an inward force is resultant,
+in the direction tangent to the negative displacement. We label this force as $F_p$.
+
+The final force to consider in the motion of the plate is consequence of Bernoulli's principle,
+namely that along a streamline, in a steady flow, 
+the sum of the kinetic energy and the potential energies are constant.
+In Bernoulli's equation \ref{eqn:bernoulli}, $1/2\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy,
+$\Omega$ is the potential energy per unit mass of the body forces of the fluid,
+and $\int\frac{dp}{\rho}$ is the inner potential energy.
+$\Omega$ is often referred to as the material derivative.
 
 \begin{equation}
     \frac{1}{2}\mathbf{u}\cdot\mathbf{u} + \Omega + \int\frac{dp}{\rho} = C
     \label{eqn:bernoulli}
 \end{equation}
 
-where $\frac{1}{2}\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy, 
-$\Omega$ is the external potential energy,
-and $\int\frac{dp}{\rho}$ is the internal potential energy\footnote{All energy is per unit mass}.
+%this is where the explanation gets dodgy - this could be completely wrong. if so, then the bernoulli effect force is more likely the increase in fluid ke when a constriction leads to an increase in pressure
+The viscous resistance means that, on inspiration,
+the kinetic energy of the fluid decreases.
+We see that, given that the fluid is travelling along a streamline,
+there must be an increase in either the material derivative or the inner potential energy of the fluid.
+Given that there are no forcing circumstances,
+we can say with certainty that the inner potential energy remains constant,
+and thus there is instead an increase in the material derivative.
 
-Clearly if the wall constricts, reducing the volume of the fluid flow,
-then the pressure $p$ of the flow $u$ increases,
-and by \ref{eqn:bernoulli} the kinetic energy must increase.
+The increase in potential energy of the body forces is an increase in the forces acting \textit{in} a fluid parcel.
+As such, the fluid expands in the cross-sectional region it is passing through.
+%TODO: accuracy and content in this section.
+
+
 
 %the bernoulli equation implies that a change in velocity leads to an opposite-oriented change in pressure?
 %the model discusses a change in v caused by b, and a change in b caused by v separate.
@@ -70,7 +113,9 @@ We end up with the governing equation for the channel wall positive displacement
 
 where $\mu, q$ are parameters linked to the forces acting on the channel wall due to flow velocity and resistance.
 
-\subsection{Matrix Method}
+%plan is to have this chapter just discuss individual properties of the model with analysis where relevant. Will include matrix method. Then in next chapter we introduce KE graphs in the phase-plane.s
+
+\subsection{Autonomy}
 
 We start by analysing parts of the function separately.
 Our goal is to understand how oscillations in $b$ occur.
@@ -122,7 +167,7 @@ in order to develop our analysis of the model.
 If the acceleration of the channel wall is positive, then the wall will accelerate outwards,
 however the acceleration will have to oscillate from positive to negative in order for there to be oscillations in the position itself.
 
-\subsection{Numerical Computations}
+\subsection{Matrix Method}
 
 To formulate this model into a computation, we reduce it into a first-order system of differential equations
 
@@ -309,6 +354,11 @@ we can guarantee that \ref{eqn:osc_condition} is satisfied.
 
 % comparison of phaseplane and distance-time graphs
 
+
+
+
+\bibliographystyle{unsrt}
+\bibliography{sources}
 
 
 \end{document}
