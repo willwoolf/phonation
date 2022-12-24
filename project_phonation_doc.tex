@@ -70,13 +70,15 @@ An internal increase in pressure would produce an outward force on the airway,
 which in this model would be tangent to the positive displacement direction.
 Since there is instead a \textit{decrease} in pressure, an inward force is resultant,
 in the direction tangent to the negative displacement. We label this force as $F_p$.
+Pressure itself is the force per unit area,
+so the value of the force $F_p$ is the pressure multiplied by the surface area of the plate.
 
 The final force to consider in the motion of the plate is consequence of Bernoulli's principle,
-namely that along a streamline, in a steady flow, 
+namely that along a streamline, in a steady flow\footnote{It is important to note that in the general case, the flow may not necessarily be steady.}, 
 the sum of the kinetic energy and the potential energies are constant.
 In Bernoulli's equation \ref{eqn:bernoulli}, $1/2\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy,
 $\Omega$ is the potential energy per unit mass of the body forces of the fluid,
-and $\int\frac{dp}{\rho}$ is the inner potential energy.
+and $\int\frac{dp}{\rho}$ is the inner potential energy, regarding that $p$ and $\rho$ are either constant or codependent.
 $\Omega$ is often referred to as the material derivative.
 
 \begin{equation}
@@ -85,33 +87,36 @@ $\Omega$ is often referred to as the material derivative.
 \end{equation}
 
 %this is where the explanation gets dodgy - this could be completely wrong. if so, then the bernoulli effect force is more likely the increase in fluid ke when a constriction leads to an increase in pressure
-The viscous resistance means that, on inspiration,
-the kinetic energy of the fluid decreases.
-We see that, given that the fluid is travelling along a streamline,
-there must be an increase in either the material derivative or the inner potential energy of the fluid.
-Given that there are no forcing circumstances,
-we can say with certainty that the inner potential energy remains constant,
-and thus there is instead an increase in the material derivative.
+In order to obtain the pressure consequent of Bernoulli's principle, we simply rearrange the equation for $p$.
+We obtain $F_b$ by again multiplying the pressure by the cross-sectional area of the plate.
 
-The increase in potential energy of the body forces is an increase in the forces acting \textit{in} a fluid parcel.
-As such, the fluid expands in the cross-sectional region it is passing through.
-%TODO: accuracy and content in this section.
+%include some derivation for $P_b$?
 
+The governing equation of the model is derived from Newton's second law.
+Given that the plate has a mass $m$, we know the three forces acting on it,
+and so the initial equation of motion can be expressed as
 
+\begin{equation}
+    m\frac{d^2 x}{dt^2} = F_e - F_p - F_b.
+    \label{eqn:model_init}
+\end{equation}
 
-%the bernoulli equation implies that a change in velocity leads to an opposite-oriented change in pressure?
-%the model discusses a change in v caused by b, and a change in b caused by v separate.
-
-%discuss more in depth on the derivation of the forces
-
-We end up with the governing equation for the channel wall positive displacement from collapse at $0$,
+This is not the principle equation of the model,
+since the terms should be nondimensionalised and normalised.
+For example, $x$ measures displacement,
+but it is not stated under what scale.
+Furthermore, the terms for the forces are all products of pressure and their dimensional properties,
+meaning they measure in units that would ideally be reduced. 
+We can normalise $x$ by defining $b = x/x_0$, where $x_0$ is the resting position of the plate under particular circumstances.
+The forces can be nondimensionalised by dividing by the areas or volumes they are acting over.
+Resultingly, we produce the governing equation for the channel wall positive displacement from collapse at $0$,
 
 \begin{equation}
     \frac{d^2b}{dt^2} = 1 - q - b - \frac{\mu q^2}{2b^2}
     \label{eqn:master}
 \end{equation}
 
-where $\mu, q$ are parameters linked to the forces acting on the channel wall due to flow velocity and resistance.
+where $\mu, q$ are parameters linked to the forces acting on the channel wall.
 
 %plan is to have this chapter just discuss individual properties of the model with analysis where relevant. Will include matrix method. Then in next chapter we introduce KE graphs in the phase-plane.s
 
