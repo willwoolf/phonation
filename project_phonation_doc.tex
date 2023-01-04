@@ -268,6 +268,47 @@ the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fa
 
 \subsection{Solving differential equations in MATLAB}
 
+We use MATLAB, primarily the \texttt{ode45()} function, to compute solutions numerically.
+However, the governing differential equations must be provided as a first order system.
+Equation \ref{eqn:master} can be given in the following form:
+
+\begin{align}
+    \frac{db}{dt} &= \dot{b} \\
+    \frac{d\dot{b}}{dt} &= 1 - q - b - \frac{\mu q^2}{2b^2}
+\end{align}
+
+By using \texttt{ode45}, MATLAB performs numerical integration on all the equations in the system,
+thus giving numerical solutions for $b$ and $\dot{b}$ in terms of time $t$, subject to initial conditions.
+In most cases, we will consider the plate moving from rest ($\dot{b}(t=0) = 0$) given an initial position $b=b_0$.
+
+In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows:
+
+%nicer written verbatim environment ode function here
+
+And it is solved with \texttt{ode45} as such:
+
+\begin{verbatim}
+q=0.1; u=1; % define fixed variables
+[t, x] = ode45(@(t,x) OscillatorODE(t,x,q,u));
+
+% distance-time plot
+figure
+plot(t,x(1,:))
+
+% phase-plane plot
+figure
+plot(x(1,:),x(2,:))
+\end{verbatim}
+
+\subsection{Representations of solutions of differential equations}
+
+% comparisons of phase-plane to distance-time graphs
+
+The astute reader might notice that we generate solutions for $b,\dot{b}$ both depending on $t$,
+and might think, ``what if we were to plot both $b$ and $\dot{b}$ as functions of $t$ parametrically,
+in the plane spanned by the vectors $b,\dot{b}$?''.
+Well, it just happens to be that this is a common method for analysing solutions of certain ODEs,
+referred to as representation in the ``phase portrait''. %this might be written a bit informally written.
 
 
 
@@ -275,17 +316,14 @@ the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fa
 
 To formulate this model into a computation, we reduce it into a first-order system of differential equations
 
-\begin{align}
-    \frac{db}{dt} &= \dot{b} \\
-    \frac{d\dot{b}}{dt} &= 1 - q - b - \frac{\mu q^2}{2b^2}
-\end{align}
+
 
 and this can be inspected to find new features of the behaviour of the model.
 First of all, $\frac{d\dot{b}}{dt} = f(b)$.
 We can propose an approximation of $f$, of the form
 
 \begin{equation*}
-    f(b) = f(b_0) + (b-b_0)f'(b_0) + \frac{(b-b_0)f''(b_0)}{2!} + \mathellipsis = \sum_{k=0}^\infty\frac{(b-b_0)^{k}f^{(k)}(b_0)}{i!}
+    f(b) = f(b_0) + (b-b_0)f'(b_0) + \frac{(b-b_0)f''(b_0)}{2!} + \mathellipsis = \sum_{k=0}^\infty\frac{(b-b_0)^{k}f^{(k)}(b_0)}{k!}
 \end{equation*}
 
 namely, the Taylor series expansion of $f$ around a point $b_0$.
