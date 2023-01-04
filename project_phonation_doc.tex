@@ -107,9 +107,9 @@ For example, $x$ measures displacement,
 but it is not stated under what scale.
 Furthermore, the terms for the forces are all products of pressure and their dimensional properties,
 meaning they measure in units that would ideally be reduced. 
-We can normalise $x$ by defining $b = x/x_0$, where $x_0$ is the resting position of the plate under particular circumstances.
+We can normalise $x$ by defining $b = x/x_0$, where $x_0$ is the resting position of the plate under particular circumstances. %TODO: amend this!! what are the particular circumstances??
 The forces can be nondimensionalised by dividing by the areas or volumes they are acting over.
-Resultingly, we produce the governing equation for the channel wall positive displacement from collapse at $0$,
+Resultingly, we produce the governing equation for the positive displacement of the channel wall from collapse at $0$,
 
 \begin{equation}
     \frac{d^2b}{dt^2} = 1 - q - b - \frac{\mu q^2}{2b^2}
@@ -118,59 +118,158 @@ Resultingly, we produce the governing equation for the channel wall positive dis
 
 where $\mu, q$ are parameters linked to the forces acting on the channel wall.
 
-%plan is to have this chapter just discuss individual properties of the model with analysis where relevant. Will include matrix method. Then in next chapter we introduce KE graphs in the phase-plane.s
+%plan is to have this chapter just discuss individual properties of the model with analysis where relevant. Will include matrix method. Then in next chapter we introduce KE graphs in the phase-plane.
+
+\subsection{Nonlinearity}
+
+It is important to note the properties of Equation \ref{eqn:master} before developing analysis.
+The equation itself is a second order, nonlinear, autonomous, inhomogeneous ODE.
+The property of nonlinearity is due to the existence of the $\mu q^2/2b^2$ term.
+Due to the equation being nonlinear, regular methods for solving ODEs do not apply,
+and the properties of solutions are different to regular linear ODEs.
+Most importantly, while linear ordinary differential equations often possess unique solutions subject to boundary or initial conditions,
+the same does not apply in the case of nonlinear equations.
+
+We can demonstrate the property of nonlinearity by attempting methods suitable for linear ODEs,
+in which we do not expect to solve the ODe but instead use for demonstration.
+Note the absence of the $db/dt$ term in the governing equation.
+We can attempt the method of reduction by proposing a substitution $v=db/dt$ and forming a first order ODE.
+First, note that
+
+\begin{equation}
+    \frac{dv}{dt} = \frac{dv(b(t))}{dt} = \frac{dv}{db}\frac{db}{dt},
+\end{equation}
+
+and hence,
+
+\begin{equation}
+    v \frac{dv}{db} = 1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right).
+\end{equation}
+
+By separating the variables, we can write an indefinite integral equation and obtain an expression for $v$, namely
+
+\begin{equation}
+    \begin{aligned}
+        \int v~dv &= \int \left(1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right)\right) db \\
+        \Rightarrow v^2 = \left(\frac{db}{dt}\right)^2 &= 2b(1-q) - b^2 + \mu q^2\left(\frac{1}{b}\right) + C_1,
+    \end{aligned}
+    \label{eqn:first_order_reduction}
+\end{equation}
+
+obtaining a constant of integration $C_1$.
+We now have a first order differential equation on $b$, %however we can't solve it because no
+but this equation is explicitly nonlinear, as we only have the form $v^2 = g(b)$,
+not giving the form of the first derivative directly.
+Therefore, statements of existence and uniqueness for solutions of ODEs,
+which we are accustomed to,
+do not hold in the situation where the differential equation is non-linear.
+
+We could have deduced this from the explicit form of Equation \ref{eqn:master},
+but this section serves for illustration to aid the reader's understanding of why we cannot analytically solve this ODE.
+Additionally, the equation of the form $v^2 = g(b)$ will be useful later.
+
+%this is part of a later section and will be edited later
 
 \subsection{Autonomy}
 
-We start by analysing parts of the function separately.
-Our goal is to understand how oscillations in $b$ occur.
-First consider defining a function on $b$ for the RHS of Equation \ref{eqn:master},
-namely
+%f(b) plot
 
-\begin{equation}
-    f(b) = 1 - q - b - \frac{\mu q^2}{2b^2}.
-\end{equation}
+The reader may notice that the Equation \ref{eqn:master} is an autonomous ODE,
+namely that the independent variable $t$ itself does not appear.
+If we let $f$ be a function of $b$ equal to the right-hand side of the equation,
+we can produce a plot of the behaviour of $f(b)$ against $b$,
+and since the equation is autonomous, this behaviour is not affected by position in time.
+Figure \ref{} shows a plot of $f(b)= 1 - q - b - \mu q^2/2b^2$ against $b$.
 
-Clearly $f$ represents acceleration of the movable wall as a function of displacement $b$.
-We are only ever concerned with positive $b$ due to the assumptions of the model.
-The function $f$ tends towards negative infinity both as $b\rightarrow 0$ and as $b\rightarrow\infty$,
-but $f'$ is monotone decreasing, so there may be an interval $I_0=(p,q)$ such that if $b\in I_0$
-then $f$ is positive i.e. $p,q$ are the zeroes of $f$.
-It is not certain that $f$ will have a positive region,
-and this is decided by the parameters $\mu$ and $q$.
-Particularly, we require that the maximum of $f$ ($f'(b_c) = 0$) is greater than zero:
+This plot allows us to deduce some intuition about the behaviour of $b$.
+At a point $b=b_0$, the function $f(b_0)$ is equal to the outward acceleration of the plate.
+We can see that $f$ tends towards negative infinity both as $b\rightarrow 0$ and as $b\rightarrow\infty$,
+and that for certain $\mu, q,$ there is a positive region of $f$. 
+It is possible under certain conditions for $b$ to behave similarly to a harmonic oscillator,
+where its position and acceleration move back and forth reciprocally.
 
-%definitely need to include a plot of f(b) in the above passage
+Note that the plot of $f(b)$ does not account for velocity.
+Different initial conditions could cause $b$ to behave differently under the same acceleration.
+
+We will start by analysing the properties of the $f(b)$ curve.
+In order for there to exist a region of $f(b)$ that takes positive values,
+the local maximum of $f(b)$ must be greater than zero.
 
 \begin{align}
     f(b) &= 1 - q - b - \frac{\mu q^2}{2b^2} \\
-    \Rightarrow f'(b) &= -1 + \frac{\mu q^2}{b^3}
+    \Rightarrow f'(b) &= -1 + \frac{\mu q^2}{b^3},
 \end{align}
 
-From which we can deduce that the maximum is located at the point where $b^3 = \mu q^2$.
-If we plug this back into $f$, we can deduce the condition.
+from which we can deduce that the maximum is located at the point where $b^3 = \mu q^2$.
+If we plug this back into $f$, we can deduce the condition
 
-\begin{align*}
+\begin{align}
     f((\mu q^2)^{\frac{1}{3}}) &= 1 - q - (\mu q^2)^{\frac{1}{3}} - \frac{\mu q^2}{2(\mu q^2)^{\frac{2}{3}}} \\
-    &= 1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}}
-\end{align*}
+    &= 1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}}.
+\end{align}
 
 We obtain the result
 
 \begin{equation}
-    1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}} > 0,
+    1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}} > 0.
     \label{eqn:osc_condition}
 \end{equation}
 
-being the requirement for there to exist an interval $I_0$
-such that if $b\in I_0$ then $f$ is positive.
-In other words, if this condition is met then oscillations may occur.
+If Equation \ref{eqn:osc_condition} is satisfied,
+then there exists a region of $f$ which is positive.
+Hence if this condition is met then oscillations may occur. %% I feel this should be more rigorous - we haven't proved that this is the condition for oscillations to occur.
+We have not yet provided the results to justify this statement, but in the next section we will provide rigorous arguments. % this is my backup argument for now.
 Further on, we will be regularly making the assumption that this condition is satisfied,
 and hence that oscillations can occur,
 in order to develop our analysis of the model.
 
+% Clearly $f$ represents acceleration of the movable wall as a function of displacement $b$. We are only ever concerned with positive $b$ due to the assumptions of the model.
+% $f'$ is monotone decreasing, so there may be an interval $I_0=(p,q)$ such that if $b\in I_0$
+% then $f$ is positive i.e. $p,q$ are the zeroes of $f$.
+% It is not certain that $f$ will have a positive region,
+% and this is decided by the parameters $\mu$ and $q$.
+% Particularly, we require that the maximum of $f$ ($f'(b_c) = 0$) is greater than zero:
+
 If the acceleration of the channel wall is positive, then the wall will accelerate outwards,
 however the acceleration will have to oscillate from positive to negative in order for there to be oscillations in the position itself.
+Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ the values of $b$ we consider are strictly positive.
+
+\section{Computation of the single-mass model}
+
+%introduce the parameter space
+%first discuss configuring the system of differential equations in MATLAB
+%introduce phase portrait to compare with distance/time
+%integral to the kinetic energy curve graph, recalling earlier result
+%matrix method with eigenvectors in the phase plane
+
+%after this is the chapter on developing the single mass model.
+    %damping
+    %we assumed steady bernoulli flow for an unsteady problem
+
+\subsection{The parameter space}
+
+%parameter space graph figure
+
+Recall the result obtained in Equation \ref{eqn:osc_condition}.
+We can produce a graph where \{\mu, q\} is the basis for the plane,
+and visualise this condition.
+Note that, by the properties of the derivation of the model,
+$\mu$ and $q$ must be strictly positive,
+hence we are only considering points in the quarter-plane.
+Any suitable form of Equation \ref{eqn:master} can be placed in this region,
+and if that version exists within the highlighted region,
+then oscillations may occur.
+
+We can gain interesting and useful results regarding sufficient values of $\mu, q$,
+most noticeably that for any positive $\mu$, there exists some $q$ such that oscillations may occur.
+This relation is not symmetric - $q>1$ immediately breaks the condition.
+It is relatively simple to deduce this, since if the $1-q$ term of Equation \ref{eqn:osc_condition} is negative,
+the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fails.
+
+\subsection{Solving differential equations in MATLAB}
+
+
+
 
 \subsection{Matrix Method}
 
