@@ -6,7 +6,10 @@
 \usepackage{dsfont}
 \usepackage[a4paper, total={6in,8in}]{geometry}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{hyperref}
+
+\graphicspath{{figures/}}
 
 \title{MATH30000 Project - Phonation}
 \author{Will Woolfenden}
@@ -36,7 +39,7 @@ It models the inspiratory process, designed to investigate snoring as a symptom 
 The model proposes that the inspiratory path consists of first a region of the upper airway,
 which has a given viscous resistance.
 Then, there is a region of a channel between two walls of given area, where one wall is a suspended plate rather than being fixed in place.
-The term we wish to investigate is $b$, which describes the positive displacement between the fixed wall and the suspended wall opposite. 
+The term we wish to investigate is $b$, which describes the positive displacement between the fixed wall and the suspended wall opposite.
 The walls themselves are assumed to be of equal dimensions, and behave such that the surfaces are always parallel to each other.
 Also necessary to note is that the plate may only move in the direction of $b$ which is the normal to its surface,
 hence $b$ is the only degree of freedom of the plate.
@@ -48,7 +51,7 @@ In the original paper, the oscillations are regarded as snores,
 whereas here they will be regarded as the production of phones.
 The idea is the same, since the mathematical principles applied in the definition of the model are not exclusive in any way to particular studies of sleep apnea or the like.
 
-Oscillations are the event where, given certain constraints, $b$ will behave similar to a simple harmonic oscillator.
+Oscillations are the event where, given certain constraints, $b$ will exhibit simple harmonic motion. %maybe cite here
 In the model provided, indefinite oscillations can very much be observed given the right conditions,
 however it is important to be aware of some properties of the model,
 namely the region in which our attention is focussed. Given physical attributes are associated with the model,
@@ -64,7 +67,7 @@ so the tension force on the plate is acting tangent to the direction of positive
 Since the upper airway has a resistance $R$ to the inspiratory fluid flow,
 this leads to a pressure drop in the airways.
 Simply put, if a fluid is passing through a region,
-an increase in viscous resistance means less fluid is passing through a cross-sectional area than would otherwise.
+an increase in viscous resistance reduces the internal force, and thus the pressure, of the fluid.
 
 An internal increase in pressure would produce an outward force on the airway,
 which in this model would be tangent to the positive displacement direction.
@@ -74,11 +77,11 @@ Pressure itself is the force per unit area,
 so the value of the force $F_p$ is the pressure multiplied by the surface area of the plate.
 
 The final force to consider in the motion of the plate is consequence of Bernoulli's principle,
-namely that along a streamline, in a steady flow\footnote{It is important to note that in the general case, the flow may not necessarily be steady.}, 
+namely that along a streamline, in a steady flow\footnote{It is important to note that in the general case, the flow may not necessarily be steady.},
 the sum of the kinetic energy and the potential energies are constant.
-In Bernoulli's equation \ref{eqn:bernoulli}, $1/2\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy,
+In Bernoulli's equation (Equation \ref{eqn:bernoulli}), $1/2\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy,
 $\Omega$ is the potential energy per unit mass of the body forces of the fluid,
-and $\int\frac{dp}{\rho}$ is the inner potential energy, regarding that $p$ and $\rho$ are either constant or codependent.
+and $\int dp/\rho$ is the inner potential energy, regarding that $p$ and $\rho$ are either constant or codependent.
 $\Omega$ is often referred to as the material derivative.
 
 \begin{equation}
@@ -106,7 +109,7 @@ since the terms should be nondimensionalised and normalised.
 For example, $x$ measures displacement,
 but it is not stated under what scale.
 Furthermore, the terms for the forces are all products of pressure and their dimensional properties,
-meaning they measure in units that would ideally be reduced. 
+meaning they measure in units that would ideally be reduced.
 We can normalise $x$ by defining $b = x/x_0$, where $x_0$ is the resting position of the plate under particular circumstances. %TODO: amend this!! what are the particular circumstances??
 The forces can be nondimensionalised by dividing by the areas or volumes they are acting over.
 Resultingly, we produce the governing equation for the positive displacement of the channel wall from collapse at $0$,
@@ -137,10 +140,10 @@ We can attempt the method of reduction by proposing a substitution $v=db/dt$ and
 First, note that
 
 \begin{equation}
-    \frac{dv}{dt} = \frac{dv(b(t))}{dt} = \frac{dv}{db}\frac{db}{dt},
+    \frac{dv}{dt} = \frac{dv(b(t))}{dt} = \frac{dv}{db}\frac{db}{dt} = \frac{dv}{db}v,
 \end{equation}
 
-and hence,
+and hence (with an abusive assumption of commutativity),
 
 \begin{equation}
     v \frac{dv}{db} = 1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right).
@@ -150,8 +153,8 @@ Assuming we can separate the variables, we can write an indefinite integral equa
 
 \begin{equation}
     \begin{aligned}
-        \int v~dv &= \int \left(1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right)\right) db \\
-        \Rightarrow v^2 = \left(\frac{db}{dt}\right)^2 &= 2b(1-q) - b^2 + \mu q^2\left(\frac{1}{b}\right) + C_1,
+        \int v~dv                                      & = \int \left(1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right)\right) db \\
+        \Rightarrow v^2 = \left(\frac{db}{dt}\right)^2 & = 2b(1-q) - b^2 + \mu q^2\left(\frac{1}{b}\right) + C_1,
     \end{aligned}
     \label{eqn:first_order_reduction}
 \end{equation}
@@ -168,23 +171,26 @@ We could have deduced this from the explicit form of Equation \ref{eqn:master},
 but this section serves for illustration to aid the reader's understanding of why we cannot analytically solve this ODE.
 Additionally, the equation of the form $v^2 = g(b)$ will be useful later.
 
-%this is part of a later section and will be edited later
-
 \subsection{Autonomy}
 
-%f(b) plot
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{f_plot_mu_1_q_vary}
+    \caption{A plot of the function $f(b) = 1-q-b-\mu q^2/2b^2$ where $\mu=1$, $q$ ranging from $0.1$ to $0.5$}
+    \label{fig:acc_b_plot}
+\end{figure}
 
 The reader may notice that the Equation \ref{eqn:master} is an autonomous ODE,
 namely that the independent variable $t$ itself does not appear.
 If we let $f$ be a function of $b$ equal to the right-hand side of the equation,
 we can produce a plot of the behaviour of $f(b)$ against $b$,
 and since the equation is autonomous, this behaviour is not affected by position in time.
-Figure \ref{} shows a plot of $f(b)= 1 - q - b - \mu q^2/2b^2$ against $b$.
+Figure \ref{fig:acc_b_plot} shows a plot of $f(b)= 1 - q - b - \mu q^2/2b^2$ against $b$.
 
 This plot allows us to deduce some intuition about the behaviour of $b$.
 At a point $b=b_0$, the function $f(b_0)$ is equal to the outward acceleration of the plate.
 We can see that $f$ tends towards negative infinity both as $b\rightarrow 0$ and as $b\rightarrow\infty$,
-and that for certain $\mu, q,$ there is a positive region of $f$. 
+and that for certain $\mu, q,$ there is a positive region of $f$.
 It is possible under certain conditions for $b$ to behave similarly to a harmonic oscillator,
 where its position and acceleration move back and forth reciprocally.
 
@@ -196,16 +202,16 @@ In order for there to exist a region of $f(b)$ that takes positive values,
 the local maximum of $f(b)$ must be greater than zero.
 
 \begin{align}
-    f(b) &= 1 - q - b - \frac{\mu q^2}{2b^2} \\
-    \Rightarrow f'(b) &= -1 + \frac{\mu q^2}{b^3},
+    f(b)              & = 1 - q - b - \frac{\mu q^2}{2b^2} \\
+    \Rightarrow f'(b) & = -1 + \frac{\mu q^2}{b^3},
 \end{align}
 
 from which we can deduce that the maximum is located at the point where $b^3 = \mu q^2$.
 If we plug this back into $f$, we can deduce the condition
 
 \begin{align}
-    f((\mu q^2)^{\frac{1}{3}}) &= 1 - q - (\mu q^2)^{\frac{1}{3}} - \frac{\mu q^2}{2(\mu q^2)^{\frac{2}{3}}} \\
-    &= 1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}}.
+    f((\mu q^2)^{\frac{1}{3}}) & = 1 - q - (\mu q^2)^{\frac{1}{3}} - \frac{\mu q^2}{2(\mu q^2)^{\frac{2}{3}}} \\
+                               & = 1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}}.
 \end{align}
 
 We obtain the result
@@ -243,15 +249,15 @@ Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ the values of $b$ we
 %matrix method with eigenvectors in the phase plane
 
 %after this is the chapter on developing the single mass model.
-    %damping
-    %we assumed steady bernoulli flow for an unsteady problem
+%damping
+%we assumed steady bernoulli flow for an unsteady problem
 
 \subsection{The parameter space}
 
 %parameter space graph figure
 
 Recall the result obtained in Equation \ref{eqn:osc_condition}.
-We can produce a graph where \{\mu, q\} is the basis for the plane,
+We can produce a graph where $\{\mu, q\}$ is the basis for the plane,
 and visualise this condition.
 Note that, by the properties of the derivation of the model,
 $\mu$ and $q$ must be strictly positive,
@@ -273,8 +279,8 @@ However, the governing differential equations must be provided as a first order 
 Equation \ref{eqn:master} can be given in the following form:
 
 \begin{align}
-    \frac{db}{dt} &= \dot{b} \\
-    \frac{d\dot{b}}{dt} &= 1 - q - b - \frac{\mu q^2}{2b^2}
+    \frac{db}{dt}       & = \dot{b}                          \\
+    \frac{d\dot{b}}{dt} & = 1 - q - b - \frac{\mu q^2}{2b^2}
     \label{eqn:first_order_system}
 \end{align}
 
@@ -330,21 +336,21 @@ Assume the right hand side $f(b)$ is the derivative (with respect to $b$, remain
 Remaining aware that $b$ is a function itself of $t$, we have
 
 \begin{align}
-    \frac{d}{db}F(b) &= f(b) \\
-    \Rightarrow \frac{d}{dt}F(b) &= \frac{dF}{db}\frac{db}{dt} = f(b)\frac{db}{dt}.
+    \frac{d}{db}F(b)             & = f(b)                                            \\
+    \Rightarrow \frac{d}{dt}F(b) & = \frac{dF}{db}\frac{db}{dt} = f(b)\frac{db}{dt}.
 \end{align}
 
 From Equation \ref{eqn:master}, we also have, on multiplying both sides by $db/dt$ and finding antiderivatives,
 
 \begin{align}
-    \frac{d^2b}{dt^2} \frac{db}{dt} &= f(b) \frac{db}{dt} \\
-    \Rightarrow \frac{1}{2}\frac{d}{dt}\left( \frac{db}{dt} \right)^2 &= \frac{d}{dt}F(b).
+    \frac{d^2b}{dt^2} \frac{db}{dt}                                   & = f(b) \frac{db}{dt} \\
+    \Rightarrow \frac{1}{2}\frac{d}{dt}\left( \frac{db}{dt} \right)^2 & = \frac{d}{dt}F(b).
 \end{align}
 
 Integrate both sides and we obtain a result that resembles an expression for kinetic energy, namely,
 
 \begin{equation}
-    \frac{1}{2}\left(\frac{db}{dt}\right)^2 = P(b) + C,
+    \frac{1}{2}\left(\frac{db}{dt}\right)^2 = F(b) + C,
     \label{eqn:integral_kinetic_energy}
 \end{equation}
 
@@ -366,14 +372,21 @@ For example, we can find the particular constants $C$ such that we generate the 
 
 %big section here on how we can analyse the plots and zeroes of the KE curves, in order to find the requirements on f for oscillations to occur
 
+Oscillations occur when, for some $C$, the curve $1/2 v^2 = F(b) + C$ exhibits a closed loop.
+It is necessary and sufficient for there to exist a region of inflection (an interval where the derivative is positive,
+elsewhere negative) in $F(b)$ in order for this to occur.
+Hence the condition for oscillations to occur is equivalent to the requirement that there exists a positive \textit{region} of f(b).
+
+Interesting behaviour occurs when the local minimum or maximum of $F(b)$ is a zero. %figures to show this.
+
 \subsection{Matrix representation of a system of differential equations}
 
 Recall the reduction of Equation \ref{eqn:master} to a first order system in Equation \ref{eqn:first_order_reduction}.
 We will rewrite the reduction to a first order system, using the defined $f(b)$ function we are familiar with.
 
 \begin{align}
-    \frac{db}{dt} &= \dot{b} \\
-    \frac{d\dot{b}}{dt} &= f(b)
+    \frac{db}{dt}       & = \dot{b} \\
+    \frac{d\dot{b}}{dt} & = f(b)
     \label{eqn:first_order_modified}
 \end{align}
 
@@ -392,8 +405,8 @@ the terms succeeding it are far smaller in magnitude.
 With the Taylor series applied, propose the approximation about a point $b_0$
 
 \begin{align}
-    \frac{db}{dt} &= \dot{b} \\
-    \frac{d\dot{b}}{dt} &= (b-b_0)f'(b_0).
+    \frac{db}{dt}       & = \dot{b}         \\
+    \frac{d\dot{b}}{dt} & = (b-b_0)f'(b_0).
     \label{eqn:first_order_approximated}
 \end{align}
 
@@ -402,17 +415,17 @@ It is only valid local to points $b_0$ which are zeroes of $f$, so if $b-b_0$ gr
 If we suppose a substitution of the form
 
 \begin{align}
-    X &= b - b_0 \\
-    Y &= \dot{b},
+    X & = b - b_0  \\
+    Y & = \dot{b},
 \end{align}
 
 then $X$ represents the vicinity of $b$ to $b_0$, which is small,
-and $Y$ is a straight substitution of the velocity value \dot{b}.
+and $Y$ is a straight substitution of the velocity value $\dot{b}$.
 We can rewrite the linear system again, this time using our substituted values
 
 \begin{align}
-    \frac{dX}{dt} &= \frac{d}{dt}\left(b-b_0\right) = \dot{b} \\
-    \frac{dY}{dt} &= \frac{d\dot{b}}{dt} = (b-b_0)f'(b_0)
+    \frac{dX}{dt} & = \frac{d}{dt}\left(b-b_0\right) = \dot{b} \\
+    \frac{dY}{dt} & = \frac{d\dot{b}}{dt} = (b-b_0)f'(b_0)
 \end{align}
 
 which can be expressed as the matrix equation
@@ -422,7 +435,7 @@ which can be expressed as the matrix equation
         X \\
         Y
     \end{pmatrix} = \begin{bmatrix}
-        0 & 1 \\
+        0      & 1 \\
         f(b_0) & 0
     \end{bmatrix} \begin{pmatrix}
         X \\
@@ -457,9 +470,9 @@ being these solutions of $f(b)$ at the bounds of oscillation.
 Given $\mu, q$ satisfactory for oscillations to occur,
 it is evident that there exists a $C$ such that $P(b)+C$ will have exactly two zeroes,
 and this interval is exactly the region in which we observe the largest oscillation,
-being which the first zero is a point observed in our analysis and derivation of Equation \ref{eqn:matrix}.
+being which the first zero is a point observed in our analysis and derivation of Equation \ref{eqn:first_order_approximated_substituted_matrix}.
 
-Given $P(b)$ as defined in Equation \ref{eqn:ke_integral},
+Given $P(b)$ as defined in Equation \ref{eqn:integral_kinetic_energy},
 our query is to find the case where the following equation is satisfied:
 
 \begin{equation}
