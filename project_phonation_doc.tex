@@ -146,7 +146,7 @@ and hence,
     v \frac{dv}{db} = 1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right).
 \end{equation}
 
-By separating the variables, we can write an indefinite integral equation and obtain an expression for $v$, namely
+Assuming we can separate the variables, we can write an indefinite integral equation and obtain an expression for $v$, namely
 
 \begin{equation}
     \begin{aligned}
@@ -275,6 +275,7 @@ Equation \ref{eqn:master} can be given in the following form:
 \begin{align}
     \frac{db}{dt} &= \dot{b} \\
     \frac{d\dot{b}}{dt} &= 1 - q - b - \frac{\mu q^2}{2b^2}
+    \label{eqn:first_order_system}
 \end{align}
 
 By using \texttt{ode45}, MATLAB performs numerical integration on all the equations in the system,
@@ -310,63 +311,127 @@ in the plane spanned by the vectors $b,\dot{b}$?''.
 Well, it just happens to be that this is a common method for analysing solutions of certain ODEs,
 referred to as representation in the ``phase portrait''. %this might be written a bit informally written.
 
+The phase-portrait is the vector space spanned by the vectors $b$ and $\dot{b}=db/dt$.
+For a curve in phase-plane representation, the position in one axis represents velocity, while the position in the other represents position.
+This allows us to construct new visualisations of paths taken by the modelled plate.
+Paths in phase-plane representation have direct correspondence to plots in position against time.
 
+%figure of oscillations in both representations
 
-\subsection{Matrix Method}
+Oscillations are represented in the phase-plane as closed loops.
+It becomes easier to see the critical points,
+namely the stationary point in the centre of the closed loops,
+and the inflection point between the regions of closure and oscillation.
 
-To formulate this model into a computation, we reduce it into a first-order system of differential equations
+\subsection{Equations of motion represented as phase-plane curves}
 
+Recall Equation \ref{eqn:master}, of the form $d^2b/dt^2 = f(b)$.
+Assume the right hand side $f(b)$ is the derivative (with respect to $b$, remaining aware that $b$ depends on $t$) of some function $F(b)$.
+Remaining aware that $b$ is a function itself of $t$, we have
 
+\begin{align}
+    \frac{d}{db}F(b) &= f(b) \\
+    \Rightarrow \frac{d}{dt}F(b) &= \frac{dF}{db}\frac{db}{dt} = f(b)\frac{db}{dt}.
+\end{align}
 
-and this can be inspected to find new features of the behaviour of the model.
-First of all, $\frac{d\dot{b}}{dt} = f(b)$.
-We can propose an approximation of $f$, of the form
+From Equation \ref{eqn:master}, we also have, on multiplying both sides by $db/dt$ and finding antiderivatives,
 
-\begin{equation*}
-    f(b) = f(b_0) + (b-b_0)f'(b_0) + \frac{(b-b_0)f''(b_0)}{2!} + \mathellipsis = \sum_{k=0}^\infty\frac{(b-b_0)^{k}f^{(k)}(b_0)}{k!}
-\end{equation*}
+\begin{align}
+    \frac{d^2b}{dt^2} \frac{db}{dt} &= f(b) \frac{db}{dt} \\
+    \Rightarrow \frac{1}{2}\frac{d}{dt}\left( \frac{db}{dt} \right)^2 &= \frac{d}{dt}F(b).
+\end{align}
 
-namely, the Taylor series expansion of $f$ around a point $b_0$.
-Pick $b_0$ to be a zero of the function $f$\footnote{consequently this model provides analysis which is not valid elsewhere on the model.}
-then we find that the $f(b_0)$ term vanishes.
-Furthermore, as $b$ tends to $b_0$, the higher order terms also vanish,
-and with reasonable tolerance we are left with the approximation
+Integrate both sides and we obtain a result that resembles an expression for kinetic energy, namely,
 
 \begin{equation}
-    f(b) = (b-b_0)f'(b_0).
+    \frac{1}{2}\left(\frac{db}{dt}\right)^2 = P(b) + C,
+    \label{eqn:integral_kinetic_energy}
 \end{equation}
 
-leading us to an approximation for the system of differential equations
+with constant of integration $C$. Variation of this constant leads to a family of solutions.
+Extremely important to note is that we have an equation in terms of $\frac{db}{dt}$ and $b$, which are the vectors defining the phase portrait.
+Hence the curves that appear in the phase portrait represent all the curves that appear for different $+C$.
+
+%figure with the $P(b)$ curves matched to phase portrait curves, namely y = F(x) against 1/2 y^2 = F(x)
+
+Notice that Equation \ref{eqn:integral_kinetic_energy} is of exactly the same form as Equation \ref{eqn:first_order_reduction},
+which we derived earlier.
+Both expressions represent families of curves in the phase-portrait.
+However, when reducing and solving the ODE to derive the first order reduction, we made the assumption of separability of variables,
+which is not true in all cases,
+whereas here we have covered a different method.
+
+We can use the plots of curves defined by Equations \ref{eqn:first_order_reduction} and \ref{eqn:integral_kinetic_energy} to inspect curves in the phase portrait.
+For example, we can find the particular constants $C$ such that we generate the behaviours at the critical points.
+
+%big section here on how we can analyse the plots and zeroes of the KE curves, in order to find the requirements on f for oscillations to occur
+
+\subsection{Matrix representation of a system of differential equations}
+
+Recall the reduction of Equation \ref{eqn:master} to a first order system in Equation \ref{eqn:first_order_reduction}.
+We will rewrite the reduction to a first order system, using the defined $f(b)$ function we are familiar with.
+
+\begin{align}
+    \frac{db}{dt} &= \dot{b} \\
+    \frac{d\dot{b}}{dt} &= f(b)
+    \label{eqn:first_order_modified}
+\end{align}
+
+We can construct an approximation for the function $f(b)$ about a point $b_0$ using the Taylor series expansion, of the form
+
+\begin{equation}
+    f(b) = f(b_0) + (b-b_0)f'(b_0) + \frac{(b-b_0)^2 f''(b_0)}{2!} + \mathellipsis = \sum_{k=0}^\infty\frac{(b-b_0)^{k}f^{(k)}(b_0)}{k!}
+    \label{eqn:taylor_series}
+\end{equation}
+
+Recall that $f(b)$ has zeroes. If we pick $b_0$ to be a zero of the function, then as $b\rightarrow b_0$,
+most of the terms in the Taylor series expansion vanish\footnote{they become negligibly small}.
+More precisely, since $b_0$ is a zero of $f$, the $f(b_0)$ term tends to zero.
+We keep the $(b-b_0)f'(b_0)$ since, while the coefficient is small,
+the terms succeeding it are far smaller in magnitude.
+With the Taylor series applied, propose the approximation about a point $b_0$
 
 \begin{align}
     \frac{db}{dt} &= \dot{b} \\
     \frac{d\dot{b}}{dt} &= (b-b_0)f'(b_0).
+    \label{eqn:first_order_approximated}
 \end{align}
 
-The motivation for this approximation can now be expressed,
-being that with the substitution
+Notice that this approximation is a linear system. The obtained approximation models the ODE $\ddot{b} = (b-b_0)(\mu q^2/b_0^3-1)$.
+It is only valid local to points $b_0$ which are zeroes of $f$, so if $b-b_0$ grows in magnitude it is not sufficient.
+If we suppose a substitution of the form
 
 \begin{align}
-    U &= b - b_0 \\
-    V &= \dot{b}
+    X &= b - b_0 \\
+    Y &= \dot{b},
 \end{align}
 
-we can write the system of differential equations in matrix analysis,
-allowing us to apply methods on solutions and analysis of linear systems.
+then $X$ represents the vicinity of $b$ to $b_0$, which is small,
+and $Y$ is a straight substitution of the velocity value \dot{b}.
+We can rewrite the linear system again, this time using our substituted values
+
+\begin{align}
+    \frac{dX}{dt} &= \frac{d}{dt}\left(b-b_0\right) = \dot{b} \\
+    \frac{dY}{dt} &= \frac{d\dot{b}}{dt} = (b-b_0)f'(b_0)
+\end{align}
+
+which can be expressed as the matrix equation
 
 \begin{equation}
     \frac{d}{dt}\begin{pmatrix}
-        U \\
-        V
+        X \\
+        Y
     \end{pmatrix} = \begin{bmatrix}
         0 & 1 \\
         f(b_0) & 0
     \end{bmatrix} \begin{pmatrix}
-        U \\
-        V
-    \end{pmatrix}
-    \label{eqn:matrix}
+        X \\
+        Y
+    \end{pmatrix}.
+    \label{eqn:first_order_approximated_substituted_matrix}
 \end{equation}
+
+% discuss the implications of this analysis and the matrix eigenvectors
 
 We now have a matrix approximation for the differential operator $\frac{d}{dt}$.
 The matrix and vectors are defined in the vector space spanned by the vectors $U,V$,
@@ -404,47 +469,6 @@ correspond to the saddle and node points represented in the figure above. %amend
 Clearly, oscillations can occur in an interval of initial $b$ that starts at the first positive zero of $f(b)$,
 but extends by some region past the second zero.
 If helps to perform some more analysis on the governing equation from a mechanics perspective.
-
-\subsection{Further Mechanics}
-
-Recall Equation \ref{eqn:master}, of the form $\frac{d^2b}{dt^2} = 1 - q - b - \frac{\mu q^2}{2 b^2} = f(b)$.
-Assume the right hand side $f(b)$ is the derivative (with respect to $b$, remaining aware that $b$ depends on $t$) of some function $P(b)$,
-so $\frac{d}{dt}\left(P(b)\right) = f(b)\frac{db}{dt}.$ %some of this might be abusive. consider in terms of d/db
-Multiply both sides of the equation by $\frac{db}{dt}$ to obtain
-
-\begin{equation*}
-    \frac{d^2b}{dt^2} \frac{db}{dt} = f(b) \frac{db}{dt}.
-\end{equation*}
-
-The definition of $P(b)$ means we can integrate the RHS trivially,
-and we can also integrate the left hand side by a reverse of the product rule for differentiation.
-Hence, we obtain
-
-\begin{equation}
-    \frac{1}{2}\left(\frac{db}{dt}\right)^2 = P(b) + C
-    \label{eqn:integral_kinetic_energy}
-\end{equation}
-
-for an arbitrary constant $C$. This represents a family of solutions.
-Notice that we can interpret the left hand side as $\frac{1}{2}v^2$ for a velocity $v$;
-this expression is proportional to the kinetic energy of the wall.
-
-We already have a direct expression for $f$,
-so we can use our knowledge of the $f(b)$ vs $b$ graph and integrate $f(b)$ with respect to $b$
-in order to obtain an explicit $P(b)$.
-
-Extremely important to note is that we have an equation in terms of $\frac{db}{dt}$ and $b$, which are the vectors defining the phase portrait.
-Hence the curves that appear in the phase portrait represent all the curves that appear for different $+C$.
-
-%figure with the $P(b)$ curves matched to phase portrait curves
-
-This provides analytical means for inspecting the range of oscillations.
-
-We must be careful with considering how we are able to do this, and how it provides valid analysis.
-The Equation \ref{eqn:master} is autonomous,
-so the same initial conditions will always exhibit the same behaviour regardless if we start at $t=1$ or $t=100$.
-When we graph $f$ and $P$ and inspect them analytically, we are considering their behaviour as affected by the parameters $mu$ and $q$.
-Autonomy allows us to graph $f$ and $P$ over $b$ and analyse.
 
 \subsection{Oscillations and the Parameter Space}
 
