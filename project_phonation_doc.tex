@@ -450,29 +450,9 @@ which is the condition of $f(b)$ having two positive zeroes.
 Thus, the matrix equation analysis is only valid at two points,
 being these solutions of $f(b)$ at the bounds of oscillation.
 
-\subsection{Oscillations and the Parameter Space}
+\subsection[OLD]{Oscillations and the Parameter Space}
 
-Recall Equation \ref{eqn:osc_condition}. In the derivation of the governing equation of the model, $\mu$ and $q$ are strictly positive\footnote{They represent forces related to the viscous resistance and the changes in pressure. The properties of these parameters will be discussed later}.
-To aid our understanding, consider the \textit{parameter space,} i,e, the vector space spanned by vectors $\mu, q$.
-Any specific form of Equation \ref{eqn:master} belongs to a point in the parameter space,
-and we can deduce that its position in the space influences the range of initial $b$ for which oscillations will occur. 
 
-% graphs of KE, d2b, for different mu, q
-
-The function $P(b)$ is defined as the definite integral of $f(b)$ with respect to $b$.
-
-\begin{equation}
-    \begin{aligned}
-        P(b) &= \int f(b) db \\
-        &= \int 1 - q - b - \frac{\mu q^2}{2 b^2} db \\
-        &= (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b}.
-    \end{aligned}
-    \label{eqn:ke_integral}
-\end{equation}
-
-A curve $P(b)$ is a continuous function of $b$ such that $\frac{1}{2}\left(\frac{db}{dt}\right)^2 = P(b) +C$ for all $C \in \mathds{R}$
-represents all curves in the phase portrait. Therefore, the shape of $P(b)$ and the location of its critical points (turning points and zeroes)
-represent the range in which oscillations will occur.
 
 Given $\mu, q$ satisfactory for oscillations to occur,
 it is evident that there exists a $C$ such that $P(b)+C$ will have exactly two zeroes,
