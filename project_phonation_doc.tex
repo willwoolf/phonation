@@ -433,13 +433,15 @@ which can be expressed as the matrix equation
 
 % discuss the implications of this analysis and the matrix eigenvectors
 
-We now have a matrix approximation for the differential operator $\frac{d}{dt}$.
-The matrix and vectors are defined in the vector space spanned by the vectors $U,V$,
-and so the eigenvalues of this matrix are directly related to vectors in the $b,\dot{b}$ vector space,
-which itself is referred to as the \textit{phase portrait}.
-And if the matrix has eigenvectors, we can inspect those eigenvectors (which are local to the point $b=b_0$),
-allowing us to evaluate the behaviour of the model, in the phase-plane,
-when local to $b=b_0$.
+The implications of the matrix model allow us to perform linear system analysis local to the critical points $b_0$ satisfying $f(b_0) = 0.$
+Let $u=(x,y)^T$ be a vector denoting information on the plate local to $b_0$,
+where $x$ is the small distance between the displacement $b$ and the critical point $b_0$,
+and $y$ is the velocity of the plate.
+Then an eigenvector $v=(\delta x, \delta y)^T$ of the matrix in Equation \ref{eqn:first_order_approximated_substituted_matrix} is a local approximation to the derivative of $u$,
+such that $\delta x$ is the change in the vicinity of the plate to the critical point,
+and $\delta y$ is the change in the velocity of the plate.
+
+
 
 Note that this analysis is governed by being local to the zeroes of $f(b)$.
 It only provides insight on the behaviour of the model when considering these points.
@@ -447,28 +449,6 @@ When oscillations occur, it is a consequence of the condition of Equation \ref{e
 which is the condition of $f(b)$ having two positive zeroes.
 Thus, the matrix equation analysis is only valid at two points,
 being these solutions of $f(b)$ at the bounds of oscillation.
-
-
-\subsection{Eigenvectors in the Phase-Plane}
-
-The phase-plane environment is used to display position and velocity as both parametrically defined in time.
-We visualise $b$ and $\dot{b}$ as orthogonal vectors, and plot curves to visualise position and velocity parametrically.
-
-%phaseplane figure%
-
-The matrix $\begin{bmatrix}
-	0 & 1 \\
-	f'(b_0) & 0
-\end{bmatrix}$ has eigenvectors $\mathbf{v}$ in the vector space $V = \operatorname{span}\{(b-b_0),\dot{b}\}$.
-The path in the phase-plane from $b=b_0$ will follow the trajectory of this eigenvector at the initial time.
-
-%saddle and node graph%
-
-The zeroes of $f$, where the matrix method is valid\footnote{to a similar extent as all other approximations},
-correspond to the saddle and node points represented in the figure above. %amend reference to the figure.
-Clearly, oscillations can occur in an interval of initial $b$ that starts at the first positive zero of $f(b)$,
-but extends by some region past the second zero.
-If helps to perform some more analysis on the governing equation from a mechanics perspective.
 
 \subsection{Oscillations and the Parameter Space}
 
