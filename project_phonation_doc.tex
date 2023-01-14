@@ -34,6 +34,8 @@ The goal of this project is to explore models of the phonation process.
 
 \subsection{Derivation}
 
+% TODO: Add figure of the model schematic
+
 The first model we will study is taken from Theory and Measurement of Snores \cite{gavriely_jensen_1993}.
 It models the inspiratory process, designed to investigate snoring as a symptom of obstructive sleep apnea.
 The model proposes that the inspiratory path consists of first a region of the upper airway,
@@ -42,7 +44,7 @@ Then, there is a region of a channel between two walls of given area, where one 
 The term we wish to investigate is $b$, which describes the positive displacement between the fixed wall and the suspended wall opposite.
 The walls themselves are assumed to be of equal dimensions, and behave such that the surfaces are always parallel to each other.
 Also necessary to note is that the plate may only move in the direction of $b$ which is the normal to its surface,
-hence $b$ is the only degree of freedom of the plate.
+hence $b$ measures the only degree of freedom of the plate's motion.
 
 %figure on diagram of the model
 
@@ -65,9 +67,7 @@ so the tension force on the plate is acting tangent to the direction of positive
 % schematic with opposing walls and illustration of spring direction.
 
 Since the upper airway has a resistance $R$ to the inspiratory fluid flow,
-this leads to a pressure drop in the airways.
-Simply put, if a fluid is passing through a region,
-an increase in viscous resistance reduces the internal force, and thus the pressure, of the fluid.
+this leads to a pressure drop in the airways. %TODO: Explain this
 
 An internal increase in pressure would produce an outward force on the airway,
 which in this model would be tangent to the positive displacement direction.
@@ -104,7 +104,7 @@ and so the initial equation of motion can be expressed as
     \label{eqn:model_init}
 \end{equation}
 
-This is not the principle equation of the model,
+This is not the principal equation of the model,
 since the terms should be nondimensionalised and normalised.
 For example, $x$ measures displacement,
 but it is not stated under what scale.
@@ -128,13 +128,13 @@ where $\mu, q$ are parameters linked to the forces acting on the channel wall.
 It is important to note the properties of Equation \ref{eqn:master} before developing analysis.
 The equation itself is a second order, nonlinear, autonomous, inhomogeneous ODE.
 The property of nonlinearity is due to the existence of the $\mu q^2/2b^2$ term.
-Due to the equation being nonlinear, regular methods for solving ODEs do not apply,
+Due to the equation being nonlinear, regular methods for solving ODEs are far less powerful,
 and the properties of solutions are different to regular linear ODEs.
 Most importantly, while linear ordinary differential equations often possess unique solutions subject to boundary or initial conditions,
 the same does not apply in the case of nonlinear equations.
 
-We can demonstrate the property of nonlinearity by attempting methods suitable for linear ODEs,
-in which we do not expect to solve the ODe but instead use for demonstration.
+We will first demonstrate the implications of nonlinearity by attempting methods suitable for linear ODEs,
+in which we do not expect to solve the ODE but instead use for demonstration.
 Note the absence of the $db/dt$ term in the governing equation.
 We can attempt the method of reduction by proposing a substitution $v=db/dt$ and forming a first order ODE.
 First, note that
@@ -161,7 +161,7 @@ Assuming we can separate the variables, we can write an indefinite integral equa
 
 obtaining a constant of integration $C_1$.
 We now have a first order differential equation on $b$, %however we can't solve it because no
-but this equation is explicitly nonlinear, as we only have the form $v^2 = g(b)$,
+but this equation is even harder to reduce or even solve, as we only have the form $v^2 = g(b)$,
 not giving the form of the first derivative directly.
 Therefore, statements of existence and uniqueness for solutions of ODEs,
 which we are accustomed to,
@@ -191,6 +191,8 @@ This plot allows us to deduce some intuition about the behaviour of $b$.
 At a point $b=b_0$, the function $f(b_0)$ is equal to the outward acceleration of the plate.
 We can see that $f$ tends towards negative infinity both as $b\rightarrow 0$ and as $b\rightarrow\infty$,
 and that for certain $\mu, q,$ there is a positive region of $f$.
+Hence if $b$ is either small or large, it will accelerate to closure,
+whereas for a range of intermediate values it may accelerate outwards instead.
 It is possible under certain conditions for $b$ to behave similarly to a harmonic oscillator,
 where its position and acceleration move back and forth reciprocally.
 
@@ -254,17 +256,23 @@ Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ the values of $b$ we
 
 \subsection{The parameter space}
 
-%parameter space graph figure
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{param_space}
+	\caption{A contour graphic of the parameter space. The displacement of $Z$ over a point $(\mu,q)$ represents the distance between critical points for the corresponding form of Equation \ref{eqn:master}.}
+	\label{fig:param_space}
+\end{figure}
 
 Recall the result obtained in Equation \ref{eqn:osc_condition}.
-We can produce a graph where $\{\mu, q\}$ is the basis for the plane,
-and visualise this condition.
+We can produce a graph (see Figure \ref{fig:param_space}) where $\{\mu, q\}$ is the basis for the plane, and plot the distance between points.
 Note that, by the properties of the derivation of the model,
 $\mu$ and $q$ must be strictly positive,
 hence we are only considering points in the quarter-plane.
 Any suitable form of Equation \ref{eqn:master} can be placed in this region,
-and if that version exists within the highlighted region,
-then oscillations may occur.
+and if that version exists within a particular contour,
+then oscillations may occur in a region of proportional scale.
+Around the edges of the curve, the points bifurcate,
+which is equivalent to the curve $f(b)$ only having one real-valued zero.
 
 We can gain interesting and useful results regarding sufficient values of $\mu, q$,
 most noticeably that for any positive $\mu$, there exists some $q$ such that oscillations may occur.
@@ -292,6 +300,19 @@ In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows
 
 %nicer written verbatim environment ode function here
 
+\begin{verbatim}
+function dbdt = OscillatorODE(t, x, mu, q)
+
+b=x(1);
+bdot=x(2);
+
+dbdt=zeros(size(x));
+dbdt(1) = bdot;
+dbdt(2) = 1 - q - b - (mu*power(q,2))/(2*power(b,2));
+
+end
+\end{verbatim}
+
 And it is solved with \texttt{ode45} as such:
 
 \begin{verbatim}
@@ -311,15 +332,12 @@ plot(x(1,:),x(2,:))
 
 % comparisons of phase-plane to distance-time graphs
 
-The astute reader might notice that we generate solutions for $b,\dot{b}$ both depending on $t$,
-and might think, ``what if we were to plot both $b$ and $\dot{b}$ as functions of $t$ parametrically,
-in the plane spanned by the vectors $b,\dot{b}$?''.
-Well, it just happens to be that this is a common method for analysing solutions of certain ODEs,
-referred to as representation in the ``phase portrait''. %this might be written a bit informally written.
-
 The phase-portrait is the vector space spanned by the vectors $b$ and $\dot{b}=db/dt$.
-For a curve in phase-plane representation, the position in one axis represents velocity, while the position in the other represents position.
-This allows us to construct new visualisations of paths taken by the modelled plate.
+We use phase-portrait representation as an alternative visualisation of the behaviour of motion. If a variable $x$ is governed by an ODE,
+we plot its behaviour over time where the different axes represent velocity $dx/dt$ against position $x$,
+rather than position against time.
+
+This alternative approach allows us to construct new visualisations of paths taken by the modelled plate.
 Paths in phase-plane representation have direct correspondence to plots in position against time.
 
 %figure of oscillations in both representations
@@ -377,7 +395,16 @@ It is necessary and sufficient for there to exist a region of inflection (an int
 elsewhere negative) in $F(b)$ in order for this to occur.
 Hence the condition for oscillations to occur is equivalent to the requirement that there exists a positive \textit{region} of f(b).
 
-Interesting behaviour occurs when the local minimum or maximum of $F(b)$ is a zero. %figures to show this.
+Interesting behaviour occurs when the local minimum or maximum of $F(b)$ is a zero. We want to investigate the integral curves to find the conditions required for
+
+\begin{equation}
+	(1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} + C = 0.
+	\label{eqn:integral_curves_zeroes}
+\end{equation}
+
+If $\mu, q$ satisfactory for oscillations to occur,
+it is evident that there exists a $C$ such that Equation \ref{eqn:integral_curves_zeroes} will have exactly two zeroes,
+and the interval between these is the region in which we observe the largest oscillation.
 
 \subsection{Matrix representation of a system of differential equations}
 
@@ -447,14 +474,26 @@ which can be expressed as the matrix equation
 % discuss the implications of this analysis and the matrix eigenvectors
 
 The implications of the matrix model allow us to perform linear system analysis local to the critical points $b_0$ satisfying $f(b_0) = 0.$
-Let $u=(x,y)^T$ be a vector denoting information on the plate local to $b_0$,
+Let $u=(x_i,y_i)^T$ be a vector denoting information on the plate local to $b_0$,
 where $x$ is the small distance between the displacement $b$ and the critical point $b_0$,
 and $y$ is the velocity of the plate.
-Then an eigenvector $v=(\delta x, \delta y)^T$ of the matrix in Equation \ref{eqn:first_order_approximated_substituted_matrix} is a local approximation to the derivative of $u$,
-such that $\delta x$ is the change in the vicinity of the plate to the critical point,
-and $\delta y$ is the change in the velocity of the plate.
+If $u$ is an eigenvector of the matrix,
+it corresponds to an eigenvalue $\lambda_i$ such that
 
+\begin{equation}
+	\frac{d}{dt} \begin{pmatrix}
+		x_i \\
+		y_i
+	\end{pmatrix} = \lambda_i \begin{pmatrix}
+	x_i \\
+	y_i
+\end{pmatrix},
+\label{eqn:matrix_eigenvectors}
+\end{equation}
 
+implying that, if eigenpairs exist (which we can check by finding eigenvalues of the matrix),
+then the eigenvectors represent change in the vicinity $\lambda_i x_i$ of the plate to the critical point,
+and the change in velocity $\lambda_i y_i$ of the plate at that point.
 
 Note that this analysis is governed by being local to the zeroes of $f(b)$.
 It only provides insight on the behaviour of the model when considering these points.
@@ -463,26 +502,9 @@ which is the condition of $f(b)$ having two positive zeroes.
 Thus, the matrix equation analysis is only valid at two points,
 being these solutions of $f(b)$ at the bounds of oscillation.
 
-\subsection[OLD]{Oscillations and the Parameter Space}
+\section{Computational results provided by the single mass model}
 
-
-
-Given $\mu, q$ satisfactory for oscillations to occur,
-it is evident that there exists a $C$ such that $P(b)+C$ will have exactly two zeroes,
-and this interval is exactly the region in which we observe the largest oscillation,
-being which the first zero is a point observed in our analysis and derivation of Equation \ref{eqn:first_order_approximated_substituted_matrix}.
-
-Given $P(b)$ as defined in Equation \ref{eqn:integral_kinetic_energy},
-our query is to find the case where the following equation is satisfied:
-
-\begin{equation}
-    (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} + C = 0,
-\end{equation}
-
-such that there exist solutions for exactly $2$ values of $b$.
-
-Since oscillations are guaranteed to occur (because we assumed so),
-we can guarantee that \ref{eqn:osc_condition} is satisfied.
+Section to be completed.
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
 
