@@ -143,7 +143,7 @@ First, note that
     \frac{dv}{dt} = \frac{dv(b(t))}{dt} = \frac{dv}{db}\frac{db}{dt} = \frac{dv}{db}v,
 \end{equation}
 
-and hence (with an abusive assumption of commutativity),
+and hence (while assuming commutativity),
 
 \begin{equation}
     v \frac{dv}{db} = 1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right).
@@ -162,7 +162,7 @@ Assuming we can separate the variables, we can write an indefinite integral equa
 obtaining a constant of integration $C_1$.
 We now have a first order differential equation on $b$, %however we can't solve it because no
 but this equation is even harder to reduce or even solve, as we only have the form $v^2 = g(b)$,
-not giving the form of the first derivative directly.
+where the first derivative is expressed explicitly but not linearly.
 Therefore, statements of existence and uniqueness for solutions of ODEs,
 which we are accustomed to,
 do not hold in the situation where the differential equation is non-linear.
@@ -296,38 +296,6 @@ By using \texttt{ode45}, MATLAB performs numerical integration on all the equati
 thus giving numerical solutions for $b$ and $\dot{b}$ in terms of time $t$, subject to initial conditions.
 In most cases, we will consider the plate moving from rest ($\dot{b}(t=0) = 0$) given an initial position $b=b_0$.
 
-In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows:
-
-%nicer written verbatim environment ode function here
-
-\begin{verbatim}
-function dbdt = OscillatorODE(t, x, mu, q)
-
-b=x(1);
-bdot=x(2);
-
-dbdt=zeros(size(x));
-dbdt(1) = bdot;
-dbdt(2) = 1 - q - b - (mu*power(q,2))/(2*power(b,2));
-
-end
-\end{verbatim}
-
-And it is solved with \texttt{ode45} as such:
-
-\begin{verbatim}
-q=0.1; u=1; % define fixed variables
-[t, x] = ode45(@(t,x) OscillatorODE(t,x,q,u));
-
-% distance-time plot
-figure
-plot(t,x(1,:))
-
-% phase-plane plot
-figure
-plot(x(1,:),x(2,:))
-\end{verbatim}
-
 \subsection{Representations of solutions of differential equations}
 
 % comparisons of phase-plane to distance-time graphs
@@ -342,10 +310,29 @@ Paths in phase-plane representation have direct correspondence to plots in posit
 
 %figure of oscillations in both representations
 
+% phaseplane curves are mu=1, q=0.2 at b=0.1, b_0 ~= 0.1795, 0.3, 0.5
+% figures C and D at mu=1, q=1, b = 0.2, 0.4, 0.6, 0.8
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{quadplot_phaseplane_versus_time}
+    \caption{
+        A comparison of plots in the traditional distance-time representation compared to in the phase portrait.
+        The left column (A and C) illustrates curves as displacement against time, while the right column (B and D) draw the same plots as shown in the respective figure to the left.
+        Figures in different rows show the model under different initial conditions and parameters.
+        Figures A and B show the displacement $b$ with starting positions $b=0.1,~b_1,~0.3,~0.5$,
+        where $b_1$ is close to the first critical point of $f$. The parameters of Equation \ref{eqn:master} are $\mu=1,~q=0.2$.
+        Figures C and D are instead computed with $\mu=1,~q=1$ with $b$ taking initial values $0.2,~0.4,~0.6,~0.8$.
+        In all figures, $b$ has zero initial starting velocity.
+    }
+    \label{fig:phaseportrait_compare}
+\end{figure}
+
 Oscillations are represented in the phase-plane as closed loops.
 It becomes easier to see the critical points,
 namely the stationary point in the centre of the closed loops,
 and the inflection point between the regions of closure and oscillation.
+See Figure \ref{fig:phaseportrait_compare}
 
 \subsection{Equations of motion represented as phase-plane curves}
 
@@ -353,12 +340,17 @@ Recall Equation \ref{eqn:master}, of the form $d^2b/dt^2 = f(b)$.
 Assume the right hand side $f(b)$ is the derivative (with respect to $b$, remaining aware that $b$ depends on $t$) of some function $F(b)$.
 Remaining aware that $b$ is a function itself of $t$, we have
 
-\begin{align}
-    \frac{d}{db}F(b)             & = f(b)                                            \\
-    \Rightarrow \frac{d}{dt}F(b) & = \frac{dF}{db}\frac{db}{dt} = f(b)\frac{db}{dt}.
-\end{align}
+\begin{equation}
+    \frac{d}{db}F(b) = f(b),
+\end{equation}
 
-From Equation \ref{eqn:master}, we also have, on multiplying both sides by $db/dt$ and finding antiderivatives,
+and if we differentiate with respect to $t$ instead, we obtain
+
+\begin{equation}
+    \frac{d}{dt}F(b) = \frac{dF}{db}\frac{db}{dt} = f(b)\frac{db}{dt}.
+\end{equation}
+
+From Equation \ref{eqn:master}, we find, on multiplying both sides by $db/dt$ and finding antiderivatives,
 
 \begin{align}
     \frac{d^2b}{dt^2} \frac{db}{dt}                                   & = f(b) \frac{db}{dt} \\
@@ -504,7 +496,7 @@ being these solutions of $f(b)$ at the bounds of oscillation.
 
 \section{Computational results provided by the single mass model}
 
-Section to be completed.
+We will study a range of behaviours exhibited by the model when oscillating
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
 
@@ -520,6 +512,42 @@ Section to be completed.
 
 \bibliographystyle{unsrt}
 \bibliography{sources}
+
+\appendix
+
+\section{MATLAB Programs}
+
+In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows:
+
+%nicer written verbatim environment ode function here
+
+\begin{verbatim}
+function dbdt = OscillatorODE(t, x, mu, q)
+
+b=x(1);
+bdot=x(2);
+
+dbdt=zeros(size(x));
+dbdt(1) = bdot;
+dbdt(2) = 1 - q - b - (mu*power(q,2))/(2*power(b,2));
+
+end
+\end{verbatim}
+
+And it is solved with \texttt{ode45} as such:
+
+\begin{verbatim}
+q=0.1; u=1; % define fixed variables
+[t, x] = ode45(@(t,x) OscillatorODE(t,x,q,u));
+
+% distance-time plot
+figure
+plot(t,x(1,:))
+
+% phase-plane plot
+figure
+plot(x(1,:),x(2,:))
+\end{verbatim}
 
 
 \end{document}
