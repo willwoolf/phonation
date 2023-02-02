@@ -90,7 +90,7 @@ $\Omega$ is often referred to as the material derivative.
 \end{equation}
 
 %this is where the explanation gets dodgy - this could be completely wrong. if so, then the bernoulli effect force is more likely the increase in fluid ke when a constriction leads to an increase in pressure
-In order to obtain the pressure consequent of Bernoulli's principle, we simply rearrange the equation for $p$.
+In order to apply Bernoulli's principle to find the pressure, we simply rearrange the equation for $p$.
 We obtain $F_b$ by again multiplying the pressure by the cross-sectional area of the plate.
 
 %include some derivation for $P_b$?
@@ -258,7 +258,7 @@ Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ the values of $b$ we
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{param_space}
+	\includegraphics[width=\linewidth]{param_space}
 	\caption{A contour graphic of the parameter space. The displacement of $Z$ over a point $(\mu,q)$ represents the distance between critical points for the corresponding form of Equation \ref{eqn:master}.}
 	\label{fig:param_space}
 \end{figure}
@@ -295,6 +295,7 @@ Equation \ref{eqn:master} can be given in the following form:
 By using \texttt{ode45}, MATLAB performs numerical integration on all the equations in the system,
 thus giving numerical solutions for $b$ and $\dot{b}$ in terms of time $t$, subject to initial conditions.
 In most cases, we will consider the plate moving from rest ($\dot{b}(t=0) = 0$) given an initial position $b=b_0$.
+Working examples are available in the Appendix.
 
 \subsection{Representations of solutions of differential equations}
 
@@ -308,14 +309,12 @@ rather than position against time.
 This alternative approach allows us to construct new visualisations of paths taken by the modelled plate.
 Paths in phase-plane representation have direct correspondence to plots in position against time.
 
-%figure of oscillations in both representations
-
 % phaseplane curves are mu=1, q=0.2 at b=0.1, b_0 ~= 0.1795, 0.3, 0.5
 % figures C and D at mu=1, q=1, b = 0.2, 0.4, 0.6, 0.8
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{quadplot_phaseplane_versus_time}
+    \includegraphics[width=\linewidth]{quadplot_phaseplane_versus_time_2}
     \caption{
         A comparison of plots in the traditional distance-time representation compared to in the phase portrait.
         The left column (A and C) illustrates curves as displacement against time, while the right column (B and D) draw the same plots as shown in the respective figure to the left.
@@ -332,7 +331,7 @@ Oscillations are represented in the phase-plane as closed loops.
 It becomes easier to see the critical points,
 namely the stationary point in the centre of the closed loops,
 and the inflection point between the regions of closure and oscillation.
-See Figure \ref{fig:phaseportrait_compare}
+See Figure \ref{fig:phaseportrait_compare} for a demonstration.
 
 \subsection{Equations of motion represented as phase-plane curves}
 
@@ -406,7 +405,7 @@ We will rewrite the reduction to a first order system, using the defined $f(b)$ 
 \begin{align}
     \frac{db}{dt}       & = \dot{b} \\
     \frac{d\dot{b}}{dt} & = f(b)
-    \label{eqn:first_order_modified}
+    \label{eqn:first_order_modified}   %TODO: Change variables, we don't like this it's too confusing
 \end{align}
 
 We can construct an approximation for the function $f(b)$ about a point $b_0$ using the Taylor series expansion, of the form
