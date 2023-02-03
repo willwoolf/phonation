@@ -176,7 +176,7 @@ Additionally, the equation of the form $v^2 = g(b)$ will be useful later.
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{f_plot_mu_1_q_vary}
-    \caption{A plot of the function $f(b) = 1-q-b-\mu q^2/2b^2$ where $\mu=1$, $q$ ranging from $0.1$ to $0.5$}
+    \caption{A plot of the function $f(b) = 1-q-b-\mu q^2/2b^2$ where $\mu=1$, $q$ ranging from $0.1$ (orange) to $0.5$ (green).}
     \label{fig:acc_b_plot}
 \end{figure}
 
@@ -465,7 +465,7 @@ which can be expressed as the matrix equation
 % discuss the implications of this analysis and the matrix eigenvectors
 
 The implications of the matrix model allow us to perform linear system analysis local to the critical points $b_0$ satisfying $f(b_0) = 0.$
-Let $u=(x_i,y_i)^T$ be a vector denoting information on the plate local to $b_0$,
+Let $\mathbf{u}=(x_i,y_i)^T$ be a vector denoting information on the plate local to $b_0$,
 where $x$ is the small distance between the displacement $b$ and the critical point $b_0$,
 and $y$ is the velocity of the plate.
 If $u$ is an eigenvector of the matrix,
@@ -495,7 +495,51 @@ being these solutions of $f(b)$ at the bounds of oscillation.
 
 \section{Computational results provided by the single mass model}
 
-We will study a range of behaviours exhibited by the model when oscillating
+We will study a range of behaviours exhibited by the model when oscillating first by proposing the parameters $\mu=1,~q=0.2$.
+This satisfies Equation \ref{eqn:osc_condition}. Refer to subfigures A and B of Figure \ref{fig:phaseportrait_compare},
+where we have plotted some of these curves.
+Observe the plot in figure A which starts near the critical point.
+It appears that in this case, the plate remains stationary for a period of time before oscillations begin,
+and once undergoing, the peaks of the wave are much sharper than the troughs.
+This occurs because we approach the vicinity of this critical point in the phase portrait,
+and Equation \ref{eqn:first_order_approximated_substituted_matrix} can be applied to find the eigenvectors.
+If $\mathbf{u}$ is a vector that satisfies this equation,
+then we can define points in the phase-plane that are close to these critical points by $\mathbf{u} + \mathbf{\delta u}$,
+where $\delta\mathbf{u}$ is small.
+Write $\mathbf{u + \delta u} = (x_i + \delta x_i, y_i + \delta y_i)^T$.
+In this case, we have that
+
+\begin{align}
+    \frac{d}{dt} \begin{pmatrix}
+        x_i + \delta x_i\\
+        y_i + \delta y_i
+    \end{pmatrix} &= \frac{d}{dt}\begin{pmatrix}
+        x_i \\
+        y_i
+    \end{pmatrix} + \frac{d}{dt}\begin{pmatrix}
+        \delta x_i \\
+        \delta y_i
+    \end{pmatrix} \\
+    &= \lambda_i \begin{pmatrix}
+        x_i \\
+        y_i
+    \end{pmatrix} + \begin{bmatrix}
+        0 & 1 \\
+        f(b_0) & 0
+    \end{bmatrix} \begin{pmatrix} % can't really do this because delta u is not necessarily an eigenvector, this needs fixing. might be able to get validity or another result out of delta u being small.
+        \delta x_i \\
+        \delta y_i
+    \end{pmatrix} \\
+    &= \lambda_i \begin{pmatrix}
+        x_i \\
+        y_i
+    \end{pmatrix} + \begin{pmatrix}
+        \delta y_i \\
+        f(b_0) \delta x_i
+    \end{pmatrix}
+    \label{eqn:matrix_eigenvectors_vicinity}
+\end{align}
+
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
 
@@ -514,7 +558,7 @@ We will study a range of behaviours exhibited by the model when oscillating
 
 \appendix
 
-\section{MATLAB Programs}
+\section{MATLAB Scripts}
 
 In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows:
 
