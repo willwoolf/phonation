@@ -428,7 +428,7 @@ With the Taylor series applied, propose the approximation about a point $b_0$
     \label{eqn:first_order_approximated}
 \end{align}
 
-Notice that this approximation is a linear system. The obtained approximation models the ODE $\ddot{b} = (b-b_0)(\mu q^2/b_0^3-1)$.
+Notice that this approximation is a linear system. The obtained approximation models the ODE $b''(t) = (b-b_0)(\mu q^2/b_0^3-1)$.
 It is only valid local to points $b_0$ which are zeroes of $f$, so if $b-b_0$ grows in magnitude it is not sufficient.
 If we suppose a substitution of the form
 
@@ -454,7 +454,7 @@ which can be expressed as the matrix equation
         Y
     \end{pmatrix} = \begin{bmatrix}
         0      & 1 \\
-        f(b_0) & 0
+        f'(b_0) & 0
     \end{bmatrix} \begin{pmatrix}
         X \\
         Y
@@ -493,13 +493,9 @@ which is the condition of $f(b)$ having two positive zeroes.
 Thus, the matrix equation analysis is only valid at two points,
 being these solutions of $f(b)$ at the bounds of oscillation.
 
-\section{Computational results provided by the single mass model}
-
-We will study a range of behaviours exhibited by the model when oscillating first by proposing the parameters $\mu=1,~q=0.2$.
-This satisfies Equation \ref{eqn:osc_condition}. Refer to subfigures A and B of Figure \ref{fig:phaseportrait_compare},
-where we have plotted some of these curves.
-Observe the plot in figure A which starts near the critical point.
-It appears that in this case, the plate remains stationary for a period of time before oscillations begin,
+The eigenvectors govern motion in the vicinity of the critical points in the phase portrait.
+See subfigure A of Figure \ref{fig:phaseportrait_compare}, and observe the plot which starts near the critical point.
+It appears that in this case, $b$ remains stationary for a period of time before oscillations begin,
 and once undergoing, the peaks of the wave are much sharper than the troughs.
 This occurs because we approach the vicinity of this critical point in the phase portrait,
 and Equation \ref{eqn:first_order_approximated_substituted_matrix} can be applied to find the eigenvectors.
@@ -525,7 +521,7 @@ In this case, we have that
         y_i
     \end{pmatrix} + \begin{bmatrix}
         0 & 1 \\
-        f(b_0) & 0
+        f'(b_0) & 0
     \end{bmatrix} \begin{pmatrix} % can't really do this because delta u is not necessarily an eigenvector, this needs fixing. might be able to get validity or another result out of delta u being small.
         \delta x_i \\
         \delta y_i
@@ -535,10 +531,20 @@ In this case, we have that
         y_i
     \end{pmatrix} + \begin{pmatrix}
         \delta y_i \\
-        f(b_0) \delta x_i
-    \end{pmatrix}
+        f'(b_0) \delta x_i
+    \end{pmatrix}.
     \label{eqn:matrix_eigenvectors_vicinity}
 \end{align}
+
+We have assumed in Equation \ref{eqn:matrix_eigenvectors_vicinity} that $\delta u$ is not an eigenvector.
+Instead we have considered only that the matrix equation holds,
+since both $\delta x_i$ (the displacement of $b$ from the critical point)
+and $\delta y_i$ (the velocity) are small, so we are local to the critical point on the phase-plane,
+and thus can apply the matrix equation. If $\delta u$ is small, then it is negligible compared to the $\lambda_i (x_i,y_i)^T$ term.
+Hence the eigenvectors influence the motion in the phase-plane local to the critical points. 
+
+\section{Computational results provided by the single mass model}
+
 
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
