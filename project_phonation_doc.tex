@@ -77,12 +77,11 @@ Pressure itself is the force per unit area,
 so the value of the force $F_p$ is the pressure multiplied by the surface area of the plate.
 
 The final force to consider in the motion of the plate is consequence of Bernoulli's principle,
-namely that along a streamline, in a steady flow\footnote{It is important to note that in the general case, the flow may not necessarily be steady.},
-the sum of the kinetic energy and the potential energies are constant.
-In Bernoulli's equation (Equation \ref{eqn:bernoulli}), $1/2\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy,
+namely that along a streamline, in a steady flow,
+the sum of the kinetic energy and the potential energies, per unit mass, are constant.
+In Bernoulli's equation (Equation \ref{eqn:bernoulli}), $1/2\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy per unit mass,  %some of this is wrong
 $\Omega$ is the potential energy per unit mass of the body forces of the fluid,
 and $\int dp/\rho$ is the inner potential energy, regarding that $p$ and $\rho$ are either constant or codependent.
-$\Omega$ is often referred to as the material derivative.
 
 \begin{equation}
     \frac{1}{2}\mathbf{u}\cdot\mathbf{u} + \Omega + \int\frac{dp}{\rho} = C
@@ -153,8 +152,8 @@ Assuming we can separate the variables, we can write an indefinite integral equa
 
 \begin{equation}
     \begin{aligned}
-        \int v~dv                                      & = \int \left(1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right)\right) db \\
-        \Rightarrow v^2 = \left(\frac{db}{dt}\right)^2 & = 2b(1-q) - b^2 + \mu q^2\left(\frac{1}{b}\right) + C_1,
+        \int v~dv = \int \left(1 - q - b - \frac{1}{2}\mu q^2 b^{-2} \right) db \\  %TODO: edits. separate all this mess.
+        v^2 = \left(\frac{db}{dt}\right)^2 & = 2b(1-q) - {b^2} + \mu q^2 b^{-1} + C_1, %we have integrated AND multiplied by 2.
     \end{aligned}
     \label{eqn:first_order_reduction}
 \end{equation}
@@ -242,7 +241,7 @@ If the acceleration of the channel wall is positive, then the wall will accelera
 however the acceleration will have to oscillate from positive to negative in order for there to be oscillations in the position itself.
 Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ the values of $b$ we consider are strictly positive.
 
-\section{Computation of the single-mass model}
+\section{Analytical methods for the single-mass model}
 
 %introduce the parameter space
 %first discuss configuring the system of differential equations in MATLAB
@@ -298,8 +297,6 @@ In most cases, we will consider the plate moving from rest ($\dot{b}(t=0) = 0$) 
 Working examples are available in the Appendix.
 
 \subsection{Representations of solutions of differential equations}
-
-% comparisons of phase-plane to distance-time graphs
 
 The phase-portrait is the vector space spanned by the vectors $b$ and $\dot{b}=db/dt$.
 We use phase-portrait representation as an alternative visualisation of the behaviour of motion. If a variable $x$ is governed by an ODE,
@@ -375,21 +372,30 @@ Both expressions represent families of curves in the phase-portrait.
 However, when reducing and solving the ODE to derive the first order reduction, we made the assumption of separability of variables,
 which is not true in all cases,
 whereas here we have covered a different method.
+In combination of results, we will want to assume
+
+\begin{equation}
+    F(b) = (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b}
+    \label{eqn:integral_curve_supposed}
+\end{equation}
+
+which is not necessarily a consistent result, as discussed in the derivation, but we will use this for verification.
 
 We can use the plots of curves defined by Equations \ref{eqn:first_order_reduction} and \ref{eqn:integral_kinetic_energy} to inspect curves in the phase portrait.
 For example, we can find the particular constants $C$ such that we generate the behaviours at the critical points.
 
 %big section here on how we can analyse the plots and zeroes of the KE curves, in order to find the requirements on f for oscillations to occur
 
-Oscillations occur when, for some $C$, the curve $1/2 v^2 = F(b) + C$ exhibits a closed loop.
+Oscillations occur when, for some $C$, the curve $\left((db/dt)^2\right)/2 = F(b) + C$ exhibits a closed loop.
 It is necessary and sufficient for there to exist a region of inflection (an interval where the derivative is positive,
 elsewhere negative) in $F(b)$ in order for this to occur.
 Hence the condition for oscillations to occur is equivalent to the requirement that there exists a positive \textit{region} of f(b).
 
-Interesting behaviour occurs when the local minimum or maximum of $F(b)$ is a zero. We want to investigate the integral curves to find the conditions required for
+Interesting behaviour occurs when the local minimum or maximum of $F(b)$ is a zero.
+We want to investigate the integral curves to find the conditions required for
 
 \begin{equation}
-	(1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} + C = 0.
+	F(b) + C = 0.
 	\label{eqn:integral_curves_zeroes}
 \end{equation}
 
@@ -545,7 +551,7 @@ Hence the eigenvectors influence the motion in the phase-plane local to the crit
 
 \section{Computational results provided by the single mass model}
 
-\subsection{MATLAB results}
+\subsection{MATLAB results and inspection}
 
 \begin{figure}
     \centering
@@ -558,6 +564,42 @@ Hence the eigenvectors influence the motion in the phase-plane local to the crit
 
 We will first consider a range of behaviours exhibited by the model with the fixed parameters $\mu=1, q=0.2$,
 as used in sufigures A and B of Figure \ref{fig:phaseportrait_compare}.
+Figure \ref{fig:phaseportrait_oscillations} is a plot showing all families of curves in the phase plane for these parameters.
+%begin{dodgy}
+Under the notion of topological equivalence, we can see there are four types of curve represented.
+Curves that cross the horizontal axis to the left of the point $b_1$ represent the plate travelling and accelerating (negative velocity as the plate travels in the non-positive direction) immediately to closure.
+Closed loops within the enclosed region are oscillations that continue indefinitely.
+Curves to the right of the closed loops represent the plate also travelling towards closure,
+but undergoing a period of deceleration close to the critical value.
+This leaves two others. Two separate curves emerge directly from the point $b_1$ itself,
+however the computation is incapable of computing this path exactly when we start at zero.
+If we start at $b_1+\epsilon$ where $\epsilon$ is small,
+the solution fails to form a closed loop that returns to its start,
+due to the difficult behaviour of the ODE when approaching the critical point to near-exact precision.
+Instead, this loop is shown to slightly increment the return position positively when an oscillation has been completed.
+The stationary point at $b_2$ is the oscillation with no energy,
+which is topologically equivalent to the other closed loops.
+This is the oscillation with no energy,
+which is topologically equivalent to all other loops. 
+
+\subsection{Comparison to analytical results}
+
+The region of inital $b$, with zero initial velocity, for which oscillations will occur,
+is computed to be the approximate interval $(0.18,1.24)$.
+We will use the supposition of Equation \ref{eqn:integral_curve_supposed}.
+If the integration constant satisfies $C = -F(b_1)$,
+then the curve has exactly two positive zeroes:
+one being at $b=b_1$ and the other where $b>b_2$ as the curve crosses the horizontal axis as it tends to negative infinity.
+Hence the range of zeroes to verify results should be the solutions to the equation $F(b)-F(b_1)=0,$ which can be written as
+
+\begin{equation}
+    (1-q)(b-b_1) +\frac{1}{2}(b_1^2-b^2) + \frac{\mu q^2}{2b} - \frac{\mu q^2}{2b_1} = 0.
+    \label{eqn:integral_curves_zeroes_explicit}
+\end{equation}
+
+The value $b_1$ is, trivially, the minimal positive zero of $f(b)$ which we have already computed to be $b_1 \approx 0.18$.
+We are more interested in whether or not the other end point of the interval is consistent.
+
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
 
