@@ -7,6 +7,7 @@
 \usepackage[a4paper, total={6in,8in}]{geometry}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{natbib}
 \usepackage{hyperref}
 
 \graphicspath{{figures/}}
@@ -36,7 +37,7 @@ The goal of this project is to explore models of the phonation process.
 
 % TODO: Add figure of the model schematic
 
-The first model we will study is taken from Theory and Measurement of Snores \cite{gavriely_jensen_1993}.
+The first model we will study is taken from Theory and Measurement of Snores \citep{gavriely_jensen_1993}.
 It models the inspiratory process, designed to investigate snoring as a symptom of obstructive sleep apnea.
 The model proposes that the inspiratory path consists of first a region of the upper airway,
 which has a given viscous resistance.
@@ -152,8 +153,8 @@ Assuming we can separate the variables, we can write an indefinite integral equa
 
 \begin{equation}
     \begin{aligned}
-        \int v~dv = \int \left(1 - q - b - \frac{1}{2}\mu q^2 b^{-2} \right) db \\  %TODO: edits. separate all this mess.
-        v^2 = \left(\frac{db}{dt}\right)^2 & = 2b(1-q) - {b^2} + \mu q^2 b^{-1} + C_1, %we have integrated AND multiplied by 2.
+        \int v~dv &= \int \left(1 - q - b - \frac{1}{2}\mu q^2 b^{-2} \right) db \\  %TODO: edits. separate all this mess.
+        v^2 &= \left(\frac{db}{dt}\right)^2 = 2b(1-q) - {b^2} + \mu q^2 b^{-1} + C_1, %we have integrated AND multiplied by 2.
     \end{aligned}
     \label{eqn:first_order_reduction}
 \end{equation}
@@ -230,6 +231,14 @@ Further on, we will be regularly making the assumption that this condition is sa
 and hence that oscillations can occur,
 in order to develop our analysis of the model.
 
+If a region of $f$ is positive, and $f$ tends to negative infinity when $b$ approaches $0$ or infinity,
+then there must be exactly two points $b_1,~b_2$ which are zeroes of $f$.
+Formally, we are using the assumption of Equation \ref{eqn:osc_condition} to solve
+
+\begin{equation}
+    1 - b - q - \frac{\mu q^2}{2b^2} = 0
+\end{equation}
+
 % Clearly $f$ represents acceleration of the movable wall as a function of displacement $b$. We are only ever concerned with positive $b$ due to the assumptions of the model.
 % $f'$ is monotone decreasing, so there may be an interval $I_0=(p,q)$ such that if $b\in I_0$
 % then $f$ is positive i.e. $p,q$ are the zeroes of $f$.
@@ -239,7 +248,7 @@ in order to develop our analysis of the model.
 
 If the acceleration of the channel wall is positive, then the wall will accelerate outwards,
 however the acceleration will have to oscillate from positive to negative in order for there to be oscillations in the position itself.
-Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ the values of $b$ we consider are strictly positive.
+Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ an example which the reader should find familiar, the values of $b$ we consider are strictly positive.
 
 \section{Analytical methods for the single-mass model}
 
@@ -599,6 +608,7 @@ Hence the range of zeroes to verify results should be the solutions to the equat
 
 The value $b_1$ is, trivially, the minimal positive zero of $f(b)$ which we have already computed to be $b_1 \approx 0.18$.
 We are more interested in whether or not the other end point of the interval is consistent.
+Recall Equation \ref{eqn:osc_condition}
 
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
