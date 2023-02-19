@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{dsfont}
+\usepackage[a4paper, total={6in,8in}]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{hyperref}
+
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\title{A Two Mass Model}
+\author{Will Woolfenden}
+
+\section{Development of a two-mass model}
+
+We will begin to construct a model for phonation involving two stiffness-coupled masses.
+Due to symmetry, we will only consider one side of the channel, 
+We consider a flow $\mathbf{u}$ passing through a channel,
+in which two masses cause a constriction to the fluid passage.
+Each mass $m_i$ is indivually supported by a spring with Hooke constant $k_i$,
+and a coupling spring with constant $k_s$ connects the two masses.
+
+We assume the masses to move one-dimensionally, perpendicular to the principal direction of the flow,
+such that they may extend indefinitely.
+We make the assumption that the fluid travels similar to a plug flow approximation,
+in which the fluid velocity is constant across any cross-sectional area, % citation here - there's a text "fundamentals of fluid mechanics 9780471675822"
+which ignores any potential stagnation or interference.
+We also neglect external forces on the fluid, such as gravity.
+
+Air is expelled from the lung and into the upper airway, before being released into the atmosphere.
+We fix a pressure $p_0$ and velocity $U_0$ local to the lung.
+
+The formal expression for conservation of mass can be expressed as
+
+\begin{equation}
+    \iiint_V \frac{\partial\rho}{\partial t}dV = \iint_S -\rho \mathbf{u}\cdotp\mathbf{n}dS,
+    \label{eqn:cons_mass_formal}
+\end{equation}
+
+which can be more formally understood as the rate of change of mass over volume $V$ begin equal to the rate at which fluid is transferred over the volume's surface $S$. 
+The negative term comes from the convention of using the outer unit normal of a closed surface.
+We will refer to the \textit{flux} at $A$, denoted $Q$, being the rate at which mass of fluid is transferred over an area $A$, or formally:
+
+\begin{equation}
+    Q(x) = \iint_A \rho \mathbf{u}\cdotp\mathbf{n}dS
+\end{equation}
+
+Where $x$ is the position in the dominant direction of the flow, or equivalently $x$ is in the $\mathbf{n}$ direction.
+
+We can find the flux $Q_0$, being the flux local to the lung, from the terms $U_0,~p_0$ which we fix in initial conditions.
+
+
+\end{document}
+
