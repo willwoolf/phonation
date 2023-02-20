@@ -4,6 +4,7 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{dsfont}
+\usepackage{bm}
 \usepackage[a4paper, total={6in,8in}]{geometry}
 \usepackage{graphicx}
 \usepackage{float}
@@ -21,7 +22,7 @@
 
 We will begin to construct a model for phonation involving two stiffness-coupled masses.
 Due to symmetry, we will only consider one side of the channel, 
-We consider a flow $\mathbf{u}$ passing through a channel,
+We consider a steady flow $\mathbf{u}$ passing through a channel,
 in which two masses cause a constriction to the fluid passage.
 Each mass $m_i$ is indivually supported by a spring with Hooke constant $k_i$,
 and a coupling spring with constant $k_s$ connects the two masses.
@@ -39,7 +40,7 @@ We fix a pressure $p_0$ and velocity $U_0$ local to the lung.
 The formal expression for conservation of mass can be expressed as
 
 \begin{equation}
-    \iiint_V \frac{\partial\rho}{\partial t}dV = \iint_S -\rho \mathbf{u}\cdotp\mathbf{n}dS,
+    \iiint_V \frac{\partial\rho}{\partial t}dV = \iint_S -\rho \bm{u\cdot n}dS,
     \label{eqn:cons_mass_formal}
 \end{equation}
 
@@ -48,12 +49,74 @@ The negative term comes from the convention of using the outer unit normal of a 
 We will refer to the \textit{flux} at $A$, denoted $Q$, being the rate at which mass of fluid is transferred over an area $A$, or formally:
 
 \begin{equation}
-    Q(x) = \iint_A \rho \mathbf{u}\cdotp\mathbf{n}dS
+    Q(x) = -\iint_A \rho \bm{u \cdot n}dS
 \end{equation}
 
-Where $x$ is the position in the dominant direction of the flow, or equivalently $x$ is in the $\mathbf{n}$ direction.
+where $x$ is the position in the dominant direction of the flow, or equivalently $x$ is in the $\mathbf{n}$ direction.
+The outer unit normal $\mathbf{n}$ is the vector pointing outwards normal to any cross-sectional area. 
+The integral term is negative because the outer unit normal points in the direction opposite to the flow.
 
-We can find the flux $Q_0$, being the flux local to the lung, from the terms $U_0,~p_0$ which we fix in initial conditions.
+We can find the flux $Q_0$, being the flux local to the lung, from the terms $U_0,~p_0$ which are defined in our initial conditions,
+
+\begin{equation}
+    Q(x_0) = -\iint_{A_0} \rho \bm{u}(x_0)\bm{\cdot n}(x_0)dS.
+\end{equation}
+
+Since we have a condition $u(x=x_0) = U_0$, we can write this as
+
+\begin{equation}
+    Q(x_0) = \iint_{A_0} \rho U_0 dS.
+\end{equation}
+
+We have made the assumption of incompressibility in order to write $\rho$ as a constant.
+Since $A_0$ is a cross-section of known area $wh$, and $U_0$ is known, we have
+
+\begin{equation}
+    Q(x_0) = \rho wh U_0
+    \label{eqn:twomass_lung_flux}
+\end{equation}
+
+by evaluating the integral of a uniform quantity $U_0$ over a surface $A_0$ as the quantity multiplied by the whole area.
+The flux is not uniform, because we have regions of variable volume, and a varying flux local to these regions do not break assumptions of conservation of mass.
+For example, if more fluid is entering a region than what is leaving, then the volume will increase.
+We have flux $Q_{in}$ on the entry border of the two mass region, and $Q_{out}$ on the exit,
+with $Q_{mid}$ on the plane in between the masses.
+
+A volume $V_i$ has dimensions $h_i w d$, where $h_i + b_i = h$ for $i=1,2$.
+The height $h_i$ is the only parameter that may vary, since we have granted a plate with position $b_i$ one dimensional motion.
+We will take time derivatives:
+
+\begin{equation}
+    \begin{aligned}
+        V_i &= h_i w d \\
+        \dot{V_i} &= \dot{h_i} w d.
+    \end{aligned}
+\end{equation}
+
+Conservation of mass \ref{eqn:cons_mass_formal} in combination with incompressibility tells us that the rate of change of a volume is equal to the rate at which its enclosed mass increases.
+In volume $V_1$, mass enters through flux $Q_in$ and exits through flux $Q_mid$. The case for $V_2$ is analogous.
+From this we can force an assumption to relate flux around a volume to its rate of change, which can be expressed as follows:
+
+\begin{equation}
+    \begin{aligned}
+        \dot{h_1} w d &= Q_\mathrm{in} - Q_\mathrm{mid} \\
+        \dot{h_2} w d &= Q_\mathrm{mid} - Q_\mathrm{out}.
+    \end{aligned}
+    \label{eqn:twomass_flux_motion}
+\end{equation}
+
+Since the lower airway region is fixed,
+the flux $Q_0$ local to the lung is equal to the flux $Q_{in}$ on the boundary of the lower mass,
+and hence it is a known term.
+
+% We want to know the values of Q_mid and Q_out so we can interpolate
+
+
+The formal definition of incompressibility can be expressed as
+
+\begin{equation}
+    \bm{\nabla\cdot u} = 0.
+\end{equation}
 
 
 \end{document}
