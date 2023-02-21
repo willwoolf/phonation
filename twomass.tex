@@ -113,7 +113,7 @@ and hence it is a known term. The fluid velocity $U_\mathrm{in}$ on the flux bou
 
 However the terms $Q_\mathrm{mid}, Q_\mathrm{out}$ are not immediately known.
 We will make the assumption that the fluid velocities in the respective volumes are determined by the flux,
-similar to the argument of Equation \ref{eqn:twomass_flux_in}:
+where we take the average of the flux on the boundaries of a region of interest:
 
 \begin{equation}
     \begin{aligned}
@@ -135,10 +135,58 @@ Using the same method as in Equation \ref{eqn:twomass_flux_in}, we have
     \label{eqn:twomass_flux_out}
 \end{equation}
 
-where the flux $Q_\mathrm{out}$ is equal to the opening flux $Q_\mathrm{\infty}$
+%% weve made the firm conservation of mass argument. This may not be true if the masses are moving,
+% since the volume may be increasing so more fluid goes in than comes out.
+% however there is a ceiling to how much the volume can increase
 
-We have gathered a collection of relationships on different parameters in the model.
-We fix an initial fluid velocity
+where the flux $Q_\mathrm{out}$ is equal to the opening flux $Q_\mathrm{\infty}$.
+
+We have deduced several results on the velocity of the fluid through different locations in the model,
+however we don't have explicit expressions for either the plate velocities or the fluxes,
+which are the key values in our statements so far.
+
+Recall Bernoulli's equation for a steady flow.
+In order to evaluate an expression for the pressure in a region,
+we need to know the fluid velocity, the body forces, and the local density.
+Fortunately we have assumed incompressibility, so the density $\rho$ is constant,
+and we choose to neglect body forces.
+Along a streamline, we have:
+
+\begin{equation}
+    \begin{aligned}
+        \frac{1}{2}\rho U_0^2 + p_0 &= \rho\mathrm{E} &\text{(lower airway)}\\
+        \frac{1}{2}\rho U_1^2 + p_1 &= \rho\mathrm{E} &\text{(volume $V_1$)}  \\
+        \frac{1}{2}\rho U_2^2 + p_2 &= \rho\mathrm{E} &\text{(volume $V_2$)}  \\
+        \frac{1}{2}\rho U_\infty^2 + p_\infty &= \rho\mathrm{E} &\text{(upper airway)},
+    \end{aligned}
+\end{equation}
+
+where $\mathrm{E}$ is the Bernoulli energy constant on the streamline.
+We can rearrange and obtain explicit expressions for pressure, being
+
+\begin{equation}
+    \begin{aligned}
+        p_0 = \rho\left(\mathrm{E} - \frac{1}{2}U_0^2\right) \\
+        p_1 = \rho\left(\mathrm{E} - \frac{1}{2}U_1^2\right) \\
+        p_2 = \rho\left(\mathrm{E} - \frac{1}{2}U_2^2\right) \\
+        p_\infty = \rho\left(\mathrm{E} - \frac{1}{2}U_\infty^2\right).
+    \end{aligned}
+\end{equation}
+
+In the upper airway we have $p_\infty$ local to the vocal opening,
+hence this is \textit{atmospheric pressure}, which we will write as $\mathrm{p}$
+In the regions of interest, we are concerned with the difference in pressure from atmospheric level,
+hence we express the differences:
+
+\begin{equation}
+    \begin{aligned}
+        \delta p_0 &= \rho\mathrm{E} - \rho\frac{1}{2}U_0^2 - \rho\mathrm{E} + \frac{1}{2}U_\infty^2 = \frac{1}{2}\rho\left(U_\infty^2 - U_0^2\right) \\
+        \delta p_1 &= \frac{1}{2}\rho\left(U_\infty^2 - U_1^2\right) \\
+        \delta p_2 &= \frac{1}{2}\rho\left(U_\infty^2 - U_2^2\right).
+    \end{aligned}
+\end{equation}
+
+%now we're really in a pickle. How can we have atmospheric pressure when we can force pressure?
 
 
 \end{document}
