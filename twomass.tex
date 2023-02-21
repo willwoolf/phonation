@@ -40,7 +40,7 @@ We fix a pressure $p_0$ and velocity $U_0$ local to the lung.
 The formal expression for conservation of mass can be expressed as
 
 \begin{equation}
-    \iiint_V \frac{\partial\rho}{\partial t}dV = \iint_S -\rho \bm{u\cdot n}dS,
+    \iiint_V \frac{\partial\rho}{\partial t}dV = \iint_S -\rho \bm{u\cdot n}~dS,
     \label{eqn:cons_mass_formal}
 \end{equation}
 
@@ -49,7 +49,7 @@ The negative term comes from the convention of using the outer unit normal of a 
 We will refer to the \textit{flux} at $A$, denoted $Q$, being the rate at which mass of fluid is transferred over an area $A$, or formally:
 
 \begin{equation}
-    Q(x) = -\iint_A \rho \bm{u \cdot n}dS
+    Q(x) = -\iint_A \rho \bm{u \cdot n}~dS
 \end{equation}
 
 where $x$ is the position in the dominant direction of the flow, or equivalently $x$ is in the $\mathbf{n}$ direction.
@@ -59,17 +59,17 @@ The integral term is negative because the outer unit normal points in the direct
 We can find the flux $Q_0$, being the flux local to the lung, from the terms $U_0,~p_0$ which are defined in our initial conditions,
 
 \begin{equation}
-    Q(x_0) = -\iint_{A_0} \rho \bm{u}(x_0)\bm{\cdot n}(x_0)dS.
+    Q(x_0) = -\iint_{A_0} \rho \bm{u}(x_0)\bm{\cdot n}(x_0)~dS.
 \end{equation}
 
 Since we have a condition $u(x=x_0) = U_0$, we can write this as
 
 \begin{equation}
-    Q(x_0) = \iint_{A_0} \rho U_0 dS.
+    Q(x_0) = \iint_{A_0} \rho U_0~dS.
 \end{equation}
 
 We have made the assumption of incompressibility in order to write $\rho$ as a constant.
-Since $A_0$ is a cross-section of known area $wh$, and $U_0$ is known, we have
+Since $A_0$ is a cross-section of known area $\mathrm{wh}$, and $U_0$ is known, we have
 
 \begin{equation}
     Q(x_0) = \rho wh U_0
@@ -82,15 +82,12 @@ For example, if more fluid is entering a region than what is leaving, then the v
 We have flux $Q_{in}$ on the entry border of the two mass region, and $Q_{out}$ on the exit,
 with $Q_{mid}$ on the plane in between the masses.
 
-A volume $V_i$ has dimensions $h_i w d$, where $h_i + b_i = h$ for $i=1,2$.
+A volume $V_i$ has dimensions $h_i \mathrm{wd}$, where $h_i + b_i = \mathrm{h}$ for $i=1,2$.
 The height $h_i$ is the only parameter that may vary, since we have granted a plate with position $b_i$ one dimensional motion.
 We will take time derivatives:
 
 \begin{equation}
-    \begin{aligned}
-        V_i &= h_i w d \\
-        \dot{V_i} &= \dot{h_i} w d.
-    \end{aligned}
+    \dot{V_i} = \dot{h_i} w d.
 \end{equation}
 
 Conservation of mass \ref{eqn:cons_mass_formal} in combination with incompressibility tells us that the rate of change of a volume is equal to the rate at which its enclosed mass increases.
@@ -106,17 +103,42 @@ From this we can force an assumption to relate flux around a volume to its rate 
 \end{equation}
 
 Since the lower airway region is fixed,
-the flux $Q_0$ local to the lung is equal to the flux $Q_{in}$ on the boundary of the lower mass,
-and hence it is a known term.
-
-% We want to know the values of Q_mid and Q_out so we can interpolate
-
-
-The formal definition of incompressibility can be expressed as
+the flux $Q_0$ local to the lung is equal to the flux $Q_\mathrm{in}$ on the boundary of the lower mass,
+and hence it is a known term. The fluid velocity $U_\mathrm{in}$ on the flux boundary can be deduced from conservation of mass in the lower airway, i.e.
 
 \begin{equation}
-    \bm{\nabla\cdot u} = 0.
+    U_\mathrm{in} = \frac{Q_\mathrm{in}}{\mathrm{w}h_1}.
+    \label{eqn:twomass_flux_in}
 \end{equation}
+
+However the terms $Q_\mathrm{mid}, Q_\mathrm{out}$ are not immediately known.
+We will make the assumption that the fluid velocities in the respective volumes are determined by the flux,
+similar to the argument of Equation \ref{eqn:twomass_flux_in}:
+
+\begin{equation}
+    \begin{aligned}
+        U_1 &= \frac{1}{\mathrm{w}h_1}\left(\frac{Q_\mathrm{in} + Q_\mathrm{mid}}{2}\right) \\
+        U_2 &= \frac{1}{\mathrm{w}h_2}\left(\frac{Q_\mathrm{mid} + Q_\mathrm{out}}{2}\right).
+        \label{eqn:twomass_velocity_interpolation}
+    \end{aligned}
+\end{equation}
+
+% We want to know the values of Q_mid and Q_out so we can interpolate
+% what goes in must come out.
+
+The regions of the model which represent the upper and lower airways are rigid fixed volumes equal in cross sectional area.
+If mass is conserved, then the velocity $U_0$ and flux $Q_0$ local to the lung are equal to the velocity $U_\infty$ and flux $Q_\infty$ local to the vocal opening.
+Using the same method as in Equation \ref{eqn:twomass_flux_in}, we have
+
+\begin{equation}
+    U_\mathrm{out} = \frac{Q_\mathrm{out}}{\mathrm{w}h_2},
+    \label{eqn:twomass_flux_out}
+\end{equation}
+
+where the flux $Q_\mathrm{out}$ is equal to the opening flux $Q_\mathrm{\infty}$
+
+We have gathered a collection of relationships on different parameters in the model.
+We fix an initial fluid velocity
 
 
 \end{document}
