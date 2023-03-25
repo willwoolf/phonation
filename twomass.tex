@@ -20,6 +20,15 @@
 
 \section{Development of a two-mass model}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{twomass_bothsides.jpeg}
+    \caption{General illustration of the two-mass model. Plates with mass $\mathrm{m_1},\mathrm{m_2}$ are connected to the wall of the channel by springs.
+    The fluid velocity $\bm{u(x)}$ and pressure $p$ are terms we can fix local to the lung.
+    The stiffness coupling between masses provides a horizontal force which we ignore by restricting the masses to one-dimensional motion along the width of the channel.}
+    \label{fig:twomass_bothsides}
+\end{figure}
+
 We will begin to construct a model for phonation involving two stiffness-coupled masses.
 Due to symmetry, we will only consider one side of the channel, 
 We consider a steady flow $\mathbf{u}$ passing through a channel,
@@ -46,7 +55,7 @@ The formal expression for conservation of mass can be expressed as
 
 which can be more formally understood as the rate of change of mass over volume $V$ begin equal to the rate at which fluid is transferred over the volume's surface $S$. 
 The negative term comes from the convention of using the outer unit normal of a closed surface.
-We will refer to the \textit{flux} at $A$, denoted $Q$, being the rate at which mass of fluid is transferred over an area $A$, or formally:
+We will refer to the \textit{mass flux} at $A$, denoted $Q$, being the rate at which mass of fluid is transferred over an area $A$, or formally:
 
 \begin{equation}
     Q(x) = -\iint_A \rho \bm{u \cdot n}~dS
@@ -55,6 +64,16 @@ We will refer to the \textit{flux} at $A$, denoted $Q$, being the rate at which 
 where $x$ is the position in the dominant direction of the flow, or equivalently $x$ is in the $\mathbf{n}$ direction.
 The outer unit normal $\mathbf{n}$ is the vector pointing outwards normal to any cross-sectional area. 
 The integral term is negative because the outer unit normal points in the direction opposite to the flow.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{twomass_fluxpressure.jpeg}
+    \caption{The single side of the model.
+    Flux $Q$ is of interest on the boundaries between masses,
+    and we can use flux to either deduce or assume relationships involving pressure and fluid velocity.
+    }
+    \label{fig:twomass_fluxpressure}
+\end{figure}
 
 We can find the flux $Q_0$, being the flux local to the lung, from the terms $U_0,~p_0$ which are defined in our initial conditions,
 
@@ -154,39 +173,155 @@ Along a streamline, we have:
 
 \begin{equation}
     \begin{aligned}
-        \frac{1}{2}\rho U_0^2 + p_0 &= \rho\mathrm{E} &\text{(lower airway)}\\
-        \frac{1}{2}\rho U_1^2 + p_1 &= \rho\mathrm{E} &\text{(volume $V_1$)}  \\
-        \frac{1}{2}\rho U_2^2 + p_2 &= \rho\mathrm{E} &\text{(volume $V_2$)}  \\
-        \frac{1}{2}\rho U_\infty^2 + p_\infty &= \rho\mathrm{E} &\text{(upper airway)},
+        \frac{1}{2}\rho U_0^2 + \tilde{p}_0 &= \rho\mathrm{E} &\text{(lower airway)}\\
+        \frac{1}{2}\rho U_1^2 + \tilde{p}_1 &= \rho\mathrm{E} &\text{(volume $V_1$)}  \\
+        \frac{1}{2}\rho U_2^2 + \tilde{p}_2 &= \rho\mathrm{E} &\text{(volume $V_2$)}  \\
+        \frac{1}{2}\rho U_\infty^2 + \tilde{p}_\infty &= \rho\mathrm{E} &\text{(upper airway)},
     \end{aligned}
 \end{equation}
 
-where $\mathrm{E}$ is the Bernoulli energy constant on the streamline.
+\noindent where $\mathrm{E}$ is the Bernoulli constant on the streamline.
+We will later discuss the assumption of quasisteady flow in the model,
+which justifies the application of Bernoulli's equation for a steady flow.
 We can rearrange and obtain explicit expressions for pressure, being
 
 \begin{equation}
     \begin{aligned}
-        p_0 = \rho\left(\mathrm{E} - \frac{1}{2}U_0^2\right) \\
-        p_1 = \rho\left(\mathrm{E} - \frac{1}{2}U_1^2\right) \\
-        p_2 = \rho\left(\mathrm{E} - \frac{1}{2}U_2^2\right) \\
-        p_\infty = \rho\left(\mathrm{E} - \frac{1}{2}U_\infty^2\right).
+        \tilde{p}_0 &= \rho\left(\mathrm{E} - \frac{1}{2}U_0^2\right) \\
+        \tilde{p}_1 &= \rho\left(\mathrm{E} - \frac{1}{2}U_1^2\right) \\
+        \tilde{p}_2 &= \rho\left(\mathrm{E} - \frac{1}{2}U_2^2\right) \\
+        \tilde{p}_\infty &= \rho\left(\mathrm{E} - \frac{1}{2}U_\infty^2\right).
     \end{aligned}
 \end{equation}
 
-In the upper airway we have $p_\infty$ local to the vocal opening,
-hence this is \textit{atmospheric pressure}, which we will write as $\mathrm{p}$
+In the upper airway we have $\tilde{p}_\infty$ local to the vocal opening,
+hence this is \textit{atmospheric pressure}, which we will write as \(\mathrm{\tilde{p}}\).
+If we have zero fluid velocity local to the lung, and the fluid is driven by the pressure,
+we have that $\tilde{p}_0 = \rho \mathrm{E}$,
+and if $\tilde{p}_\infty$ is atmospheric pressure, then $\rho(\mathrm{E} - U_\infty^2/2) = 0$
+In combination:
+
+\begin{equation}
+    \tilde{p}_0 = \rho \mathrm{E} = \frac{\rho U_\infty^2}{2}
+\end{equation}
+
+
 In the regions of interest, we are concerned with the difference in pressure from atmospheric level,
-hence we express the differences:
+which are the pressure values we actually wish to compute.
+We express the pressure terms as follows:
 
 \begin{equation}
     \begin{aligned}
-        \delta p_0 &= \rho\mathrm{E} - \rho\frac{1}{2}U_0^2 - \rho\mathrm{E} + \frac{1}{2}U_\infty^2 = \frac{1}{2}\rho\left(U_\infty^2 - U_0^2\right) \\
-        \delta p_1 &= \frac{1}{2}\rho\left(U_\infty^2 - U_1^2\right) \\
-        \delta p_2 &= \frac{1}{2}\rho\left(U_\infty^2 - U_2^2\right).
+        p_0 &= \rho\mathrm{E} - \rho\frac{1}{2}U_0^2 - \rho\mathrm{E} + \frac{1}{2}U_\infty^2 = \frac{1}{2}\rho\left(U_\infty^2 - U_0^2\right) \\
+        p_1 &= \frac{1}{2}\rho\left(U_\infty^2 - U_1^2\right) \\
+        p_2 &= \frac{1}{2}\rho\left(U_\infty^2 - U_2^2\right).
     \end{aligned}
 \end{equation}
 
+\noindent Importantly \(p_0 = \tilde{p}_0\) is still the forcing term.
+
 %now we're really in a pickle. How can we have atmospheric pressure when we can force pressure?
+
+We now impose the assumtion of a quasisteady flow.
+This lets us regard a consistent flux $Q$ throughout the mechanics,
+rather than separate fluxes at different regions of interest.
+Equations \ref{eqn:twomass_flux_in}, \ref{eqn:twomass_flux_out} give us an expression for velocity in terms of flux and the channel dimensions,
+which we can generalise outside the region of interest:
+
+\begin{equation}
+    U = \frac{Q}{\mathrm{wh}},
+\end{equation}
+
+\noindent and in a region of interest we use the variable channel height instead
+
+\begin{equation}
+    U_i = \frac{Q}{\mathrm{w}h_i}
+\end{equation}
+
+\noindent for \(i=1,2\).
+
+We now have a construction for pressure in terms of the plate displacement, thus can write the pressure-induced force on the plate.
+Given \(i=1,2:\)
+
+\begin{equation}
+    \begin{aligned}
+        p_i &= \rho\left(\mathrm{E} - \frac{1}{2}U_i^2 \right) \\
+        &= \frac{1}{2}\rho\left(U_\infty^2 - U_i^2\right) \\
+        &= \frac{1}{2}\rho\left( \left(\frac{Q}{\mathrm{wh}}\right)^2 - \left(\frac{Q}{\mathrm{w}h_i}\right)^2 \right) \\
+        &= \frac{\rho Q^2}{\mathrm{w}}\left( \frac{1}{\mathrm{h}^2} - \frac{1}{h_i^2} \right)
+    \end{aligned}
+    \label{eqn:twomass_pressureterm}
+\end{equation}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{twomass_springs.jpeg}
+    \caption
+    {
+        Illustration of the lengths $b_1,b_2$ and the springs connected to the masses.
+        The springs connected to the wall act as support,
+        preventing the Bernoulli pressure drop from forcing the walls into closure similarly to the single mass model.
+        The coupling spring provides a stiffness such that the two masses can be thought of as one body consisting of two components.
+        The springs allow us to deduce forces acting on the masses which stimulate motion by Newton's second law. 
+    }
+    \label{fig:twomass_springs}
+\end{figure}
+
+We use linear elastic Hooke springs to model the stiffness of the walls.
+Support springs are similar to the original model we have considered,
+however we now introduce stiffness coupling between two separate walls.
+A plate $i = 1,2$ is connected to the wall by a stiffness spring with constant $k_i$.
+The coupling spring has constant $k_s$, and the resting equilibrium positions of all springs are at $0$.
+
+The forces on a plate with position $b_i$ provide the equation of motion by Newton's second law:
+
+
+
+\section{List of Equations}
+
+We concern the quantities of the model and the relationships between them. The ``knowns'':
+
+\begin{itemize}
+    \item co-ordinates $x$ (positive direction towards upper airways, origin $0$ at the lung), $y$ (positive direction of motion of plates $b_i$), $z$ (depth-wise extrusion of the model)
+    \item channel cross-sectional dimensions $\mathrm{w,h}$,
+    \item tract length for each volume of interest $d$,
+    \item surface boundary normal vector $\mathbf{n}$,
+    \item fluid density $\rho$, uniform in an incompressible fluid,
+    \item fluid pressure $p_0(t)$ local to the lung (the point which we call $x=0$ the origin), which we can force,
+    \item atmospheric pressure $p_\infty = 0$ outside the vocal opening.
+\end{itemize}
+
+The ``unknowns'':
+
+\begin{itemize}
+    \item fluid velocity field $\mathbf{u}(x,y,z,t)$, %which may not be a function of z
+    \item fluid velocities $U_0, U_1, U_2, U_\infty$,
+    \item fluid fluxes $Q_0, Q_1, Q_2, Q_\infty$ in the continuous regions and $Q_\mathrm{in}, Q_\mathrm{mid}, Q_\mathrm{out}$ on the boundaries of the regions of interest,
+    \item fluid pressures $p_1, p_2, p_\infty$,
+    \item channel wall displacements $b_1, b_2$ and corresponding fluid volume heights $h_1, h_2$,
+    \item volumes of variable size $V_1, V_2$,
+    \item channel cross sectional areas $A_0, A_1, A_2, A_\infty$
+\end{itemize}
+
+To clarify, cross-sectional area can be denoted as a function of $x$,
+i.e. domain of $x$ can be split into $\{0,1,2,\infty\}$ partitions of the vocal channel.
+The equations:
+
+\begin{align}
+    \mathbf{n} &= -\mathbf{e}_x \tag{normal vector everywhere} \\
+    incompressibility
+    conservation of mass
+    V_1 &= \mathrm{wd}h_1,~ V_2 = \mathrm{wd}h_2 \tag{volume dimensions} \\
+    A_0 &= \mathrm{wh},  A_1 = \mathrm{w}h_1, A_2 = \mathrm{w}h_2 \tag{cross-sectional areas} \\
+    Q_n &= \iint_{A_n}\mathbf{u}(x)\cdot (-\mathbf{n})~dS \tag{everywhere flux per unit mass} \\
+    Q_\mathrm{in} &= Q_0, Q_\mathrm{out} = Q_\infty \tag{flux in consistent regions} \\
+    U_\mathrm{in} &= \frac{Q_\mathrm{in}}{\mathrm{w}h_1} \\
+    U_\mathrm{out} &= \frac{Q_\mathrm{out}}{\mathrm{w}h_2} \tag{velocity on the boundaries} \\
+    U_1 &= \frac{1}{\mathrm{w}h_1}\left(\frac{Q_\mathrm{in} + Q_\mathrm{mid}}{2}\right) \\
+    U_2 &= \frac{1}{\mathrm{w}h_2}\left(\frac{Q_\mathrm{mid} + Q_\mathrm{out}}{2}\right) \tag{interpolated velocity from flux}\\
+    U_0 &= 0 \tag{force velocity local to lung} \\
+    p_0(t) &= \rho E = \frac{1}{2}U_\infty^2 \tag{consequence of assumptions and atmospheric pressure}
+\end{align}
 
 
 \end{document}
