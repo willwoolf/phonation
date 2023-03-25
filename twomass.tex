@@ -248,7 +248,7 @@ Given \(i=1,2:\)
         p_i &= \rho\left(\mathrm{E} - \frac{1}{2}U_i^2 \right) \\
         &= \frac{1}{2}\rho\left(U_\infty^2 - U_i^2\right) \\
         &= \frac{1}{2}\rho\left( \left(\frac{Q}{\mathrm{wh}}\right)^2 - \left(\frac{Q}{\mathrm{w}h_i}\right)^2 \right) \\
-        &= \frac{\rho Q^2}{\mathrm{w}}\left( \frac{1}{\mathrm{h}^2} - \frac{1}{h_i^2} \right)
+        &= \frac{\rho Q^2}{\mathrm{w}^2}\left( \frac{1}{\mathrm{h}^2} - \frac{1}{h_i^2} \right)
     \end{aligned}
     \label{eqn:twomass_pressureterm}
 \end{equation}
@@ -270,12 +270,52 @@ Given \(i=1,2:\)
 We use linear elastic Hooke springs to model the stiffness of the walls.
 Support springs are similar to the original model we have considered,
 however we now introduce stiffness coupling between two separate walls.
-A plate $i = 1,2$ is connected to the wall by a stiffness spring with constant $k_i$.
-The coupling spring has constant $k_s$, and the resting equilibrium positions of all springs are at $0$.
+A plate $i = 1,2$ is connected to the wall by a stiffness spring with constant ${k}_i$.
+The coupling spring has constant $\mathrm{k}_s$, and the resting equilibrium positions of all springs are at $0$.
 
 The forces on a plate with position $b_i$ provide the equation of motion by Newton's second law:
 
+\begin{equation}
+    \mathrm{m}_i\frac{\mathrm{d}^2 b_i}{\mathrm{d}t^2} = -F_\mathrm{stiffness} - F_\mathrm{pressure} + F_\mathrm{coupling}
+\end{equation}
 
+\noindent for $i=1,2$. In full:
+
+\begin{equation}
+    \begin{aligned}
+        \mathrm{m}_1\frac{\mathrm{d}^2 b_1}{\mathrm{d}t^2} &= -\mathrm{k}_1(b_1 - \mathrm{b}*) - \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{(\mathrm{h}-b_1)^2} \right) + \mathrm{k}_s(b_2-b_1) \\
+        \mathrm{m}_2\frac{\mathrm{d}^2 b_2}{\mathrm{d}t^2} &= -\mathrm{k}_1(b_2 - \mathrm{b}*) - \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{(\mathrm{h}-b_2)^2} \right) + \mathrm{k}_s(b_1-b_2)
+    \end{aligned}
+\end{equation}
+
+\noindent where $b*$ is the resting position of both masses. It will be easier to make $h$ the variable of interest, since closure at $h=0$ is identifiable,
+and we will impose the resting position to be $h* = \mathrm{h}$. Recall the definition $b_i + h_i = \mathrm{h}$. The conversion yields
+
+\begin{equation}
+    \begin{aligned}
+        \mathrm{m}_1\frac{\mathrm{d}^2 h_1}{\mathrm{d}t^2} &= -\mathrm{k}_1(h_1 - \mathrm{h}) + \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{h_1^2} \right) + \mathrm{k}_s(h_2-h_1) \\
+        \mathrm{m}_2\frac{\mathrm{d}^2 h_2}{\mathrm{d}t^2} &= -\mathrm{k}_2(h_2 - \mathrm{h}) + \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{h_2^2} \right) + \mathrm{k}_s(h_1-h_2).
+    \end{aligned}
+\end{equation}
+
+We introduce the following parameters
+
+\begin{equation*}
+    \begin{aligned}
+        h_1 = \mathrm{h}\tilde{h}_1,~h_2 = \mathrm{h}\tilde{h}_2,~t=\sqrt{\frac{\mathrm{m}_1}{\mathrm{k}_1}}\tilde{t}, \\
+        \alpha = \frac{\mathrm{m}_2}{\mathrm{m}_1},~\lambda = \frac{\mathrm{k}_2}{\mathrm{k}_1},~\omega = \frac{\mathrm{k}_s}{\mathrm{k}_1} \\
+        \beta = \frac{\mathrm{wd}\rho U_\infty^2}{2\mathrm{k}_1\mathrm{h}}
+    \end{aligned}
+\end{equation*}
+
+and the coupled fourth-order system of differential equations can be reduced to the nondimensional problem:
+
+\begin{equation}
+    \begin{aligned}
+        \frac{\mathrm{d}^2 \tilde{h}_1}{\mathrm{d}\tilde{t}^2} &= 1 - \tilde{h}_1 + \beta \left( 1 - \frac{1}{\tilde{h}_1^2} \right) + \omega(\tilde{h}_2-\tilde{h}_1) \\
+        \alpha\frac{\mathrm{d}^2 \tilde{h}_2}{\mathrm{d}\tilde{t}^2} &= \lambda(1 - \tilde{h}_2) + \beta \left( 1 - \frac{1}{\tilde{h}_2^2} \right) + \omega(\tilde{h}_1-\tilde{h}_2).
+    \end{aligned}
+\end{equation}
 
 \section{List of Equations}
 
