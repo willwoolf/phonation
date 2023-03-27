@@ -315,7 +315,82 @@ and the coupled fourth-order system of differential equations can be reduced to 
         \frac{\mathrm{d}^2 \tilde{h}_1}{\mathrm{d}\tilde{t}^2} &= 1 - \tilde{h}_1 + \beta \left( 1 - \frac{1}{\tilde{h}_1^2} \right) + \omega(\tilde{h}_2-\tilde{h}_1) \\
         \alpha\frac{\mathrm{d}^2 \tilde{h}_2}{\mathrm{d}\tilde{t}^2} &= \lambda(1 - \tilde{h}_2) + \beta \left( 1 - \frac{1}{\tilde{h}_2^2} \right) + \omega(\tilde{h}_1-\tilde{h}_2).
     \end{aligned}
+    \label{eqn:twomass_coupled_system}
 \end{equation}
+
+The two mass generalises the concepts from the original model we investigated,
+and maintains a lot of important features.
+Before investigating the behaviour of the coupled system of equations,
+we will verify that the new model can reproduce behaviours we have already seen.
+Namely, if we were to configure the problem as two equal masses with the same stiffness,
+and a strong coupling between them,
+then we would expect the oscillating behaviour of the original model to be replicated.
+We will then reduce the stiffness coupling and introduce different lateral stiffnesses for each mass,
+investigating how the oscillating components affect one another in a coupled system.
+Finally if we reduce the coupling to a negligible amount,
+we would then expect the masses to behave near independently.
+
+We study the behaviour of two strongly coupled masses of equal stiffness, represented by \( \alpha = 1,~\lambda = 1,~\omega \gggtr 1\).
+The coupled system of equations in \ref{eqn:twomass_coupled_system} take the same form for each.
+Similarly to the single-mass model, we can use the existence of stationary equilibria to determine the potential for oscillations to occur.
+Imposing the existence of a stationary equilibrium solution \(h_1 = h_2 = x\) imposes that
+\begin{equation}
+    1 - x + \beta\left(
+        1 - \frac{1}{x^2}
+    \right) = 0
+\end{equation}
+and thus the stable equilibria exist at the positive zeroes of the function we define:
+
+\begin{equation}
+    f(h) = 1 - h + \beta \left( 1 - \frac{1}{h^2} \right).
+    \label{eqn:twomass_existence_of_equilibria}
+\end{equation}
+Existence of zeroes is equivalent to the local maximum, beloning at \(h = \left( 2\beta \right)^{1/3}\) being positive-valued such that the zeroes exist,
+which can be written as
+
+\begin{equation}
+    1 - \left(2\beta\right)^\frac{1}{3} + \beta\left( 1 - (2\beta)^\frac{-2}{3} \right) \ge 0,
+    \label{eqn:twomass_zeroes_equal_stiffness}
+\end{equation}
+with equality if there is only one equilibrium solution.
+If the initial conditions for \(h_1, h_2\) set their individual positions between the two equilibria solutions,
+provided they exist,
+then we observe coupled oscillations.
+An important feature is that for \(\lambda = 1\), there exists a stationary stable equilibrium solution.
+We will see later that this case is not satisfied elsewhere.
+
+The equilibria, being the solutions of Equation \ref{eqn:twomass_existence_of_equilibria}, are identical for both components of the system of differential equations,
+and thus we can discuss the solutions to a single equation without loss of generality.
+Assuming there exist two equilibria \(x,y\) where \(x < y\), 
+we can construct the Jacobian and determine the stability local to these equilibria.
+
+\dots
+%jacobian stability eigenvalue analysis
+
+We now develop our analysis of the two mass model by examining behaviours outside of the parameter space.
+First, we will retain the stiffness coupling \(\omega \gggtr 1\),
+but consider the cases induced by \(\lambda \ne 1\), which are where the relative stiffnesses for each component are not the same.
+We determine the equilibria instead as the solutions of two equations for each component, being:
+
+\begin{equation}
+    \begin{aligned}
+        f_1(h) &= 1 - h + \beta\left( 1-\frac{1}{h^2} \right) \\
+        f_2(h) &= \lambda(1-h) + \beta\left( 1-\frac{1}{h^2} \right).
+    \end{aligned}
+\end{equation}
+The existence of equilibrium solutions is determined by two assumptions, being
+
+\begin{align*}
+    f_1 \left( (2\beta)^\frac{1}{3} \right) \ge 0, \\
+    f_2 \left( \left( \frac{2\beta}{\lambda} \right)^\frac{1}{3} \right) \ge 0,
+\end{align*}
+where if both are satisfied, then each mass has two points in space where it belongs to a state of stationary equilibrium.
+It is important to note the assumption that \(h_1=h_2\) which we made when exploring earlier cases,
+which is no longer a valid assumption to make. 
+Therefore, we cannot neglect the stiffness coupling term,
+which makes it much harder to determine potential points of equilibrium of the system.
+
+%more rigorous understanding of equilibrium solutions of the system.
 
 \section{List of Equations}
 
