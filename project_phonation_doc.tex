@@ -418,9 +418,9 @@ Recall the reduction of Equation \ref{eqn:master} to a first order system in Equ
 We will rewrite the reduction to a first order system, using the defined $f(b)$ function we are familiar with.
 
 \begin{align}
-    \frac{db}{dt}       & = \dot{b} \\
-    \frac{d\dot{b}}{dt} & = f(b)
-    \label{eqn:first_order_modified}   %TODO: Change variables, we don't like this it's too confusing
+    \frac{\mathrm{d}b}{\mathrm{d}t}       & = p \\
+    \frac{\mathrm{d}p}{\mathrm{d}t} & = f(b)
+    \label{eqn:first_order_modified}
 \end{align}
 
 We can construct an approximation for the function $f(b)$ about a point $b_0$ using the Taylor series expansion, of the form
@@ -438,8 +438,8 @@ the terms succeeding it are far smaller in magnitude.
 With the Taylor series applied, propose the approximation about a point $b_0$
 
 \begin{align}
-    \frac{db}{dt}       & = \dot{b}         \\
-    \frac{d\dot{b}}{dt} & = (b-b_0)f'(b_0).
+    \frac{db}{dt}       & = p         \\
+    \frac{dp}{dt} & = (b-b_0)f'(b_0).
     \label{eqn:first_order_approximated}
 \end{align}
 
@@ -449,7 +449,7 @@ If we suppose a substitution of the form
 
 \begin{align}
     X & = b - b_0  \\
-    Y & = \dot{b},
+    Y & = p,
 \end{align}
 
 then $X$ represents the vicinity of $b$ to $b_0$, which is small,
@@ -457,8 +457,8 @@ and $Y$ is a straight substitution of the velocity value $\dot{b}$.
 We can rewrite the linear system again, this time using our substituted values
 
 \begin{align}
-    \frac{dX}{dt} & = \frac{d}{dt}\left(b-b_0\right) = \dot{b} \\
-    \frac{dY}{dt} & = \frac{d\dot{b}}{dt} = (b-b_0)f'(b_0)
+    \frac{dX}{dt} & = \frac{d}{dt}\left(b-b_0\right) = p \\
+    \frac{dY}{dt} & = \frac{dp}{dt} = (b-b_0)f'(b_0)
 \end{align}
 
 which can be expressed as the matrix equation
