@@ -423,7 +423,7 @@ We will rewrite the reduction to a first order system, using the defined $f(b)$ 
     \label{eqn:first_order_modified}
 \end{align}
 
-We can construct an approximation for the function $f(b)$ about a point $b_0$ using the Taylor series expansion, of the form
+We can construct an approximation for the function $f(b)$ about a point $b_0$ using the Taylor series expansion, assuming differentiability on the variable $b$, of the form
 
 \begin{equation}
     f(b) = f(b_0) + (b-b_0)f'(b_0) + \frac{(b-b_0)^2 f''(b_0)}{2!} + \mathellipsis = \sum_{k=0}^\infty\frac{(b-b_0)^{k}f^{(k)}(b_0)}{k!}
@@ -519,8 +519,8 @@ then we can define points in the phase-plane that are close to these critical po
 where $\delta\mathbf{u}$ is small.
 Write $\mathbf{u + \delta u} = (x_i + \delta x_i, y_i + \delta y_i)^T$.
 In this case, we have that
-
-\begin{align}
+\begin{equation}
+\begin{aligned}
     \frac{d}{dt} \begin{pmatrix}
         x_i + \delta x_i\\
         y_i + \delta y_i
@@ -548,8 +548,9 @@ In this case, we have that
         \delta y_i \\
         f'(b_0) \delta x_i
     \end{pmatrix}.
-    \label{eqn:matrix_eigenvectors_vicinity}
-\end{align}
+    \label{eqn:matrix_eigenvectors_vicinity} %probably remove this whole thing
+\end{aligned}
+\end{equation}
 
 We have assumed in Equation \ref{eqn:matrix_eigenvectors_vicinity} that $\delta u$ is not an eigenvector.
 Instead we have considered only that the matrix equation holds,
@@ -575,7 +576,7 @@ We will first consider a range of behaviours exhibited by the model with the fix
 as used in sufigures A and B of Figure \ref{fig:phaseportrait_compare}.
 Figure \ref{fig:phaseportrait_oscillations} is a plot showing all families of curves in the phase plane for these parameters.
 %begin{dodgy}
-Under the notion of topological equivalence, we can see there are four types of curve represented.
+We can see there are four types of curve represented.
 Curves that cross the horizontal axis to the left of the point $b_1$ represent the plate travelling and accelerating (negative velocity as the plate travels in the non-positive direction) immediately to closure.
 Closed loops within the enclosed region are oscillations that continue indefinitely.
 Curves to the right of the closed loops represent the plate also travelling towards closure,
@@ -587,9 +588,15 @@ the solution fails to form a closed loop that returns to its start,
 due to the difficult behaviour of the ODE when approaching the critical point to near-exact precision.
 Instead, this loop is shown to slightly increment the return position positively when an oscillation has been completed.
 The stationary point at $b_2$ is the oscillation with no energy,
-which is topologically equivalent to the other closed loops.
-This is the oscillation with no energy,
-which is topologically equivalent to all other loops. 
+which is similar to the other closed loops.
+
+We will compute eigenvalues with the equilibria to four significant figures, taking \(b_1 = 0.1795\) and \(b_2 = 0.7659\).
+We are interested in the eigenvalues of \ref{eqn:first_order_approximated_substituted_matrix}.
+An eigenvalue is determined by the characteristic polynomial \(\lambda^2 - f'(b_0) = 0\).
+At \(b_1\) we have roots at \(\lambda = \pm 2.4371\).
+At \(b_2\) we have roots at \(\lambda = \pm 0.9544 i\).
+The equilibrium at $b_1$ has entirely real eigenvalues, while the eigenvalues of the equilibrium at $b_2$ are entirely imaginary.
+Interesting...
 
 \subsection{Comparison to analytical results}
 
@@ -608,7 +615,8 @@ Hence the range of zeroes to verify results should be the solutions to the equat
 
 The value $b_1$ is, trivially, the minimal positive zero of $f(b)$ which we have already computed to be $b_1 \approx 0.18$.
 We are more interested in whether or not the other end point of the interval is consistent.
-Recall Equation \ref{eqn:osc_condition}
+Recall Equation \ref{eqn:osc_condition}, in this case we can find the kinetic energy curve takes this value on the optimal intersection and we get the result we want! %this sentence is not meant to stay
+\dots
 
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
