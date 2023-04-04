@@ -187,6 +187,12 @@ we can produce a plot of the behaviour of $f(b)$ against $b$,
 and since the equation is autonomous, this behaviour is not affected by position in time.
 Figure \ref{fig:acc_b_plot} shows a plot of $f(b)= 1 - q - b - \mu q^2/2b^2$ against $b$.
 
+We will introduce the concept of equilibrium solutions of the ODE,
+being fixed-point solutions that tell us a lot of information about the behaviour of the model.
+For example, later on we will construct an approximation to the ODE close to an equilibrium solution,
+and this approximation will be linear.
+An equilibrium solution is a zero of the function \(f(b)\), since all time derivatives of \(b(t)\) are zero if \(b\) is fixed.
+
 This plot allows us to deduce some intuition about the behaviour of $b$.
 At a point $b=b_0$, the function $f(b_0)$ is equal to the outward acceleration of the plate.
 We can see that $f$ tends towards negative infinity both as $b\rightarrow 0$ and as $b\rightarrow\infty$,
@@ -271,6 +277,8 @@ Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ an example which the
 	\label{fig:param_space}
 \end{figure}
 
+%TODO: Remove this figure. Replace with a simpler plot of the equilibria converging.
+
 Recall the result obtained in Equation \ref{eqn:osc_condition}.
 We can produce a graph (see Figure \ref{fig:param_space}) where $\{\mu, q\}$ is the basis for the plane, and plot the distance between points.
 Note that, by the properties of the derivation of the model,
@@ -311,6 +319,9 @@ The phase-portrait is the vector space spanned by the vectors $b$ and $\dot{b}=d
 We use phase-portrait representation as an alternative visualisation of the behaviour of motion. If a variable $x$ is governed by an ODE,
 we plot its behaviour over time where the different axes represent velocity $dx/dt$ against position $x$,
 rather than position against time.
+
+The phase-portrait is a useful method of representation for problems in dynamical systems,
+since an ODE or system of ODEs can be characterised by the locations and properties of its stationary equilibria.
 
 This alternative approach allows us to construct new visualisations of paths taken by the modelled plate.
 Paths in phase-plane representation have direct correspondence to plots in position against time.
@@ -477,7 +488,30 @@ which can be expressed as the matrix equation
     \label{eqn:first_order_approximated_substituted_matrix}
 \end{equation}
 
+This is a Jacobian matrix for the ODE. The linearisation is of the form
+
+\begin{align*}
+    \frac{\mathrm{d}X}{\mathrm{d}t} &= g_1(X,Y) = Y \\
+    \frac{\mathrm{d}Y}{\mathrm{d}t} &= g_2(X,Y) = Xf'(b_0) 
+\end{align*}
+
+to represent the linear approximation of the ODE at an equilibrium \(b_0\). Then the Jacobian is the matrix of first order derivatives of X and Y,
+
+\begin{equation}
+    \begin{bmatrix}
+        \frac{\partial g_1}{\partial X}(b_0) & \frac{\partial g_1}{\partial Y}(b_0) \\
+        \frac{\partial g_2}{\partial X}(b_0) & \frac{\partial g_2}{\partial Y}(b_0) 
+    \end{bmatrix} = \begin{bmatrix}
+        0 & 1 \\
+        f'(b_0) & 0
+    \end{bmatrix},
+\end{equation}
+
+which matches Equation \ref{eqn:first_order_approximated_substituted_matrix}.
+
 % discuss the implications of this analysis and the matrix eigenvectors
+
+% could get rid of this whole next chunk
 
 The implications of the matrix model allow us to perform linear system analysis local to the critical points $b_0$ satisfying $f(b_0) = 0.$
 Let $\mathbf{u}=(x_i,y_i)^T$ be a vector denoting information on the plate local to $b_0$,
@@ -590,7 +624,7 @@ Instead, this loop is shown to slightly increment the return position positively
 The stationary point at $b_2$ is the oscillation with no energy,
 which is similar to the other closed loops.
 
-We will compute eigenvalues with the equilibria to four significant figures, taking \(b_1 = 0.1795\) and \(b_2 = 0.7659\).
+We will compute eigenvalues of the equilibria with data to four significant figures, taking \(b_1 = 0.1795\) and \(b_2 = 0.7659\).
 We are interested in the eigenvalues of \ref{eqn:first_order_approximated_substituted_matrix}.
 An eigenvalue is determined by the characteristic polynomial \(\lambda^2 - f'(b_0) = 0\).
 At \(b_1\) we have roots at \(\lambda = \pm 2.4371\).
