@@ -1,0 +1,110 @@
+PROJECT PLAN - PHONATION
+
+Entire content:
+
+SECTION 1 - INTRODUCTION
+    Concept of phonation
+    Literature Review
+    Relevant methods of mathematical modelling
+    Principles of fluid mechanics
+        plug flow approximations and their assumptions, steady flows, Navier-Stokes equations
+    Principles of non-linear dynamics
+        quasiperiodic motion vs chaos
+    Principles of dynamical systems
+        representations of solutions, such as the phase portrait
+
+SECTION 2 - SINGLE MASS MODEL
+    Attempting to solve a nonlinear ODE - lack of general solutions
+    Concept of equilibrium solutions
+    Finding equilibrium solutions
+    The phase portrait and the concept of dynamical systems
+    Observing behaviours in a case with fixed parameters
+        oscillations about the steady equilibrium and behaviours in proximity of the unsteady point
+    Finding the stability of equilibrium solutions
+        eigenvalues and eigenvectors of the Jacobian
+    Computing results
+        oscillations about the steady point
+        divergence in the proximity of the unsteady point
+        bifurcation of the equlibrium points as we change a parameter
+        plotting the complex eigenvalues as the equilibria converge
+
+SECTION 3 - TWO MASS MODEL
+    Formulating a two mass model from principles of fluid and solid mechanics. Making assumptions.
+    Nondimensionalisation.
+    Strong stiffness coupling.
+        Replicating the single mass model
+    Weak coupling leading to independent motion.
+    Intermediate coupling, not <<1 and also not >>1, from here on out
+        a new approach to finding equilibrium solutions by computation
+        eigenvalues of the equilibria and thus their stability
+        existence and convergence of equilibrium solutions as their parameters change
+    Oscillations and Closure
+    Concepts in nonlinear dynamics
+        interpretation of quasiperiodic motion of an individual object
+        poincare sections in the phase portrait
+        representations of quasiperiodic motions
+    Results
+        equilibrium solutions
+        quasiperiodic motion
+        closure
+        apparent chaotic state and sudden convergence to oscillation about the equilibrium-point couple
+    Verifying results
+        maintaining the energy constant in integration
+        convergence of error as we increase the tolerance
+    Voiced sounds
+        .wav renders of all included results available at repository
+        Fourier spectrum analysis
+
+SECTION 4 - REVIEW AND IMPROVEMENTS
+    Damped motion
+    Nonlinear elasticity
+    Unsteady flow
+        steady bernoulli??
+        constant flux???
+    Developed geometry
+
+SECTION 5 - CONCLUSION
+    The following in any order
+
+    Review of the results of both models
+    Review of the principles of phonation
+    The observed characteristics of phonation
+    The principles of mechanics we used to build the characteristic models
+    
+
+
+
+
+
+
+
+Prior provisional plan:
+
+Structure:
+INTRODUCTION
+    Motivations, Topics, Applications
+SECTION 1 - BREATHING
+    ODE model from Theory and Measurements of Snores
+        deriving the ode ODE from the model
+        analytic evaluation of the ODE
+        numerical methods
+    Channel model
+        introduction of fluid mechanics
+        deriving a slender channel plug flow model
+        apologising for approximations
+    Complete 2D Flow model
+        analysis
+        numerics
+SECTION 1 to be completed before DECEMBER 16 2022
+
+SECTION 2 - OSCILLATIONS IN THE LARYNX
+    Induced harmonic motion in the vocal folds
+    Reverberation in the air fluid flow
+    
+
+SECTION 3 - A SIMPLE MODEL OF PHONATION
+
+
+
+SECTION 4 - AN ADVANCED MODEL OF PHONATION
+    
