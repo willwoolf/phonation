@@ -21,6 +21,7 @@ SECTION 2 - SINGLE MASS MODEL
     Observing behaviours in a case with fixed parameters
         oscillations about the steady equilibrium and behaviours in proximity of the unsteady point
     Finding the stability of equilibrium solutions
+        linearisation
         eigenvalues and eigenvectors of the Jacobian
     Computing results
         oscillations about the steady point
