@@ -334,6 +334,26 @@ we would then expect the masses to behave near independently.
 
 \subsection{Strong coupling}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_equal_coupleosc.eps}
+    \caption{Coupled oscillations under parameters \((1, 1, 3, 20)\) and initial conditions \(h_1 = 1.2, h_2 = 3.59\),
+    with equilibrium positions \(1\) and \(3.7913\). The pair of masses, forced into different initial positions,
+    equioscillate about each other rapidly, while following a dominant oscillation path.}
+    \label{fig:twomass_dominant_osc}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{twomass_coupling_pillowplot}
+    \caption{
+        Plot of opposing displacements ($h_2$ against $h_1$). The motion is constrained within a fixed region,
+        however it is quasiperiodic since the oscillations will, given infinite time, fill the entire illustrated area.
+        Important parameters are \(\omega = 10, \lambda = 0.8\) so the stiffnesses are not equal and the masses are strongly constrained together.
+    }
+    \label{fig:twomass_quasiperiodic}
+\end{figure} %MOVE THIS!!!!!
+
 We study the behaviour of two strongly coupled masses of equal stiffness, represented by \( \alpha = 1,~\lambda = 1,~\omega \gggtr 1\).
 The coupled system of equations in \ref{eqn:twomass_coupled_system} take the same form for each.
 Similarly to the single-mass model, we can use the existence of stationary equilibria to determine the potential for oscillations to occur.
@@ -351,7 +371,6 @@ The stable equilibria exist at the positive zeroes of the function we define:
 \end{equation}
 Existence of zeroes is equivalent to the local maximum, beloning at \(h = \left( 2\beta \right)^{1/3}\) being positive-valued such that the zeroes exist,
 which can be written as
-
 \begin{equation}
     1 - \left(2\beta\right)^\frac{1}{3} + \beta\left( 1 - (2\beta)^\frac{-2}{3} \right) \ge 0,
     \label{eqn:twomass_zeroes_equal_stiffness}
@@ -365,29 +384,8 @@ This is satisfied for all positive $\beta>0$ and has equality at $\beta = 0.5$.
 If the initial conditions for \(h_1, h_2\) set their individual positions between the two equilibrium solutions,
 provided they exist,
 then we observe coupled oscillations as in Figure \ref{fig:twomass_dominant_osc}.
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/twomass_equal_coupleosc.eps}
-    \caption{Coupled oscillations under parameters \((1, 1, 3, 20)\) and initial conditions \(h_1 = 1.2, h_2 = 3.59\),
-    with equilibrium positions \(1\) and \(3.7913\). The pair of masses, forced into different initial positions,
-    equioscillate about each other rapidly, while following a dominant oscillation path.}
-    \label{fig:twomass_dominant_osc}
-\end{figure}
-
 An important feature is that for \(\lambda = 1\), there exists a stationary stable equilibrium solution.
 We will see later that this case is not satisfied elsewhere. %or is it
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.75\linewidth]{twomass_coupling_pillowplot}
-    \caption{
-        Plot of opposing displacements ($h_2$ against $h_1$). The motion is constrained within a fixed region,
-        however it is quasiperiodic since the oscillations will, given infinite time, fill the entire illustrated area.
-        Important parameters are \(\omega = 10, \lambda = 0.8\) so the stiffnesses are not equal and the masses are strongly constrained together.
-    }
-    \label{fig:twomass_quasiperiodic}
-\end{figure} %MOVE THIS!!!!!
-
 The equilibria, being the solutions of Equation \ref{eqn:twomass_existence_of_equilibria}, are identical for both components of the system of differential equations,
 provided the parameters satisfy \(\alpha = 1, \lambda = 1, \omega \gggtr 1\) in order to model two strongly coupled masses.
 This allows us to discuss the solutions to a single equation without loss of generality.
@@ -485,21 +483,19 @@ We can see in figure \ref{fig:twomass_independent} that this is mostly the case,
 However the oscillations converge, gradually decreasing in amplitude and increasing in wavelength.
 
 
-\subsection{Intermediate coupling force}
+\subsection{Intermediate coupling force, equilibria}
 
 In general, we observe quasiperiodic oscillating motion of the masses.
-We can break the behaviours down into three distinct categories, being
-\begin{enumerate}
-    \item oscillating indefinitely,
-    \item stationary equilibrium,
-    \item closure.
-\end{enumerate} 
-Figure \ref{fig:twomass_quasiperiodic} demonstrates the indefinite oscillations. 
+We will clarify the behaviours that we would expect the coupled system to exhibit.
+Firstly, the masses may oscillate indefinitely within a bounded region.
+A trivial subclass of this behaviour would be the masses resting in a stationary equilibrium.
+Alternatively, we could experience closure, with or without oscillations beforehand.
+
+Figure \ref{fig:twomass_quasiperiodic} demonstrates indefinite oscillations under a high coupling force. 
 The borders of the shape accommodate the restrictions of the coupling force,
 and the individual stiffness of the masses.
 
-
-We consider the equilibria instead to be the solutions of two equations for each component, being:
+We would expect the equilibria instead to be the solutions of two equations for each component, being:
 
 \begin{equation}
     \begin{aligned}
@@ -508,13 +504,13 @@ We consider the equilibria instead to be the solutions of two equations for each
     \end{aligned}
     \label{eqn:twomass_coupled_equilibria_uncoupled}
 \end{equation}
-The existence of equilibrium solutions is determined by two assumptions, being
+The existence of equilibrium solutions is expected to be determined by two assumptions, being
 \begin{align*}
     f_1 \left( (2\beta)^\frac{1}{3} \right) &\ge 0, \\
     f_2 \left( \left( \frac{2\beta}{\lambda} \right)^\frac{1}{3} \right) &\ge 0,
 \end{align*}
 where if both are satisfied, then each mass has two points in space where it belongs to a state of stationary equilibrium.
-It is important to note the assumption that \(h_1=h_2\) which we made when exploring earlier cases,
+However, note the assumption that \(h_1=h_2\) which we made when exploring earlier cases,
 which is no longer a valid assumption to make. 
 Therefore, we cannot neglect the stiffness coupling term,
 which makes it much harder to determine potential points of equilibrium of the system.
@@ -570,9 +566,16 @@ On inspection, as the extrema of the curves approach each other,
 the off-diagonal equilibria annihilate.
 
 
+%\subsection{Oscillations and closure}
 
 
+%\subsection{Analysing a non-linear dynamics problem}
 
+
+%\subsection{Results and their verifications}
+
+
+%\subsection{The motivation: voiced sounds}
 
 
 \end{document}
