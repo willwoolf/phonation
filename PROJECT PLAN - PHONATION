@@ -109,3 +109,79 @@ SECTION 3 - A SIMPLE MODEL OF PHONATION
 
 SECTION 4 - AN ADVANCED MODEL OF PHONATION
     
+
+Section 3 Jacobian Results Save Here
+
+parameters (1 0.8 3 1) there are 2 diagonal equilibria and 2 off-diagonal equilibria [x0 y0]
+
+[1 1]           [2.0612 0.8286]
+[0.8069 2.2217] [4.0401 4.2639]
+
+(1,1) 
+
+>> jcb = [f1(x_equilibrium,beta,omega) omega; omega f2(y_equilibrium,lambda,beta,omega)]
+
+jcb =
+
+   6.000000000000000   1.000000000000000
+   1.000000000000000   6.200000000000000
+
+>> eig(jcb)
+
+ans =
+
+   5.095012437887910
+   7.104987562112089
+
+
+(2,1)
+
+>> jcb = [f1(x_equilibrium,beta,omega) omega; omega f2(y_equilibrium,lambda,beta,omega)]
+
+jcb =
+
+  11.421799631448453   1.000000000000000
+   1.000000000000000   0.747119072943097
+
+>> eig(jcb)
+
+ans =
+
+   0.654247454255414
+  11.514671250136136
+
+
+(1,2)
+
+>> jcb = [f1(x_equilibrium,beta,omega) omega; omega f2(y_equilibrium,lambda,beta,omega)]
+
+jcb =
+
+   0.685122998572399   1.000000000000000
+   1.000000000000000  10.747826585004891
+
+>> eig(jcb)
+
+ans =
+
+   0.586708630734095
+  10.846240952843194
+
+
+(2,2)
+
+>> jcb = [f1(x_equilibrium,beta,omega) omega; omega f2(y_equilibrium,lambda,beta,omega)]
+
+jcb =
+
+   0.090988872327486   1.000000000000000
+   1.000000000000000   0.277397147483233
+
+>> eig(jcb)
+
+ans =
+
+  -0.820141103456143
+   1.188527123266862
+
+clearly not the "correct" jacobian
