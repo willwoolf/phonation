@@ -317,7 +317,7 @@ and the coupled fourth-order system of differential equations can be reduced to 
         \frac{\mathrm{d}^2 \tilde{h}_1}{\mathrm{d}\tilde{t}^2} &= 1 - \tilde{h}_1 + \beta \left( 1 - \frac{1}{\tilde{h}_1^2} \right) + \omega(\tilde{h}_2-\tilde{h}_1) \\
         \alpha\frac{\mathrm{d}^2 \tilde{h}_2}{\mathrm{d}\tilde{t}^2} &= \lambda(1 - \tilde{h}_2) + \beta \left( 1 - \frac{1}{\tilde{h}_2^2} \right) + \omega(\tilde{h}_1-\tilde{h}_2).
     \end{aligned}
-    \label{eqn:twomass_coupled_system}
+    \label{eqn:twomass_master_system}
 \end{equation}
 
 The two mass generalises the concepts from the original model we investigated,
@@ -331,6 +331,9 @@ We will then reduce the stiffness coupling and introduce different lateral stiff
 investigating how the oscillating components affect one another in a coupled system.
 Finally if we reduce the coupling to a negligible amount,
 we would then expect the masses to behave near independently.
+
+For simplicity, we will from now on refer to the nondimensional dependent variables from \ref{eqn:twomass_master_system} as \(h_1\) and \(h_2\),
+and the nondimensional time variable $t$.
 
 \subsection{Strong coupling}
 
@@ -355,7 +358,7 @@ we would then expect the masses to behave near independently.
 \end{figure} %MOVE THIS!!!!!
 
 We study the behaviour of two strongly coupled masses of equal stiffness, represented by \( \alpha = 1,~\lambda = 1,~\omega \gggtr 1\).
-The coupled system of equations in \ref{eqn:twomass_coupled_system} take the same form for each.
+The coupled system of equations in \ref{eqn:twomass_master_system} take the same form for each.
 Similarly to the single-mass model, we can use the existence of stationary equilibria to determine the potential for oscillations to occur.
 Imposing the existence of a stationary equilibrium solution \(h_1 = h_2 = x\) imposes that
 \begin{equation}
@@ -504,6 +507,8 @@ We would expect the equilibria instead to be the solutions of two equations for 
     \end{aligned}
     \label{eqn:twomass_coupled_equilibria_uncoupled}
 \end{equation}
+We have neglected the \(\alpha\) term in this case since it is a scaling of the second equation and is never $0$,
+so a zero of \(\hat{f_2}\) works regardless of the value of \(\alpha\).
 The existence of equilibrium solutions is expected to be determined by two assumptions, being
 \begin{align*}
     f_1 \left( (2\beta)^\frac{1}{3} \right) &\ge 0, \\
@@ -518,23 +523,6 @@ We will refer to the solutions of Equation \ref{eqn:twomass_coupled_equilibria_u
 while the actual solutions to the coupled equations will be referred to as the \textit{general equilibria}.
 If we are to define the properties of stationary equilibria more rigorously,
 we will be able to understand the properties of the model better.
-We want all equilibrium solutions \(h-1 = x, h_2 = y\) which solve the coupled differential equations.
-These general equilibria are defined as the zeroes of the functions
-\begin{equation}
-    \begin{aligned}
-        f_1(x) &= 1-x + \beta\left(1 - \frac{1}{x^2}\right) + \omega(y-x) \\
-        f_2(y) &= \lambda(1-y) + \beta\left(1 - \frac{1}{y^2}\right) + \omega(x-y).
-    \end{aligned}
-\end{equation}
-Unlike before, an equilibrium solution is a pair \((x,y)\) which solve both equations,
-thus the problem can be reduced to
-\begin{equation}
-    1-x + \beta\left(1 - \frac{1}{x^2}\right) + \omega(y-x) = \lambda(1-y) + \beta\left(1 - \frac{1}{y^2}\right) + \omega(x-y) = 0.
-    \label{eqn:twomass_noalpha_equilibrium_solutions}
-\end{equation}
-Our solutions are determined by one equation involving three parameters \((\lambda, \beta, \omega)\), which we want to solve for two variables \((x,y)\).
-This is a challenge to solve, but to start we know from the formulation of the model and the nondimensionalisation that \((x,y) = (1,1)\) is an equilibrium solution for all values of the parameters.
-Solutions are found by computation via. Newton's method.
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{twomass_families_equilibria}
@@ -551,19 +539,96 @@ Solutions are found by computation via. Newton's method.
         The points at which a curve intersects the $y=x$ line are the points that satisfy equilibrium of that equation, and also satisfy $y=x$,
         which cancels the coupling term.
         These are the solutions of $\hat{f_1}=\hat{f_2}=0$ which we covered earlier.
+        Negative solutions do exist but must be ignored since we cannot accommodate negative values for $h_1, h_2$ in the model.
     }
     \label{fig:twomass_equilibrium_curves}
 \end{figure}
+We want all equilibrium solutions \(h-1 = x, h_2 = y\) which solve the coupled differential equations.
+Make the definition
+\begin{equation}
+    \begin{aligned}
+        f_1(x,y) &= 1-x + \beta\left(1 - \frac{1}{x^2}\right) + \omega(y-x) \\
+        f_2(x,y) &= \lambda(1-y) + \beta\left(1 - \frac{1}{y^2}\right) + \omega(x-y)
+        \label{eqn:twomass_equilibrium_functions}
+    \end{aligned}
+\end{equation}
+Then the system we are solving can be written as
+\begin{equation}
+    \begin{aligned}
+        \frac{\mathrm{d}^2x}{\mathrm{d}t^2} = f_1(x,y) \\
+        \alpha\frac{\mathrm{d}^2y}{\mathrm{d}t^2} = f_2(x,y)
+        \label{eqn:twomass_slave}  
+    \end{aligned}
+\end{equation}
+and we want to solve for equilibrium solutions. It suffices to solve \(f_1(x,y) = f_2(x,y) = 0\) to generate equilibrium solutions,
+since \(\alpha\) only changes the equation up to scaling. 
+An equilibrium solution is now a pair \((x,y)\) which solve both equations,
+thus the problem can be reduced to
+\begin{equation}
+    1-x + \beta\left(1 - \frac{1}{x^2}\right) + \omega(y-x) = \lambda(1-y) + \beta\left(1 - \frac{1}{y^2}\right) + \omega(x-y) = 0.
+    \label{eqn:twomass_noalpha_equilibrium_solutions}
+\end{equation}
+Our solutions are determined by one equation involving three parameters \((\lambda, \beta, \omega)\), which we want to solve for two variables \((x,y)\).
+This is a challenge to solve, but to start we know from the formulation of the model and the nondimensionalisation that \((x,y) = (1,1)\) is an equilibrium solution for all values of the parameters.
+Solutions are found by computation via. Newton's method.
 Figure \ref{fig:twomass_equilibrium_curves} visualises the families of solutions to the equations.
 The iterative method starts by using Newton's method to solve the separated equations, negligent of the stiffness coupling.
 These individual stationary points are used for a second implementation of Newton's method solving a homogeneous equation of a vector function \(F = [f_1, f_2]^\mathrm{T}\).
 This computes an equilibrium pair \(x,y\), which solves the coupled equations. % IT TOOK 2 DAYS
 In most cases, there are four individual equilibrium solution pairs to the coupled equations,
-being the intersection points of the hyperbolas in Figure \ref{fig:twomass_equilibrium_curves}.
+being the strictly positive intersection points of the hyperbolas in Figure \ref{fig:twomass_equilibrium_curves}.
+The negative regions are included in the figure for visualisation of the shape of the curves,
+but the negative-valued solutions are invalid forms of equilibrium for our formulation of the problem.
 We will refer to the solution pairs close to the line $y=x$ as the \textit{diagonal equilibria},
 and the other solutions as the \textit{off-diagonal equilibria}.
 On inspection, as the extrema of the curves approach each other,
 the off-diagonal equilibria annihilate.
+
+We want to evaluate the stability of the equilibrium solutions for the two mass model.
+We first truncate the Taylor series of \(f_1\) and \(f_2\) about an equilibrium point \((x_0,y_0)\) to the first order approximation, yielding the equations
+\begin{equation}
+    \begin{aligned}
+        \frac{\mathrm{d}^2x}{\mathrm{d}t^2} &= f_1(x_0,y_0) + \left(\frac{\partial f_1}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial f_1}{\partial y}(x_0,y_0)\right)(y-y_0) \\
+        \frac{\mathrm{d}^2y}{\mathrm{d}t^2} &= f_2(x_0,y_0) + \left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)(y-y_0).
+    \end{aligned}
+\end{equation}
+The constant terms vanish by the definition of the equilibrium solutions. Introduce \(u = x-x_0,~v=y-y_0\). The system becomes
+\begin{equation}
+    \begin{aligned}
+        \frac{\mathrm{d}^2u}{\mathrm{d}t^2} &= \left(\frac{\partial f_1}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_1}{\partial y}(x_0,y_0)\right)v \\
+        \frac{\mathrm{d}^2v}{\mathrm{d}t^2} &= \left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)v.
+    \end{aligned}
+\end{equation}
+Now introduce the variables $\hat{u},~\hat{v}$ such that \(\mathrm{d}u/\mathrm{d}t = \hat{u}\) and \(\mathrm{d}v/\mathrm{d}t = \hat{v}\). This formulates the linear system:
+\begin{equation}
+    \begin{aligned}
+        \frac{\mathrm{d}u}{\mathrm{d}t} &= \hat{u} \\
+        \frac{\mathrm{d}\hat{u}}{\mathrm{d}t} &= \left(\frac{\partial f_1}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_1}{\partial y}(x_0,y_0)\right)v \\
+        \frac{\mathrm{d}v}{\mathrm{d}t} &= \hat{v} \\
+        \frac{\mathrm{d}\hat{v}}{\mathrm{d}t} &= \left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)v.
+    \end{aligned}
+\end{equation}
+We have obtained the Jacobian for the system, appearing in the matrix equation:
+\begin{equation}
+    \frac{\mathrm{d}}{\mathrm{d}t} \begin{pmatrix}
+        u \\
+        \hat{u} \\
+        v \\
+        \hat{v}
+    \end{pmatrix} = \begin{bmatrix}
+        0 & 1 & 0 & 0 \\
+        \frac{\partial f_1}{\partial x}(x_0,y_0) & 0 & \frac{\partial f_1}{\partial y}(x_0,y_0) & 0 \\
+        0 & 0 & 0 & 1 \\
+        \frac{\partial f_2}{\partial x}(x_0,y_0) & 0 & \frac{\partial f_2}{\partial y}(x_0,y_0) & 0 \\
+    \end{bmatrix} \begin{pmatrix}
+        u \\
+        \hat{u} \\
+        v \\
+        \hat{v}
+    \end{pmatrix}.
+    \label{eqn:twomass_matrix_jacobian_quad}
+\end{equation}
+
 
 
 %\subsection{Oscillations and closure}
