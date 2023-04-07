@@ -37,7 +37,7 @@ SECTION 3 - TWO MASS MODEL
     Weak coupling leading to independent motion.
     Intermediate coupling, not <<1 and also not >>1, from here on out
         a new approach to finding equilibrium solutions by computation
-        eigenvalues of the equilibria and thus their stability
+        method outline for eigenvalues of the equilibria and thus their stability
         existence and convergence of equilibrium solutions as their parameters change
     Oscillations and Closure
     Concepts in nonlinear dynamics

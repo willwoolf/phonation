@@ -22,6 +22,17 @@
 
 \chapter{Introduction}
 
+\section{Definitions}
+
+Phonation is an extremely complex human mechanical process in which the vocal cords, being small regions of flexible tissue located in the larynx,
+are subjected to complex vibrations as air is expelled from the lungs and lower airway passages towards the throat and out of the mouth.
+The extremely rich and varied tones that may be produced  form the basis for the production of elongated vowel sounds.
+We will not consider wider aspects of speech, such as the role of the mouth in producing consonant sounds.
+The models discussed in this project are approximations to the motion of the vocal folds,
+from which we aim to observe key characteristics exhibited in natural phonation.
+
+%more
+
 \dots
 
 \section{Principles of non-linear dynamics and dynamical systems}
@@ -33,11 +44,71 @@ and provides insight into characteristics of a model such as equilibrium solutio
 In Chapter 2, we study a single mass model to approximate a vocal cord,
 and in Chapter 3 we generalise into a two mass model and obtain a fourth order system of differential equations.
 In all cases the equations of motion are autonomous and non-linear.
+Consider the example on two variables \((x,~y)\), being
+\begin{equation}
+    \begin{aligned}
+        \frac{\mathrm{d}x}{\mathrm{d}t} &= f(x,y) \\
+        \frac{\mathrm{d}y}{\mathrm{d}t} &= g(x,y).
+    \end{aligned}
+\end{equation}
+If the equations \(f\) and \(g\) are non-linear on their variables,
+we can't do much to solve this equation.
+Aside from producing numerical computations, we could look intuitively for equilibrium solutions \((x,y) = (x_0,y_0)\),
+which are fixed point solutions for which all time derivatives of \(x\) and \(y\) are zero.
+Hence equilibrium solutions are equivalently solutions to the homogeneous couple \(f(x,y) = 0,~g(x,y) = 0\).
+Close to an equilibrium solution,
+we would expect the functions' behaviour to be well approximated by their first order Taylor Series approximations, being
+\begin{equation}
+    \begin{aligned}
+        f(x,y) &\approx f(x_0,y_0) + (x-x_0)\frac{\partial f}{\partial x}(x_0,y_0) + (y-y_0)\frac{\partial f}{\partial y}(x_0,y_0) \\
+        g(x,y) &\approx g(x_0,y_0) + (x-x_0)\frac{\partial g}{\partial x}(x_0,y_0) + (y-y_0)\frac{\partial g}{\partial y}(x_0,y_0).
+    \end{aligned}
+\end{equation}
+The constant terms disappear since \(f, g\) are zero at an equilibrium by definition. We obtain the approximation for the system local to an equilibrium solution,
+\begin{equation}
+    \begin{aligned}
+        \frac{\mathrm{d}x}{\mathrm{d}t} &= \left(\frac{\partial f}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial f}{\partial y}(x_0,y_0)\right)(y-y_0) \\
+        \frac{\mathrm{d}y}{\mathrm{d}t} &= \left(\frac{\partial g}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial g}{\partial y}(x_0,y_0)\right)(y-y_0),
+    \end{aligned}
+\end{equation}
+which is a system of linear equations.
+For convenience, we make the substitutions \(u = x-x_0,~v = y-y_0\) which are linear substitutions proportional to the variables of interest \((x,y)\).
+Hence the above approximation is equivalent to the following matrix equation:
+\begin{equation}
+    \frac{\mathrm{d}}{\mathrm{d}t} \begin{pmatrix}
+        u \\
+        v
+    \end{pmatrix} = \begin{bmatrix}
+        \frac{\partial f}{\partial x}(x_0,y_0) & \frac{\partial f}{\partial y}(x_0,y_0) \\
+        \frac{\partial g}{\partial x}(x_0,y_0) & \frac{\partial g}{\partial y}(x_0,y_0)
+    \end{bmatrix} \begin{pmatrix}
+        u \\
+        v
+    \end{pmatrix}.
+\end{equation}
+Letting \(\mathbf{u} = (u,v)^\mathrm{T}\) and writing \(J\) as the matrix of derivatives,
+we can write the matrix equation compactly as \(\mathrm{d}\mathbf{u}/\mathrm{d}t = \mathbf{J}\mathbf{u}\).
+The matrix \(J\) is the \textit{Jacobian matrix}.
+The Hartman-Grobman Theorem in dynamical systems tells us a very important result,
+being that the behaviour of the system near the stationary point can be determined by computing the Jacobian matrix \(\mathbf{J}\) at the equilibrium solution,
+and computing the eigenvalues of the matrix.
+For every equilibrium solution, we must compute the Jacobian and its eigenvalues in order to determine the behaviour of the system at all equilibrium points.
+For clarity, the eigenvalues of the Jacobian are the constant terms \(\lambda\) that solve the equation \( \mathbf{J} -  \lambda \mathbf{I} = \mathbf{0}\),
+where \(\mathbf{I}\) is the appropriate size identity matrix.
+This also concerns the problem of finding equilibrium solutions in the first place, which is usually non-trivial.
+
+For a more rigorous understanding of linearisation of a system of equations and an understanding of the Hartman-Grobman Theorem,
+see \cite{perko_textbook_1996}, particularly sections
+1.1 on simple examples of linear systems,
+1.5 on two-dimensional linear systems,
+1.9 on the theory of stability,
+and 2.6 on linearisation.
+
+%bit on phase portrait representations of equilibrium solutions
 
 
 
-
-
-
+\bibliographystyle{unsrt}
+\bibliography{sources}
 
 \end{document}

@@ -568,13 +568,13 @@ thus the problem can be reduced to
     1-x + \beta\left(1 - \frac{1}{x^2}\right) + \omega(y-x) = \lambda(1-y) + \beta\left(1 - \frac{1}{y^2}\right) + \omega(x-y) = 0.
     \label{eqn:twomass_noalpha_equilibrium_solutions}
 \end{equation}
-Our solutions are determined by one equation involving three parameters \((\lambda, \beta, \omega)\), which we want to solve for two variables \((x,y)\).
+Our solutions are determined by two non-linear homogeneous equations involving three parameters \((\lambda, \beta, \omega)\), which we want to solve for two variables \((x,y)\).
 This is a challenge to solve, but to start we know from the formulation of the model and the nondimensionalisation that \((x,y) = (1,1)\) is an equilibrium solution for all values of the parameters.
 Solutions are found by computation via. Newton's method.
 Figure \ref{fig:twomass_equilibrium_curves} visualises the families of solutions to the equations.
 The iterative method starts by using Newton's method to solve the separated equations, negligent of the stiffness coupling.
 These individual stationary points are used for a second implementation of Newton's method solving a homogeneous equation of a vector function \(F = [f_1, f_2]^\mathrm{T}\).
-This computes an equilibrium pair \(x,y\), which solves the coupled equations. % IT TOOK 2 DAYS
+This computes an equilibrium pair \((x,y)\), which solves the coupled equations. % IT TOOK 2 DAYS
 In most cases, there are four individual equilibrium solution pairs to the coupled equations,
 being the strictly positive intersection points of the hyperbolas in Figure \ref{fig:twomass_equilibrium_curves}.
 The negative regions are included in the figure for visualisation of the shape of the curves,
@@ -583,6 +583,27 @@ We will refer to the solution pairs close to the line $y=x$ as the \textit{diago
 and the other solutions as the \textit{off-diagonal equilibria}.
 On inspection, as the extrema of the curves approach each other,
 the off-diagonal equilibria annihilate.
+
+Solutions to Equation \ref{eqn:twomass_noalpha_equilibrium_solutions} can fortunately be computed to any accuracy we require,
+however an important question involves the existence of solutions themselves.
+We want to know, depending on the parameters, how many solutions exist.
+The equations themselves can be arranged into the couple,
+\begin{equation}
+    \begin{aligned}
+        (\omega + \lambda)y^3 - (\lambda + \beta)y^2 - \omega x y^2 + \beta &= 0 \\
+        (1 + \lambda)x^3 - (1 + \beta)x^2 - \omega y x^2 + \beta &= 0.
+    \end{aligned}
+\end{equation}
+where each equation is linear in one variable and polynomial (a nicer form of non-linear) in the other.
+Rearrange the equation linear in $x$ to write it in terms of $y$ and then substitute back to obtain
+\begin{equation}
+    (1+\omega)\left( \left( 1 + \frac{\lambda}{\omega}y \right) + \frac{\beta}{\omega y^2} - \frac{\lambda + \beta}{\omega}\right)^3 - (1+\beta+\omega y)\left( \left( 1 + \frac{\lambda}{\omega}y \right) + \frac{\beta}{\omega y^2} - \frac{\lambda + \beta}{\omega}\right)^2 + \beta = 0.
+    \label{eqn:twomass_equilibria_polynomial}
+\end{equation}
+However we have to keep in mind the requirements on the variables.
+We must have that all parameters \(\lambda,~\beta,~\omega\) are strictly positive, and likewise for \(x\) and \(y\).
+Since we have eliminated $x$, we have actually gained solutions, since it is possible for a solution to exist for a positive $y$ and negative $x$, which is a solution for this equation.
+We require the polynomial term to be strictly positive as a qualification for solutions. %%work on this
 
 We want to evaluate the stability of the equilibrium solutions for the two mass model.
 We first truncate the Taylor series of \(f_1\) and \(f_2\) about an equilibrium point \((x_0,y_0)\) to the first order approximation, yielding the equations
@@ -628,6 +649,12 @@ We have obtained the Jacobian for the system, appearing in the matrix equation:
     \end{pmatrix}.
     \label{eqn:twomass_matrix_jacobian_quad}
 \end{equation}
+
+In prior examples, the problems have involved second order systems,
+whereas our current problem is fourth order,
+hence the \(4\times4\) matrix \(\mathbf{J}\).
+
+
 
 
 

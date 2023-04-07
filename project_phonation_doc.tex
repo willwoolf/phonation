@@ -19,16 +19,6 @@
 
 \maketitle
 
-\section{Introduction}
-
-\subsection{Definitions}
-
-Phonation is the human process in which respiratory exhalation and vocal cord oscillations work together to produce sounds that we identify as spoken words.
-Air is projected from the lungs in a fluid motion through the airways.
-When passing through the larynx, the forced oscillations of the contained vocal cords interact with the air particles and induce the sound of speech.
-
-The goal of this project is to explore models of the phonation process.
-
 
 
 \section{Principles of the single-mass model}
@@ -272,12 +262,13 @@ Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ an example which the
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\linewidth]{param_space}
-	\caption{A contour graphic of the parameter space. The displacement of $Z$ over a point $(\mu,q)$ represents the distance between critical points for the corresponding form of Equation \ref{eqn:master}.}
+	\includegraphics[width=\linewidth]{bifurcation_saddlenode}
+	\caption{
+        The convergence of the equilibrium solutions to a single point before annihilating. Computed by solving \(f(b)\) with Newton's method.
+        The parameter \(q\) is the independent variable that governs the distance between the equilibria, while we have \(\mu\) fixed.
+    }
 	\label{fig:param_space}
 \end{figure}
-
-%TODO: Remove this figure. Replace with a simpler plot of the equilibria converging.
 
 Recall the result obtained in Equation \ref{eqn:osc_condition}.
 We can produce a graph (see Figure \ref{fig:param_space}) where $\{\mu, q\}$ is the basis for the plane, and plot the distance between points.
@@ -488,7 +479,7 @@ which can be expressed as the matrix equation
     \label{eqn:first_order_approximated_substituted_matrix}
 \end{equation}
 
-This is a Jacobian matrix for the ODE. The linearisation is of the form
+This is the Jacobian matrix for the ODE. The linearisation is of the form
 
 \begin{align*}
     \frac{\mathrm{d}X}{\mathrm{d}t} &= g_1(X,Y) = Y \\
@@ -525,9 +516,9 @@ it corresponds to an eigenvalue $\lambda_i$ such that
 		x_i \\
 		y_i
 	\end{pmatrix} = \lambda_i \begin{pmatrix}
-	x_i \\
-	y_i
-\end{pmatrix},
+	    x_i \\
+	    y_i
+    \end{pmatrix},
 \label{eqn:matrix_eigenvectors}
 \end{equation}
 
@@ -619,38 +610,63 @@ This leaves two others. Two separate curves emerge directly from the point $b_1$
 however the computation is incapable of computing this path exactly when we start at zero.
 If we start at $b_1+\epsilon$ where $\epsilon$ is small,
 the solution fails to form a closed loop that returns to its start,
-due to the difficult behaviour of the ODE when approaching the critical point to near-exact precision.
+due to the precise behaviour of the ODE close to this critical point being subject to numerical error.
 Instead, this loop is shown to slightly increment the return position positively when an oscillation has been completed.
 The stationary point at $b_2$ is the oscillation with no energy,
 which is similar to the other closed loops.
 
 We will compute eigenvalues of the equilibria with data to four significant figures, taking \(b_1 = 0.1795\) and \(b_2 = 0.7659\).
 We are interested in the eigenvalues of \ref{eqn:first_order_approximated_substituted_matrix}.
-An eigenvalue is determined by the characteristic polynomial \(\lambda^2 - f'(b_0) = 0\).
+An eigenvalue of the Jacobian is determined by the characteristic polynomial \(\lambda^2 - f'(b_0) = 0\).
 At \(b_1\) we have roots at \(\lambda = \pm 2.4371\).
 At \(b_2\) we have roots at \(\lambda = \pm 0.9544 i\).
 The equilibrium at $b_1$ has entirely real eigenvalues, while the eigenvalues of the equilibrium at $b_2$ are entirely imaginary.
-Interesting...
+Clearly in order for a stationary point \(b_0\) to have real eigenvalues, we must have \(f'(b_0) \ge 0\).
+On equality, eigenvalues will be zero. This condition can be written more explicitly as \(\mu q^2 \ge b_0^3\), which is a surprisingly simple statement.
+
+Finding the case in which there is exactly one equilibrium solution is difficult,
+since the equation which determines equilibria is non-linear.
+Analytical solutions cannot be found using standard methods,
+and numerical solutions cannot be accurate enough to provide analytically sound results.
+
+
+
+%eigenvalues at the single equilibrium
+
+%plot of eigenvalues as they converge
 
 \subsection{Comparison to analytical results}
 
 The region of inital $b$, with zero initial velocity, for which oscillations will occur,
 is computed to be the approximate interval $(0.18,1.24)$.
-We will use the supposition of Equation \ref{eqn:integral_curve_supposed}.
+We will assume Equation \ref{eqn:integral_curve_supposed}.
 If the integration constant satisfies $C = -F(b_1)$,
 then the curve has exactly two positive zeroes:
 one being at $b=b_1$ and the other where $b>b_2$ as the curve crosses the horizontal axis as it tends to negative infinity.
-Hence the range of zeroes to verify results should be the solutions to the equation $F(b)-F(b_1)=0,$ which can be written as
-
+This means the curve \(F(b)\) is also zero at the stationary point \(b = b-1\).
+Hence the range of zeroes to verify results should be the solutions to the equation $F(b)-F(b_1)=0$, in full
 \begin{equation}
-    (1-q)(b-b_1) +\frac{1}{2}(b_1^2-b^2) + \frac{\mu q^2}{2b} - \frac{\mu q^2}{2b_1} = 0.
+    (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} - F(b_1) = 0.
     \label{eqn:integral_curves_zeroes_explicit}
 \end{equation}
 
-The value $b_1$ is, trivially, the minimal positive zero of $f(b)$ which we have already computed to be $b_1 \approx 0.18$.
+The value $b_1$ is, trivially, the minimal positive zero of $f(b)$ which we have already computed to be $b_1 \approx 0.1795$.
+We have the parameters \(\mu = 1,~ q = 0.2\)
+
 We are more interested in whether or not the other end point of the interval is consistent.
+The function \(F(b) + C\) draws curves in the phase portrait.
+We want to consider oscillations, which require solutions to the equation
+\begin{equation}
+    F(b) + C = (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} + C = 0.
+\end{equation}
+It is fairly simple to figure out that if \(F(b)+C=0\) is required at the stationary point \(b_1\),
+then \(C = -F(b_1)\)
+
+
+
 Recall Equation \ref{eqn:osc_condition}, in this case we can find the kinetic energy curve takes this value on the optimal intersection and we get the result we want! %this sentence is not meant to stay
 \dots
+
 
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
