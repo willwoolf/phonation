@@ -212,10 +212,10 @@ If we plug this back into $f$, we can deduce the condition
                                & = 1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}}.
 \end{align}
 
-We obtain the result
+We want \(f((\mu q^2)^(1/3))\) > 0. Expand and rearrange to obtain an explicit expression, being
 
 \begin{equation}
-    1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}} > 0.
+    \frac{(1-q)^3}{q^2} > \frac{27}{8}\mu
     \label{eqn:osc_condition}
 \end{equation}
 
@@ -291,11 +291,11 @@ the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fa
 
 We use MATLAB, primarily the \texttt{ode45()} function, to compute solutions numerically.
 However, the governing differential equations must be provided as a first order system.
-Equation \ref{eqn:master} can be given in the following form:
+Equation \ref{eqn:master} can be given in the following form, introducing variable $p$ for the reduction, as
 
 \begin{align}
-    \frac{db}{dt}       & = \dot{b}                          \\
-    \frac{d\dot{b}}{dt} & = 1 - q - b - \frac{\mu q^2}{2b^2}
+    \frac{db}{dt}       & = p                          \\
+    \frac{dp}{dt} & = 1 - q - b - \frac{\mu q^2}{2b^2}.
     \label{eqn:first_order_system}
 \end{align}
 
@@ -420,7 +420,7 @@ Recall the reduction of Equation \ref{eqn:master} to a first order system in Equ
 We will rewrite the reduction to a first order system, using the defined $f(b)$ function we are familiar with.
 
 \begin{align}
-    \frac{\mathrm{d}b}{\mathrm{d}t}       & = p \\
+    \frac{\mathrm{d}b}{\mathrm{d}t} &= p \\
     \frac{\mathrm{d}p}{\mathrm{d}t} & = f(b)
     \label{eqn:first_order_modified}
 \end{align}
@@ -487,7 +487,6 @@ This is the Jacobian matrix for the ODE. The linearisation is of the form
 \end{align*}
 
 to represent the linear approximation of the ODE at an equilibrium \(b_0\). Then the Jacobian is the matrix of first order derivatives of X and Y,
-
 \begin{equation}
     \begin{bmatrix}
         \frac{\partial g_1}{\partial X}(b_0) & \frac{\partial g_1}{\partial Y}(b_0) \\
@@ -497,7 +496,6 @@ to represent the linear approximation of the ODE at an equilibrium \(b_0\). Then
         f'(b_0) & 0
     \end{bmatrix},
 \end{equation}
-
 which matches Equation \ref{eqn:first_order_approximated_substituted_matrix}.
 
 % discuss the implications of this analysis and the matrix eigenvectors
@@ -597,6 +595,28 @@ Hence the eigenvectors influence the motion in the phase-plane local to the crit
     \label{fig:phaseportrait_oscillations}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width = 0.5\linewidth]{figures/stable_oscillations.eps}
+    \caption{
+        Oscillations about the equilibrium solution $b_2$ with parameters $\mu=1,~q=0.1$, represented in the phase portrait.
+        Computed using a random angle and small modulus to offset initial conditions within a small disc about $b_2$ in the phase-plane.
+        We always observe regular oscillations that continue indefinitely.
+    }
+    \label{fig:stable_oscillations}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/trajectories_unstable.eps}
+    \caption{
+        Trajectories about the equilibrium solution $b_1$ with parameters $\mu=1,~q=0.1,$ drawn in the phase portrait.
+        Paths either accelerate to closure (left of the fixed point), fall into orbit about $b_2$ (right),
+        or follow a path outside of the closed region of oscillations (top and bottom) before closure.
+    }
+    \label{fig:unstable_trajectories}
+\end{figure}
+
 We will first consider a range of behaviours exhibited by the model with the fixed parameters $\mu=1, q=0.2$,
 as used in sufigures A and B of Figure \ref{fig:phaseportrait_compare}.
 Figure \ref{fig:phaseportrait_oscillations} is a plot showing all families of curves in the phase plane for these parameters.
@@ -615,27 +635,77 @@ Instead, this loop is shown to slightly increment the return position positively
 The stationary point at $b_2$ is the oscillation with no energy,
 which is similar to the other closed loops.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/equilibrium_solutions_eigenvalues_too.eps}
+    \caption{
+        Equilibrium solutions (left) of $f$ for fixed $\mu=1$ as $q$ changes, and eigenvalues of the Jacobian matrix (right) as the solutions change.
+        The eigenvalues in the right figures are always pairs up to sign, since the equation involves the determinant of the \(2\times 2\) Jacobian matrix.
+        The eigenvalues of $b_1$ are always entirely real, while the eigenvalues of $b_2$ are always entirely imaginary.
+        Ellipsoids are rendered to mark the moduli of the eigenvalues for different values of $q$.
+    }
+    \label{fig:equilibrium_eigenvalues}
+\end{figure}
+
 We will compute eigenvalues of the equilibria with data to four significant figures, taking \(b_1 = 0.1795\) and \(b_2 = 0.7659\).
 We are interested in the eigenvalues of \ref{eqn:first_order_approximated_substituted_matrix}.
 An eigenvalue of the Jacobian is determined by the characteristic polynomial \(\lambda^2 - f'(b_0) = 0\).
 At \(b_1\) we have roots at \(\lambda = \pm 2.4371\).
 At \(b_2\) we have roots at \(\lambda = \pm 0.9544 i\).
 The equilibrium at $b_1$ has entirely real eigenvalues, while the eigenvalues of the equilibrium at $b_2$ are entirely imaginary.
-Clearly in order for a stationary point \(b_0\) to have real eigenvalues, we must have \(f'(b_0) \ge 0\).
-On equality, eigenvalues will be zero. This condition can be written more explicitly as \(\mu q^2 \ge b_0^3\), which is a surprisingly simple statement.
+Figure \ref{fig:equilibrium_eigenvalues} shows the equilibrium solutions as the parameter $q$ changes,
+and plots their eigenvalues in the complex plane as the equilibrium solutions converge.
 
-Finding the case in which there is exactly one equilibrium solution is difficult,
-since the equation which determines equilibria is non-linear.
-Analytical solutions cannot be found using standard methods,
-and numerical solutions cannot be accurate enough to provide analytically sound results.
+In the proximity of $b_2$, we observe oscillations about the fixed point. In proximity to $b_1,$ however,
+a variety of behaviours can be observed. Figures \ref{fig:stable_oscillations} and \ref{fig:unstable_trajectories} show the behaviours local to each equilibrium solution.
+We conclude that if the Jacobian has entirely real eigenvalues at a stationary point, it is unstable,
+whereas if the eigenvalues are entirely imaginary (complex with zero real part) then it is stable. 
+
+Clearly in order for a stationary point \(b_0\) to have real eigenvalues, we must have \(f'(b_0) \ge 0\) such that the characteristic polynomial has real roots.
+If \(f'(b_0)=0\), eigenvalues will be zero since $\mathbf{J}$ is not a full-rank matrix.
+This condition can be expanded and written more explicitly as \(\mu q^2 \ge b_0^3\), which is a surprisingly simple statement.
+
+
+In any case where the curve $f$ has exactly two zeroes for positive $b$,
+we can compute these points and the eigenvalues of the Jacobian at each.
+If the curve $f$ has, instead, exactly one zero for positive $b$,
+then the curve $F(b)$ has a point of inflection, but its gradient ($f$ itself, by definition) is always negative.
+We require equality in Equation \ref{eqn:osc_condition} for any suitable parameters, which can be rearranged into the form
+\begin{equation}
+    27\mu q^2 = 8(1-q)^3.
+\end{equation}
+We have no restrictions on uniqueness of solutions to this equation. Suitable real rational values for $\mu, q$ are \(\mu = 64/81, q=1/3\).
+The single equilibrium is $b_0=(\mu q^2)^{1/3} = 2^2/3^{5/3}$. We can solve the eigenvalue equation as follows
+\begin{align*}
+    &\det \left(\mathbf{J} - \lambda \mathbf{I}\right) = 0 \\
+    &\lambda ^2 - f'(b_0) = 0 \\
+    &\lambda ^2 - f'((\mu q^2)^\frac{1}{3}) = 0 \\
+    &\lambda ^2 + 1 - \frac{\mu q^2}{(\mu q^2)^\frac{1}{3}} = 0 \\
+    &\lambda ^2 + 1 - (\mu q^2)^\frac{2}{3} = 0 \\
+    &\lambda ^2 + 1 - \frac{2^4}{3^\frac{10}{3}} = 0 \\
+    &\lambda ^2 = \frac{2^4}{3^\frac{10}{3}} - 1 \\
+    &\lambda = \pm \sqrt{ \frac{2^4}{3^\frac{10}{3}} - 1 } \\
+    &\lambda \approx \pm 0.7675i
+\end{align*}
+
+hence at the single equilibrium, the eigenvalues are entirely imaginary, similar to the $b_2$ equilibrium in the particular case we computed earlier.
 
 
 
-%eigenvalues at the single equilibrium
 
-%plot of eigenvalues as they converge
 
 \subsection{Comparison to analytical results}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/sqrt_integral_curves.eps}
+    \caption{
+        Plots of $F(b)+C$ and $\sqrt{F(b)+C}$ against $b$.
+        The right-hand-side plot resembles the plots of the model's behaviour in the phase portrait,
+        since Equation \ref{eqn:integral_kinetic_energy} gives us a relationship between the two.
+    }
+    \label{fig:sqrt_curves}
+\end{figure}
 
 The region of inital $b$, with zero initial velocity, for which oscillations will occur,
 is computed to be the approximate interval $(0.18,1.24)$.
@@ -643,14 +713,14 @@ We will assume Equation \ref{eqn:integral_curve_supposed}.
 If the integration constant satisfies $C = -F(b_1)$,
 then the curve has exactly two positive zeroes:
 one being at $b=b_1$ and the other where $b>b_2$ as the curve crosses the horizontal axis as it tends to negative infinity.
-This means the curve \(F(b)\) is also zero at the stationary point \(b = b-1\).
+This means the curve \(F(b)\) is also zero at the stationary point \(b = b_1\).
 Hence the range of zeroes to verify results should be the solutions to the equation $F(b)-F(b_1)=0$, in full
 \begin{equation}
     (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} - F(b_1) = 0.
     \label{eqn:integral_curves_zeroes_explicit}
 \end{equation}
 
-The value $b_1$ is, trivially, the minimal positive zero of $f(b)$ which we have already computed to be $b_1 \approx 0.1795$.
+This is guaranteed to be zero at $b_1 \approx 0.1795$.
 We have the parameters \(\mu = 1,~ q = 0.2\)
 
 We are more interested in whether or not the other end point of the interval is consistent.
@@ -661,11 +731,12 @@ We want to consider oscillations, which require solutions to the equation
 \end{equation}
 It is fairly simple to figure out that if \(F(b)+C=0\) is required at the stationary point \(b_1\),
 then \(C = -F(b_1)\)
+The function \(F(b)-F(b_i)\) is zero at $b_i$, allowing us to construct functions representing the kinetic energies of a solution to the ODE,
+which take zero at the equilibrium solutions.
 
 
 
-Recall Equation \ref{eqn:osc_condition}, in this case we can find the kinetic energy curve takes this value on the optimal intersection and we get the result we want! %this sentence is not meant to stay
-\dots
+
 
 
 
