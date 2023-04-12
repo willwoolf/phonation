@@ -664,8 +664,85 @@ hence the \(4\times4\) matrix \(\mathbf{J}\).
 %\subsection{Analysing a non-linear dynamics problem}
 
 
-%\subsection{Results and their verifications}
+\subsection{Results and their verifications}
 
+Recall the equations of motion which are given by Equation \ref{eqn:twomass_master_system}
+We want to rearrange these equations and integrate, similar to what we did in the previous section, in order to find an expression that resembles the kinetic energy of the system.
+First, we will write \(u = h_1,~v=h_2\) for convenience, and express the equations of motion in the form
+\begin{align*}
+    \frac{\mathrm{d}^2 u}{\mathrm{d}t^2} &= 1 - u + \beta\left(1-\frac{1}{u^2}\right) + \omega(v-u) \\
+    \alpha\frac{\mathrm{d}^2 v}{\mathrm{d}t^2} &= \lambda(1 - v) + \beta\left(1-\frac{1}{v^2}\right) + \omega(u-v).
+\end{align*}
+Define functions $f$ and $g$ as follows
+\begin{align*}
+    \hat{f}(u) &= 1-u + \beta\left(1-\frac{1}{u^2}\right) \\
+    \hat{g}(v) &= \lambda(1-v) + \beta\left( 1-\frac{1}{v^2} \right).
+\end{align*}
+Now define functions $F$ and $G$
+\begin{align*}
+    F(u) &= u - \frac{1}{2}u^2 + \beta\left(u - \frac{1}{u} \right) \\
+    G(u) &= \lambda\left( v - \frac{1}{2}v^2 \right) + \beta\left( v - \frac{1}{v}\right).
+\end{align*}
+These functions satisfy \(\mathrm{d}F/\mathrm{d}u = f(u)\) and \(\mathrm{d}G/\mathrm{d}v = g(v)\).
+We can write the system of differential equations in the form
+\begin{align*}
+    \frac{\mathrm{d}^2 u}{\mathrm{d}t^2} = f(u) + \omega(v-u) \\
+    \alpha\frac{\mathrm{d}^2 v}{\mathrm{d}t^2} = g(v) + \omega(u-v).
+\end{align*}
+We will perform a rearranging of the expression on the second derivative of $u$,
+but we will not go into detail on the derivation for the second expression,
+since it is virtually identical.
+First, we multiply the whole equation by the first derivative of $u$ with respect to $t$,
+\begin{equation*}
+    \frac{\mathrm{d}u}{\mathrm{d}t}\frac{\mathrm{d}^2 u}{\mathrm{d}t^2} = \frac{\mathrm{d}u}{\mathrm{d}t}f(u) + \omega \frac{\mathrm{d}u}{\mathrm{d}t}(v-u).
+\end{equation*}
+This expression can be written mostly as derivatives, equivalently as
+\begin{equation*}
+    \frac{\mathrm{d}}{\mathrm{d}t}\left(
+        \frac{1}{2}\left(\frac{\mathrm{d}u}{\mathrm{d}t}\right)^2
+     \right) = \frac{\mathrm{d}}{\mathrm{d}t}F(u) - \omega\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{1}{2}u^2\right) + \omega v \frac{\mathrm{d}u}{\mathrm{d}t}.
+\end{equation*}
+Applying the same method to the second equation, we obtain
+\begin{equation*}
+    \alpha\left(
+        \frac{1}{2}\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\mathrm{d}v}{\mathrm{d}t}\right) ^2
+    \right) = \frac{\mathrm{d}}{\mathrm{d}t}G(v) - \omega\left( \frac{\mathrm{d}}{\mathrm{d}t}\frac{1}{2}v^2 \right) + \omega u \frac{\mathrm{d}v}{\mathrm{d}t}.
+\end{equation*}
+We would like to take the differential operator out of all the terms, but there are still mixed terms of $u$ and $v$ that make this difficult.
+However, if we take the differential operator out of all the terms where we can, and ignore the mixed terms, we can add both expressions and obtain
+\begin{equation*}
+    \frac{\mathrm{d}}{\mathrm{d}t}\left(
+        \frac{1}{2}\left(\frac{\mathrm{d}u}{\mathrm{d}t}\right)^2 + \frac{1}{2}\alpha\left(\frac{\mathrm{d}u}{\mathrm{d}t}\right)^2
+    \right) = \frac{\mathrm{d}}{\mathrm{d}t}\left(
+        F(u) + G(v) - \frac{\omega}{2}u^2 -\frac{\omega}{2}v^2
+    \right) + \omega \left(
+        u \frac{\mathrm{d}v}{\mathrm{d}t} + \frac{\mathrm{d}u}{\mathrm{d}t}v
+    \right)
+\end{equation*}
+In adding both expressions, the mixed terms add together and form an integrable expression.
+The expansion is given here:
+\begin{equation*}
+    \frac{\mathrm{d}}{\mathrm{d}t}(\omega uv) = \omega \left( u \frac{\mathrm{d}v}{\mathrm{d}t} + \frac{\mathrm{d}u}{\mathrm{d}t} v \right)
+\end{equation*}
+Hence the whole expression under the differential operator can be written as
+\begin{equation*}
+    \frac{\mathrm{d}}{\mathrm{d}t}\left(
+        \frac{1}{2}\left(\frac{\mathrm{d}u}{\mathrm{d}t}\right)^2 + \frac{1}{2}\alpha\left(\frac{\mathrm{d}u}{\mathrm{d}t}\right)^2
+    \right) = \frac{\mathrm{d}}{\mathrm{d}t}\left(
+        F(u) + G(v) - \frac{\omega}{2}u^2 -\frac{\omega}{2}v^2 + \omega uv
+    \right) 
+\end{equation*}
+and if we integrate the expression, and rearrange slightly, we obtain
+\begin{equation}
+    \frac{1}{2}\left(
+        \left(\frac{\mathrm{d}u}{\mathrm{d}t}\right)^2 + \left(\frac{\mathrm{d}v}{\mathrm{d}t}\right)^2
+    \right) = F(u) + G(v) - \frac{\omega}{2}(u-v)^2 + C.
+    \label{eqn:twomass_energy_constant}
+\end{equation}
+This equation gives us an expression on the values \(u,~v,~\mathrm{d}u/\mathrm{d}t\) and \(\mathrm{d}v/\mathrm{d}t\),
+which are the values we compute solutions of, and relates them to a constant $C$.
+Since the constant is unchanging in time, we can use it to verify that a computed solution is reliable,
+by evaluating $C$ at multiple points in the time span of the computation.
 
 %\subsection{The motivation: voiced sounds}
 
