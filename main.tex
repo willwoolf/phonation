@@ -35,6 +35,56 @@ from which we aim to observe key characteristics exhibited in natural phonation.
 
 \dots
 
+\section{Modelling phonation}
+
+The paper ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite{ishizaka_flanagan_1972} is arguably the most important work of research in the field of mathematical models for phonation.
+In their research, Ishizaka and Flanagan devise a two-mass model for the vocal cords, and then compute results to generate synthesised voiced sounds.
+
+\section{Principles of fluid mechanics}
+
+Conventional fluid mechanics defines a flow $\mathbf{u}$ in a $2$D or $3$D space,
+often as a function of position.
+We will describe the $3$D case.
+As well as a flow $\mathbf{u}$,
+we have fluid density $\rho$ and pressure $p$,
+which are often functions of position and time.
+In the cases we will study,
+we assume the flow is imcompressible,
+meaning $\rho$ is uniform across the domain of the flow.
+This may appear like a restrictive assumption,
+but we still obtain rich and interesting mathematical results from the analysis of an incompressible flow.
+
+A steady flow is a flow $u$ which is independent of time.
+The streamlines in a steady flow are fixed, and are identical to the paths taken by a supposed particle placed into a flow at any time.
+Bernoulli's equation for a steady flow is as follows:
+\begin{equation}
+    \frac{1}{2}|\mathbf{u}|^2 + \Omega + \int\frac{\mathrm{d}p}{\rho} = \mathrm{constant~along~a~streamline}.
+\end{equation}
+The term $\Omega$ is the potential for the body forces on the fluid, such as gravity.
+For our research, we will assume there are no body forces and thus neglect $\Omega$.
+Bernoulli's equation is extremely useful, since it gives us a relationship between fluid velocity and pressure in a steady flow.
+
+Fluid mass flux $Q$ at a given cross-section is the rate at which fluid mass passes through the region,
+given in terms of an integral:
+\begin{equation*}
+    Q = -\iint_A \rho \mathbf{u} \cdot \mathbf{n} \mathrm{d}S,
+\end{equation*}
+where $\mathbf{n}$ is the outer unit normal to a cross-section.
+By convention, the outer unit normal points away from the volume,
+hence in the opposite direction of the flow, thus we require the negative sign.
+This leads to the principle of conservation of mass, where the net flux entering a volume $V$ is the same as the rate of change of fluid mass within that volume.
+The net flux is the flux out minus the flow in.
+This can be formally expressed as follows
+\begin{equation*}
+    \iiint_V \frac{\mathrm{d}\rho}{\mathrm{d}t} \mathrm{d}V = - \iint_A \rho \mathbf{u} \cdot \mathbf{n} \mathrm{d}S 
+\end{equation*} 
+
+In this research project, the models we will consider involve simplified geometry and more straightforward assumptions of mechanics in comparison to some of the literature we have acknowledged.
+Fundamentally, we want to consider a fluid flow through a rigid channel, and suppose that a region of wall has freedom of motion in one dimension normal to the flow.
+It is appropriate to introduce the definition of a \textit{plug flow}, being a fluid flow through a channel in which the flow is uniform over cross-sections through the channel. 
+
+% want to finish fm section with a clear explanation of plug flow.
+
 \section{Principles of non-linear dynamics and dynamical systems}
 
 The modelling of phonation uses techniques from analysing systems of differential equations.
@@ -92,6 +142,7 @@ The matrix \(J\) is the \textit{Jacobian matrix}.
 The Hartman-Grobman Theorem in dynamical systems tells us a very important result,
 being that the behaviour of the system near the stationary point can be determined by computing the Jacobian matrix \(\mathbf{J}\) at the equilibrium solution,
 and computing the eigenvalues of the matrix.
+The Jacobian is often a sparse matrix, and its eigenvalues are often complex.
 For every equilibrium solution, we must compute the Jacobian and its eigenvalues in order to determine the behaviour of the system at all equilibrium points.
 For clarity, the eigenvalues of the Jacobian are the constant terms \(\lambda\) that solve the equation \( \mathbf{J} -  \lambda \mathbf{I} = \mathbf{0}\),
 where \(\mathbf{I}\) is the appropriate size identity matrix.
@@ -103,6 +154,7 @@ see \cite{perko_textbook_1996}, particularly sections
 1.5 on two-dimensional linear systems,
 1.9 on the theory of stability,
 and 2.6 on linearisation.
+The most important result on eigenvalues of equilibria is that an equilibrium solution is unstable if any of its eigenvalues have negative real part.
 
 %bit on phase portrait representations of equilibrium solutions
 
