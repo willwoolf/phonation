@@ -336,6 +336,8 @@ For simplicity, we will from now on refer to the nondimensional dependent variab
 and the nondimensional time variable $t$.
 
 When examining individual cases, we often refer to the parameter quadruple \((\alpha,~\lambda,~\beta,~\omega)\), instead of listing each parameter individually.
+For convenience, computations are always performed with intial conditions restricting the masses to rest,
+so the initial conditions \((1,2)\) mean the time-stepping MATLAB computation starts at $h_1=1,h_2=2$ with both at rest.
 
 \subsection{Strong coupling}
 
@@ -347,7 +349,6 @@ When examining individual cases, we often refer to the parameter quadruple \((\a
     equioscillate about each other rapidly, while following a dominant oscillation path.}
     \label{fig:twomass_dominant_osc}
 \end{figure}
-
 \begin{figure}
     \centering
     \includegraphics[width=0.75\linewidth]{twomass_coupling_pillowplot}
@@ -398,7 +399,6 @@ Assuming there exist equilibria \(x\),
 we can construct the Jacobian and determine the stability local to these equilibria.
 We regard the whole system with the variable \(h_1=h_2=h\).
 The system of derivatives in the single case can be written as
-
 \begin{equation}
     \begin{aligned}
         \frac{\mathrm{d}h}{\mathrm{d}t} &= g \\
@@ -406,7 +406,6 @@ The system of derivatives in the single case can be written as
     \end{aligned}
 \end{equation}
 which vectorises as
-
 \begin{equation}
     \frac{\mathrm{d}}{\mathrm{d}t} \begin{pmatrix}
         h \\
@@ -417,13 +416,11 @@ which vectorises as
     \end{pmatrix}.
 \end{equation}
 Recall we have stationary equilibria which we call \(x\). Compute the taylor series of \(f(h)\) local to this point.
-
 \begin{equation}
     f(h) = f(x) + (h-x)f'(x) + (h-x)^2\frac{f''(x)}{2!} + \mathellipsis =\sum_{0}^{\infty} (h-x)^n\frac{f^{(n)}(x)}{n!}.
 \end{equation}
 Similarly to our earlier reasoning, we truncate the Taylor series to the approximation $f(h) \approx (h-x)f'(x)$.
 The vectorised approximation becomes
-
 \begin{equation}
     \frac{\mathrm{d}}{\mathrm{d}t}\begin{pmatrix}
         h \\
@@ -434,7 +431,6 @@ The vectorised approximation becomes
     \end{pmatrix}.
 \end{equation}
 Substituting \(U = h-x\) and \(V = g\) we obtain
-
 \begin{equation}
     \frac{\mathrm{d}}{\mathrm{d}t} \begin{pmatrix}
         U \\
@@ -487,7 +483,6 @@ If we impose \(\omega \llless 1\), we expect both masses to act near independent
 We can see in figure \ref{fig:twomass_independent} that this is mostly the case, since oscillations occur with apparent independence.
 However the oscillations converge, gradually decreasing in amplitude and increasing in wavelength.
 
-
 \subsection{Intermediate coupling force, equilibria}
 
 In general, we observe quasiperiodic oscillating motion of the masses.
@@ -501,7 +496,6 @@ The borders of the shape accommodate the restrictions of the coupling force,
 and the individual stiffness of the masses.
 
 We would expect the equilibria instead to be the solutions of two equations for each component, being:
-
 \begin{equation}
     \begin{aligned}
         \hat{f}_1(h) &= 1 - h + \beta\left( 1-\frac{1}{h^2} \right) &= 0 \\
@@ -510,13 +504,16 @@ We would expect the equilibria instead to be the solutions of two equations for 
     \label{eqn:twomass_coupled_equilibria_uncoupled}
 \end{equation}
 We have neglected the \(\alpha\) term in this case since it is a scaling of the second equation and is never $0$,
-so a zero of \(\hat{f_2}\) works regardless of the value of \(\alpha\).
-The existence of equilibrium solutions is expected to be determined by two assumptions, being
+so a zero of \(\hat{f_2}\) satisfies our needs regardless of the value of \(\alpha\).
+The local maximum of $\hat{f}_1$ is at $h=(2\beta)^{1/3}$,
+and for $\hat{f}_2$ the local maximum is $h = (2 \beta / \lambda)^{1/3}$.
+Hence, the existence of equilibrium solutions is expected to be determined by two assumptions, being
 \begin{align*}
-    f_1 \left( (2\beta)^\frac{1}{3} \right) &\ge 0, \\
-    f_2 \left( \left( \frac{2\beta}{\lambda} \right)^\frac{1}{3} \right) &\ge 0,
+    \hat{f}_1 \left( (2\beta)^\frac{1}{3} \right) &\ge 0, \\
+    \hat{f}_2 \left( \left( \frac{2\beta}{\lambda} \right)^\frac{1}{3} \right) &\ge 0,
 \end{align*}
-where if both are satisfied, then each mass has two points in space where it belongs to a state of stationary equilibrium.
+where if both are satisfied, then each mass has one or two points in space where it belongs to a state of stationary equilibrium.
+It is not immediately clear, but this equation is actually always satisfied with at least equality.
 However, note the assumption that \(h_1=h_2\) which we made when exploring earlier cases,
 which is no longer a valid assumption to make. 
 Therefore, we cannot neglect the stiffness coupling term,
@@ -576,8 +573,9 @@ This is a challenge to solve, but to start we know from the formulation of the m
 Solutions are found by computation via. Newton's method.
 Figure \ref{fig:twomass_equilibrium_curves} visualises the families of solutions to the equations.
 The iterative method starts by using Newton's method to solve the separated equations, negligent of the stiffness coupling.
-These individual stationary points are used for a second implementation of Newton's method solving a homogeneous equation of a vector function \(F = [f_1, f_2]^\mathrm{T}\).
-This computes an equilibrium pair \((x,y)\), which solves the coupled equations. % IT TOOK 2 DAYS
+These individual stationary points are used as starting positions for implementation of the MATLAB \texttt{fsolve()} function,
+solving the homogeneous equation \(F = [f_1(x,y), f_2(x,y)]^\mathrm{T} = \mathbf{0}\),
+to find a true equilibrium solution \((x,y)\).
 In most cases, there are four individual equilibrium solution pairs to the coupled equations,
 being the strictly positive intersection points of the hyperbolas in Figure \ref{fig:twomass_equilibrium_curves}.
 The negative regions are included in the figure for visualisation of the shape of the curves,
@@ -585,7 +583,7 @@ but the negative-valued solutions are invalid forms of equilibrium for our formu
 We will refer to the solution pairs close to the line $y=x$ as the \textit{diagonal equilibria},
 and the other solutions as the \textit{off-diagonal equilibria}.
 On inspection, as the extrema of the curves approach each other,
-the off-diagonal equilibria annihilate.
+the off-diagonal equilibria annihilate. %% TODO: Create bifurcation diagram and reference here
 
 Solutions to Equation \ref{eqn:twomass_noalpha_equilibrium_solutions} can fortunately be computed to any accuracy we require,
 however an important question involves the existence of solutions themselves.
@@ -613,14 +611,18 @@ We first truncate the Taylor series of \(f_1\) and \(f_2\) about an equilibrium 
 \begin{equation}
     \begin{aligned}
         \frac{\mathrm{d}^2x}{\mathrm{d}t^2} &= f_1(x_0,y_0) + \left(\frac{\partial f_1}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial f_1}{\partial y}(x_0,y_0)\right)(y-y_0) \\
-        \frac{\mathrm{d}^2y}{\mathrm{d}t^2} &= f_2(x_0,y_0) + \left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)(y-y_0).
+        \alpha\frac{\mathrm{d}^2y}{\mathrm{d}t^2} &= f_2(x_0,y_0) + \left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)(y-y_0).
     \end{aligned}
 \end{equation}
-The constant terms vanish by the definition of the equilibrium solutions. Introduce \(u = x-x_0,~v=y-y_0\). The system becomes
+The constant terms vanish by the definition of the equilibrium solutions.
+Introduce \(u = x-x_0,~v=y-y_0\).
+Since $u$ and $x$ are linear in each other, there is no complication in changing between variables for the governing equations.
+The same applies with $v$ and $y$.
+The system becomes
 \begin{equation}
     \begin{aligned}
         \frac{\mathrm{d}^2u}{\mathrm{d}t^2} &= \left(\frac{\partial f_1}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_1}{\partial y}(x_0,y_0)\right)v \\
-        \frac{\mathrm{d}^2v}{\mathrm{d}t^2} &= \left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)v.
+        \frac{\mathrm{d}^2v}{\mathrm{d}t^2} &= \frac{1}{\alpha}\left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)u + \frac{1}{\alpha}\left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)v.
     \end{aligned}
 \end{equation}
 Now introduce the variables $\hat{u},~\hat{v}$ such that \(\mathrm{d}u/\mathrm{d}t = \hat{u}\) and \(\mathrm{d}v/\mathrm{d}t = \hat{v}\). This formulates the linear system:
@@ -629,7 +631,7 @@ Now introduce the variables $\hat{u},~\hat{v}$ such that \(\mathrm{d}u/\mathrm{d
         \frac{\mathrm{d}u}{\mathrm{d}t} &= \hat{u} \\
         \frac{\mathrm{d}\hat{u}}{\mathrm{d}t} &= \left(\frac{\partial f_1}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_1}{\partial y}(x_0,y_0)\right)v \\
         \frac{\mathrm{d}v}{\mathrm{d}t} &= \hat{v} \\
-        \frac{\mathrm{d}\hat{v}}{\mathrm{d}t} &= \left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)u + \left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)v.
+        \frac{\mathrm{d}\hat{v}}{\mathrm{d}t} &= \frac{1}{\alpha}\left(\frac{\partial f_2}{\partial x}(x_0,y_0)\right)u + \frac{1}{\alpha}\left(\frac{\partial f_2}{\partial y}(x_0,y_0)\right)v.
     \end{aligned}
 \end{equation}
 We have obtained the Jacobian for the system, appearing in the matrix equation:
@@ -643,7 +645,7 @@ We have obtained the Jacobian for the system, appearing in the matrix equation:
         0 & 1 & 0 & 0 \\
         \frac{\partial f_1}{\partial x}(x_0,y_0) & 0 & \frac{\partial f_1}{\partial y}(x_0,y_0) & 0 \\
         0 & 0 & 0 & 1 \\
-        \frac{\partial f_2}{\partial x}(x_0,y_0) & 0 & \frac{\partial f_2}{\partial y}(x_0,y_0) & 0 \\
+        \frac{1}{\alpha}\frac{\partial f_2}{\partial x}(x_0,y_0) & 0 & \frac{1}{\alpha}\frac{\partial f_2}{\partial y}(x_0,y_0) & 0 \\
     \end{bmatrix} \begin{pmatrix}
         u \\
         \hat{u} \\
@@ -652,17 +654,99 @@ We have obtained the Jacobian for the system, appearing in the matrix equation:
     \end{pmatrix}.
     \label{eqn:twomass_matrix_jacobian_quad}
 \end{equation}
-
 In prior examples, the problems have involved second order systems,
 whereas our current problem is fourth order,
 hence the \(4\times4\) matrix \(\mathbf{J}\).
+The definitions of these partial derivatives are as follows:
+\begin{equation}
+    \begin{aligned}
+        \frac{\partial f_1}{\partial x}(x,y) &= -1 + 2\beta x^{-3} - \omega \\
+        \frac{\partial f_1}{\partial y}(x,y) &= \omega \\
+        \frac{\partial f_1}{\partial x}(x,y) &= \omega \\
+        \frac{\partial f_2}{\partial y}(x,y) &= -\lambda +2\beta y^{-3} - \omega
+    \end{aligned}
+    \label{eqn:twomass_partial_derivatives}
+\end{equation}
+We will later refer to these definitions of the partial derivatives in order to analyse the matrix $\mathbf{J}$ and its properties.
 
 
 
 
 
 
-%\subsection{Oscillations and closure}
+\subsection{Oscillations and closure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_equilibrium_tests_case1.eps}
+    \caption{
+        Computation of behavours starting at equilibrium solutions.
+        Parameters \(\alpha=1,~\lambda=0.8,~\beta=2.4,~\omega=0.6\).
+        Initial conditions title each subfigure.
+        We use the MATLAB \texttt{fsolve()} command to find the equilibrium solutions,
+        and the finite precision arithmetic is unable to store their values exactly.
+        As such, the paths eventually diverge from equilibrium in the unstable cases.
+    }
+    \label{fig:twomass_equilibria_timeseries}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_equilibrium_tests_case1_reversed.eps}
+    \caption{
+        Reversing the initial conditions of Figure \ref{fig:twomass_equilibria_timeseries}.
+        The right-most subfigures are of most interest.
+        In the case of initial conditions \((3.58,3.33)\) we have oscillations that appear regular,
+        but in the initial conditions \((0.86,2.11)\) the behaviours are much more irregular.
+    }
+    \label{fig:twomass_equilibria_timeseries_2}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_timeseries_settling.eps}
+    \caption{
+        Long term behaviour of the model under parameters \(\alpha=1,~\lambda=0.5,~\beta=3,~\omega=0.3\).
+        Oscillations tend towards an equilibrium solution given computation on a large timescale.
+        Initial conditions \((1,3.79)\).
+    }
+    \label{fig:twomass_timeseries_settling}
+\end{figure}
+
+We provide results to explore the stability of equilibria by computing and examining behaviours,
+and explore interesting behaviours that occur as a result.
+Figure \ref{fig:twomass_equilibria_timeseries} highlights equilibrium solutions and the consequence of finite precision arithmetic.
+In Figure \ref{fig:twomass_equilibria_timeseries_2}, by reversing the initial conditions of the objects,
+the results are indicative of the behaviours in which oscillations occur.
+
+The general behaviour of the model is for the two masses to move indefinitely in a quasiperiodic orbit about an equilibrium solution.
+The motions of the masses are bounded and exhibit clear oscillations,
+hence on a long time scale we can identify motion that appears periodic and stable.
+However on a small timescale we observe irregularity.
+Irregular behaviour may or may not be periodic in nature, and we cannot determine this easily.
+If we observe a pattern in the data plot, such as the time-series representation in Figure (), % weird plot here
+we want to know if these behaviours eventually repeat themselves,
+or if there is an irrational relationship between the oscillating masses and small scale irregular behaviour is never repeated.
+Even if we can determine the nature of this,
+it may be difficult to determine whether the determined behaviour is actually in the nature of the model,
+or if the finite-precision numerical computation of the model introduces irregularity.
+
+In particular, we often observe behaviour in the plot of displacement against time which is apparently quasiperiodic,
+where small scale irregular motions do not repeat themselves.
+Quasiperiodic motion occurs in both the scale where it is an evident feature of the model,
+and also on the smaller scale where it is difficult to distinguish from numerical error introducing an irregularity to the computation.
+
+It is difficult to determine whether or not we will observe closure in a computation,
+judging only by initial conditions and observed features of the model.
+Analytically, the solution to the system of ODEs fails as either \(h_1\rightarrow 0\) or \(h_2 \rightarrow 0\),
+due to the \(1/h^2\) terms in both ODEs.
+In order for closure to occur,
+one of the masses must be perturbed enough towards zero that the system loses stability and collapses.
+There is often a bound for oscillations, within which the quasiperiodic orbits will continue indefinitely.
+
+Divergence from an initial bound is a regualar behaviour.
+If we set initial conditions to be some \((h,h+\delta h)\),
+we cannot specify a time $T$ up to which the displacement between the masses can be bounded.
 
 \subsection{Analysing a non-linear dynamics problem}
 
@@ -672,7 +756,7 @@ hence the \(4\times4\) matrix \(\mathbf{J}\).
     \caption{
         Time series and Poincar\'e map of a converging oscillation.
         On the left, we see that the oscillations slowly decrease in magnitude, orbiting the stationary point,
-        and on the right we see the Poincar\'e map representing velocity on intersection with the line $h_1 = h_1()\mathrm{equilibrium}$.
+        and on the right we see the Poincar\'e map representing incident velocity on collision with the hyperplane defined by $h_1 = 4.31$ and $\mathrm{d}h_1/\mathrm{d}t >0$.
         The veloctity follows a dominant path over the time period of the computation.
         The fluctuation around the dominant velocity indicates that the oscillations are quasiperiodic.
     }
@@ -695,24 +779,119 @@ See Figure \ref{fig:twomass_first_poincare}, which visualises the Poincar\'e map
 
 \subsection{A collection of results}
 
-General equilibrium solutions are not affected by the mass quotient $\alpha$, so in most cases $\alpha = 1$ for simplicity.
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_eigenvalues_of_equilibria.eps}
+    \caption{Plots in the complex plane of the eigenvalues of equilibrium solutions,
+    in a particular case where four such solutions exist.
+    The diagonal solutions provide eigenvalues that are either entirely real or entirely imaginary,
+    while the off-diagonal solutions provide pairs of real and imaginary eigenvalues.}
+    \label{fig:twomass_argand_eigenvalues}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_periodic_kinda.eps}
+    \caption{
+        Distance plot of $h_2$ against $h_1$ for $t=100$.
+        In the parameter configuration \((1,0.8,3,0.3)\), it is possible to obtain results that very closely resemble periodic orbits.
+        Over long time spans, the orbit is not continued perfectly and will eventually fill the space.
+    }
+    \label{fig:twomass_semiperiodic}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_generic_quasi.eps}
+    \caption{
+        Time series of $h_1$ (blue) and $h_2$ (orange).
+        Quasiperiodic motion, with regular shape of oscillation orbit,
+        but irregular motion.
+    }
+    \label{fig:twomass_generic_quasi}
+\end{figure}
+
+In general, equilibrium solutions are not affected by the mass quotient $\alpha$, so in most cases $\alpha = 1$ for simplicity.
+For readability, numerical values will be given to two decimal places.
 
 \dots
 
-We give numerical results to two decimal places for simplicity.
+%four equilibrium solutions
 
-\dots
-
-Consider the parameter configuration \((1,~0.8,~3,~0.3)\), where we have a difference in stiffness and a lower stiffness coupling.
+Consider the parameter configuration \((1,~0.8,~3,~0.3)\), where we have a difference in stiffness and a smaller stiffness coupling.
 There are four equilibrium solutions.
 The diagonal equilibria are \((1,1)\) and \((3.94,4.39)\),
 and the off-diagonal equilibria are \((0.88,3.47)\) and \((3.03,0.90)\).
 With the Jacobian as in Equation \ref{eqn:twomass_matrix_jacobian_quad},
 the diagonal solution \((1,1)\) has entirely real eigenvalues, and \((3.94,4.39)\) has entirely imaginary eigenvalues.
 Each off-diagonal solution has a combination, with one pair of eigenvalues being entirely imaginary and the other being entirely real.
+See Figure \ref{fig:twomass_argand_eigenvalues} for a visualisation of the eigenvalues for the steady solutions in this example.
+We can see that all equilibrium solutions, except for \((3.94,4,39)\), bear an eigenvalue with negative real part, and are thus unstable.
 
+The existence of four equilibrium solutions is the most common case we observe with the model.
+Continuous orbits may occur which run indefinitely, with small scale quasiperiodic behaviour,
+similar to that shown in Figures \ref{fig:twomass_equilibria_timeseries_2} and \ref{fig:twomass_stepping_tolerance},
+which we have presented earlier to highlight different characteristics.
+
+We may recognise that the model often exhibits continuous coupled quasiperiodic orbits.
+Under the motivation of understanding voiced sounds from a mathematical model,
+we can claim that this resembles the complex structure of the tones produced from the vocal folds.
+
+%two equilibrium solutions
+
+In the case where the parameters take the values \((1,~0.3,~1,~0.8)\),
+then we have exactly two equilibrium solutions,
+being \((1,1)\) and \((2.15,2.62)\).
+
+
+%one equilibrium solution
+
+In the case of exactly one equilibrium solution,
+we can say with certainty that it is the solution \((1,1)\),
+which is always a solution to the model under all parameters.
+The consistent single equilibrium solution \((1,1)\) has a unique property,
+in which it is the only equilibrium solution of the model where the stiffness coupling terms always cancel.
+In cases with more than one solution, the other diagonal equilibrium solution may be a solution \((x,x)\) for $x=1$,
+but this is not quaranteed.
+The conditions for oscillations,
+which we explored in Equation \ref{eqn:twomass_coupled_equilibria_uncoupled},
+give us the conditions \(\beta=0.5,~\lambda=1\) to guarantee the existence of exactly one equilibrium solution.
+The value of $\omega$ is unrestrained, since the stiffness term itself is cancelled by the solution at \((1,1)\) and is thus free.
+
+Consider the configuration of parameters \((1,~1,~0.5,~2)\),
+which guarantees the existence of the single equilibrium solution \((1,1)\).
+Results show that the eigenvalues of the Jacobian matrix are the complex conjugate pair $ 0 \pm 2i$ and the repeated solution $0$.
+The zero eigenvalue is unique to particular choices of the parameters.
+Note the partial derivatives used in the Jacobian, for which the definitions are given in Equation \ref{eqn:twomass_partial_derivatives}.
+If $\beta = 0.5$ and $\lambda = 1$, then at \((x,y) = (1,1)\),
+the partial derivatives evaluate to \(f_{1,x} = f_{2,y} = -\omega\), \(f_{1,y} = f_{2,x} = \omega\).
+Hence the Jacobian is not a full rank matrix.
+
+
+
+%the funny one
 
 \subsection{Verification of results}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_error_convergence.eps}
+    \caption{
+        Convergence of solution under progressive increase of the variable $\mathtt{AbsTol}$.
+        The controlled tolerance determines the precision to which the solution is computed,
+        being an upper bound on the error from the analytical solution.
+        In MATLAB, the tolerance $\mathtt{AbsTol}$ can be set arbitrarily,
+        however extremely small tolerances are infeasible and fail to provide any solution at all.
+        The figures show that decreasing the error tolerance can fundamentally change the solution,
+        especially where closure is not observed for tolerance of order $10^{-5}$,
+        but is observed for $10^{-10}$.
+        Stepping further down still provides a change in the solutions.
+        It is important to acknowledge how MATLAB recognises error,
+        since the computer cannot ``know'' the analytical solution.
+        MATLAB often uses the difference between two numerical methods of different order as a reasonable upper bound on the error from the analytical solution.
+    }
+    \label{fig:twomass_stepping_tolerance}
+\end{figure}
 
 Recall the equations of motion which are given by Equation \ref{eqn:twomass_master_system}
 We want to rearrange these equations and integrate, similar to what we did in the previous section, in order to find an expression that resembles the kinetic energy of the system.
@@ -791,6 +970,10 @@ This equation gives us an expression on the values \(u,~v,~\mathrm{d}u/\mathrm{d
 which are the values we compute solutions of, and relates them to a constant $C$.
 Since the constant is unchanging in time, we can use it to verify that a computed solution is reliable,
 by evaluating $C$ at multiple points in the time span of the computation.
+
+One concern in compuation is the existence of numerical error.
+It is possible that the discretisation could induce a local error to the numerical solution,
+and this small difference could lead to a divergence in the result.
 
 %\subsection{The motivation: voiced sounds}
 
