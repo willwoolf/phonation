@@ -34,7 +34,7 @@ which has a given viscous resistance.
 Then, there is a region of a channel between two walls of given area, where one wall is a suspended plate rather than being fixed in place.
 The term we wish to investigate is $b$, which describes the positive displacement between the fixed wall and the suspended wall opposite.
 The walls themselves are assumed to be of equal dimensions, and behave such that the surfaces are always parallel to each other.
-Also necessary to note is that the plate may only move in the direction of $b$ which is the normal to its surface,
+We impose that the plate may only move in the direction of $b$ which is the normal to its surface,
 hence $b$ measures the only degree of freedom of the plate's motion.
 
 %figure on diagram of the model
@@ -67,48 +67,43 @@ in the direction tangent to the negative displacement. We label this force as $F
 Pressure itself is the force per unit area,
 so the value of the force $F_p$ is the pressure multiplied by the surface area of the plate.
 
-The final force to consider in the motion of the plate is consequence of Bernoulli's principle,
-namely that along a streamline, in a steady flow,
-the sum of the kinetic energy and the potential energies, per unit mass, are constant.
-In Bernoulli's equation (Equation \ref{eqn:bernoulli}), $1/2\mathbf{u}\cdot\mathbf{u}$ is the fluid kinetic energy per unit mass,  %some of this is wrong
-$\Omega$ is the potential energy per unit mass of the body forces of the fluid,
-and $\int dp/\rho$ is the inner potential energy, regarding that $p$ and $\rho$ are either constant or codependent.
-
+Bernoulli's equation for a steady flow gives us a relationship between pressure and fluid velocity.
+Assuming no body forces, the potential $\Omega$ is zero,
+so we can consider the flow local to the lung, and the flow near the opening.
+Formally, this can be represented by the equation
 \begin{equation}
-    \frac{1}{2}\mathbf{u}\cdot\mathbf{u} + \Omega + \int\frac{dp}{\rho} = C
-    \label{eqn:bernoulli}
+    \left.\left(\frac{1}{2}|\mathbf{u}|^2 + \int \frac{\mathrm{d}p}{\rho}\right)\right|_\mathrm{in} = \left.\left(\frac{1}{2}|\mathbf{u}|^2 + \int \frac{\mathrm{d}p}{\rho}\right)\right|_\mathrm{out}
 \end{equation}
-
-%this is where the explanation gets dodgy - this could be completely wrong. if so, then the bernoulli effect force is more likely the increase in fluid ke when a constriction leads to an increase in pressure
-In order to apply Bernoulli's principle to find the pressure, we simply rearrange the equation for $p$.
-We obtain $F_b$ by again multiplying the pressure by the cross-sectional area of the plate.
-
-%include some derivation for $P_b$?
+This expression can be rearranged to find an expression for the pressure.
+We would assume that the fluid velocity is zero local to the lung (in),
+being driven by the pressure.
+Hence the pressure at the opening (out) is a function of the speed local to the opening,
+and the forcing pressure at the lung.
+Note that the term $|\mathbf{u}|^2/2$ is the fluid kinetic energy per unit mass.
+We obtain the force $F_b$ by multiplying this pressure term by the cross-sectional area of the plate.
+If this pressure is below atmospheric,
+then the resulting force on the plate is acting inwards,
+which is the same as $-F_b$ acting outwards.
 
 The governing equation of the model is derived from Newton's second law.
 Given that the plate has a mass $m$, we know the three forces acting on it,
 and so the initial equation of motion can be expressed as
-
 \begin{equation}
     m\frac{d^2 x}{dt^2} = F_e - F_p - F_b.
     \label{eqn:model_init}
 \end{equation}
-
 This is not the principal equation of the model,
 since the terms should be nondimensionalised and normalised.
-For example, $x$ measures displacement,
-but it is not stated under what scale.
+For example, $x$ measures displacement but it is not stated under what scale.
 Furthermore, the terms for the forces are all products of pressure and their dimensional properties,
 meaning they measure in units that would ideally be reduced.
 We can normalise $x$ by defining $b = x/x_0$, where $x_0$ is the resting position of the plate under particular circumstances. %TODO: amend this!! what are the particular circumstances??
 The forces can be nondimensionalised by dividing by the areas or volumes they are acting over.
 Resultingly, we produce the governing equation for the positive displacement of the channel wall from collapse at $0$,
-
 \begin{equation}
     \frac{d^2b}{dt^2} = 1 - q - b - \frac{\mu q^2}{2b^2}
     \label{eqn:master}
 \end{equation}
-
 where $\mu, q$ are parameters linked to the forces acting on the channel wall.
 
 %plan is to have this chapter just discuss individual properties of the model with analysis where relevant. Will include matrix method. Then in next chapter we introduce KE graphs in the phase-plane.
@@ -128,19 +123,15 @@ in which we do not expect to solve the ODE but instead use for demonstration.
 Note the absence of the $db/dt$ term in the governing equation.
 We can attempt the method of reduction by proposing a substitution $v=db/dt$ and forming a first order ODE.
 First, note that
-
 \begin{equation}
     \frac{dv}{dt} = \frac{dv(b(t))}{dt} = \frac{dv}{db}\frac{db}{dt} = \frac{dv}{db}v,
 \end{equation}
 
-and hence (while assuming commutativity),
-
+and hence,
 \begin{equation}
     v \frac{dv}{db} = 1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right).
 \end{equation}
-
 Assuming we can separate the variables, we can write an indefinite integral equation and obtain an expression for $v$, namely
-
 \begin{equation}
     \begin{aligned}
         \int v~dv &= \int \left(1 - q - b - \frac{1}{2}\mu q^2 b^{-2} \right) db \\  %TODO: edits. separate all this mess.
@@ -148,7 +139,6 @@ Assuming we can separate the variables, we can write an indefinite integral equa
     \end{aligned}
     \label{eqn:first_order_reduction}
 \end{equation}
-
 obtaining a constant of integration $C_1$.
 We now have a first order differential equation on $b$, %however we can't solve it because no
 but this equation is even harder to reduce or even solve, as we only have the form $v^2 = g(b)$,
@@ -163,13 +153,12 @@ Additionally, the equation of the form $v^2 = g(b)$ will be useful later.
 
 \subsection{Autonomy}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\linewidth]{f_plot_mu_1_q_vary}
     \caption{A plot of the function $f(b) = 1-q-b-\mu q^2/2b^2$ where $\mu=1$, $q$ ranging from $0.1$ (orange) to $0.5$ (green).}
     \label{fig:acc_b_plot}
 \end{figure}
-
 The reader may notice that the Equation \ref{eqn:master} is an autonomous ODE,
 namely that the independent variable $t$ itself does not appear.
 If we let $f$ be a function of $b$ equal to the right-hand side of the equation,
@@ -198,27 +187,22 @@ Different initial conditions could cause $b$ to behave differently under the sam
 We will start by analysing the properties of the $f(b)$ curve.
 In order for there to exist a region of $f(b)$ that takes positive values,
 the local maximum of $f(b)$ must be greater than zero.
-
+We can take the derivative of $f(b)$,
 \begin{align}
     f(b)              & = 1 - q - b - \frac{\mu q^2}{2b^2} \\
     \Rightarrow f'(b) & = -1 + \frac{\mu q^2}{b^3},
 \end{align}
-
 from which we can deduce that the maximum is located at the point where $b^3 = \mu q^2$.
 If we plug this back into $f$, we can deduce the condition
-
 \begin{align}
     f((\mu q^2)^{\frac{1}{3}}) & = 1 - q - (\mu q^2)^{\frac{1}{3}} - \frac{\mu q^2}{2(\mu q^2)^{\frac{2}{3}}} \\
                                & = 1 - q - \frac{3}{2}(\mu q^2)^{\frac{1}{3}}.
 \end{align}
-
-We want \(f((\mu q^2)^(1/3))\) > 0. Expand and rearrange to obtain an explicit expression, being
-
+We want \(f((\mu q^2)^{1/3}) > 0 \). We can expand and rearrange to obtain an explicit expression, being
 \begin{equation}
     \frac{(1-q)^3}{q^2} > \frac{27}{8}\mu
     \label{eqn:osc_condition}
 \end{equation}
-
 If Equation \ref{eqn:osc_condition} is satisfied,
 then there exists a region of $f$ which is positive.
 Hence if this condition is met then oscillations may occur. %% I feel this should be more rigorous - we haven't proved that this is the condition for oscillations to occur.
@@ -269,7 +253,6 @@ Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ an example which the
     }
 	\label{fig:param_space}
 \end{figure}
-
 Recall the result obtained in Equation \ref{eqn:osc_condition}.
 We can produce a graph (see Figure \ref{fig:param_space}) where $\{\mu, q\}$ is the basis for the plane, and plot the distance between points.
 Note that, by the properties of the derivation of the model,
@@ -283,7 +266,7 @@ which is equivalent to the curve $f(b)$ only having one real-valued zero.
 
 We can gain interesting and useful results regarding sufficient values of $\mu, q$,
 most noticeably that for any positive $\mu$, there exists some $q$ such that oscillations may occur.
-This relation is not symmetric - $q>1$ immediately breaks the condition.
+This relation is not symmetric, since $q>1$ immediately breaks the condition, for example.
 It is relatively simple to deduce this, since if the $1-q$ term of Equation \ref{eqn:osc_condition} is negative,
 the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fails.
 
@@ -292,17 +275,15 @@ the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fa
 We use MATLAB, primarily the \texttt{ode45()} function, to compute solutions numerically.
 However, the governing differential equations must be provided as a first order system.
 Equation \ref{eqn:master} can be given in the following form, introducing variable $p$ for the reduction, as
-
 \begin{align}
-    \frac{db}{dt}       & = p                          \\
-    \frac{dp}{dt} & = 1 - q - b - \frac{\mu q^2}{2b^2}.
+    \frac{db}{dt}       & = \hat{b}                         \\
+    \frac{d\hat{b}}{dt} & = 1 - q - b - \frac{\mu q^2}{2b^2}.
     \label{eqn:first_order_system}
 \end{align}
-
 By using \texttt{ode45}, MATLAB performs numerical integration on all the equations in the system,
 thus giving numerical solutions for $b$ and $\dot{b}$ in terms of time $t$, subject to initial conditions.
 In most cases, we will consider the plate moving from rest ($\dot{b}(t=0) = 0$) given an initial position $b=b_0$.
-Working examples are available in the Appendix.
+Working examples are available in the Appendix, and we encourage the reader to download code and test for themself.
 
 \subsection{Representations of solutions of differential equations}
 
@@ -313,7 +294,6 @@ rather than position against time.
 
 The phase-portrait is a useful method of representation for problems in dynamical systems,
 since an ODE or system of ODEs can be characterised by the locations and properties of its stationary equilibria.
-
 This alternative approach allows us to construct new visualisations of paths taken by the modelled plate.
 Paths in phase-plane representation have direct correspondence to plots in position against time.
 
@@ -334,7 +314,6 @@ Paths in phase-plane representation have direct correspondence to plots in posit
     }
     \label{fig:phaseportrait_compare}
 \end{figure}
-
 Oscillations are represented in the phase-plane as closed loops.
 It becomes easier to see the critical points,
 namely the stationary point in the centre of the closed loops,
@@ -346,31 +325,23 @@ See Figure \ref{fig:phaseportrait_compare} for a demonstration.
 Recall Equation \ref{eqn:master}, of the form $d^2b/dt^2 = f(b)$.
 Assume the right hand side $f(b)$ is the derivative (with respect to $b$, remaining aware that $b$ depends on $t$) of some function $F(b)$.
 Remaining aware that $b$ is a function itself of $t$, we have
-
 \begin{equation}
     \frac{d}{db}F(b) = f(b),
 \end{equation}
-
 and if we differentiate with respect to $t$ instead, we obtain
-
 \begin{equation}
     \frac{d}{dt}F(b) = \frac{dF}{db}\frac{db}{dt} = f(b)\frac{db}{dt}.
 \end{equation}
-
 From Equation \ref{eqn:master}, we find, on multiplying both sides by $db/dt$ and finding antiderivatives,
-
 \begin{align}
     \frac{d^2b}{dt^2} \frac{db}{dt}                                   & = f(b) \frac{db}{dt} \\
     \Rightarrow \frac{1}{2}\frac{d}{dt}\left( \frac{db}{dt} \right)^2 & = \frac{d}{dt}F(b).
 \end{align}
-
 Integrate both sides and we obtain a result that resembles an expression for kinetic energy, namely,
-
 \begin{equation}
     \frac{1}{2}\left(\frac{db}{dt}\right)^2 = F(b) + C,
     \label{eqn:integral_kinetic_energy}
 \end{equation}
-
 with constant of integration $C$. Variation of this constant leads to a family of solutions.
 Extremely important to note is that we have an equation in terms of $\frac{db}{dt}$ and $b$, which are the vectors defining the phase portrait.
 Hence the curves that appear in the phase portrait represent all the curves that appear for different $+C$.
@@ -384,12 +355,10 @@ However, when reducing and solving the ODE to derive the first order reduction, 
 which is not true in all cases,
 whereas here we have covered a different method.
 In combination of results, we will want to assume
-
 \begin{equation}
     F(b) = (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b}
     \label{eqn:integral_curve_supposed}
 \end{equation}
-
 which is not necessarily a consistent result, as discussed in the derivation, but we will use this for verification.
 
 We can use the plots of curves defined by Equations \ref{eqn:first_order_reduction} and \ref{eqn:integral_kinetic_energy} to inspect curves in the phase portrait.
@@ -400,71 +369,58 @@ For example, we can find the particular constants $C$ such that we generate the 
 Oscillations occur when, for some $C$, the curve $\left((db/dt)^2\right)/2 = F(b) + C$ exhibits a closed loop.
 It is necessary and sufficient for there to exist a region of inflection (an interval where the derivative is positive,
 elsewhere negative) in $F(b)$ in order for this to occur.
-Hence the condition for oscillations to occur is equivalent to the requirement that there exists a positive \textit{region} of f(b).
+Hence the condition for oscillations to occur is equivalent to the requirement that $f(b)$ is somewhere positive.
 
 Interesting behaviour occurs when the local minimum or maximum of $F(b)$ is a zero.
 We want to investigate the integral curves to find the conditions required for
-
 \begin{equation}
 	F(b) + C = 0.
 	\label{eqn:integral_curves_zeroes}
 \end{equation}
-
-If $\mu, q$ satisfactory for oscillations to occur,
-it is evident that there exists a $C$ such that Equation \ref{eqn:integral_curves_zeroes} will have exactly two zeroes,
-and the interval between these is the region in which we observe the largest oscillation.
+If $\mu, q$ satisfy the condition for oscillations to occur,
+it is evident that there exists a $C$ such that Equation \ref{eqn:integral_curves_zeroes} will have exactly two zeroes.
+The interval between these is the region in which we observe the largest oscillation.
 
 \subsection{Matrix representation of a system of differential equations}
 
 Recall the reduction of Equation \ref{eqn:master} to a first order system in Equation \ref{eqn:first_order_reduction}.
-We will rewrite the reduction to a first order system, using the defined $f(b)$ function we are familiar with.
-
+Using the function $f(b)$ which we have defined, the equation can be represented by a first order system as
 \begin{align}
-    \frac{\mathrm{d}b}{\mathrm{d}t} &= p \\
-    \frac{\mathrm{d}p}{\mathrm{d}t} & = f(b)
+    \frac{\mathrm{d}b}{\mathrm{d}t} &= \hat{b} \\
+    \frac{\mathrm{d}\hat{b}}{\mathrm{d}t} & = f(b)
     \label{eqn:first_order_modified}
 \end{align}
-
 We can construct an approximation for the function $f(b)$ about a point $b_0$ using the Taylor series expansion, assuming differentiability on the variable $b$, of the form
-
 \begin{equation}
     f(b) = f(b_0) + (b-b_0)f'(b_0) + \frac{(b-b_0)^2 f''(b_0)}{2!} + \mathellipsis = \sum_{k=0}^\infty\frac{(b-b_0)^{k}f^{(k)}(b_0)}{k!}
     \label{eqn:taylor_series}
 \end{equation}
-
 Recall that $f(b)$ has zeroes. If we pick $b_0$ to be a zero of the function, then as $b\rightarrow b_0$,
 most of the terms in the Taylor series expansion vanish\footnote{they become negligibly small}.
 More precisely, since $b_0$ is a zero of $f$, the $f(b_0)$ term tends to zero.
 We keep the $(b-b_0)f'(b_0)$ since, while the coefficient is small,
 the terms succeeding it are far smaller in magnitude.
 With the Taylor series applied, propose the approximation about a point $b_0$
-
 \begin{align}
-    \frac{db}{dt}       & = p         \\
-    \frac{dp}{dt} & = (b-b_0)f'(b_0).
+    \frac{db}{dt}       & = \hat{b}         \\
+    \frac{d\hat{b}}{dt} & = (b-b_0)f'(b_0).
     \label{eqn:first_order_approximated}
 \end{align}
-
 Notice that this approximation is a linear system. The obtained approximation models the ODE $b''(t) = (b-b_0)(\mu q^2/b_0^3-1)$.
 It is only valid local to points $b_0$ which are zeroes of $f$, so if $b-b_0$ grows in magnitude it is not sufficient.
 If we suppose a substitution of the form
-
 \begin{align}
     X & = b - b_0  \\
-    Y & = p,
+    Y & = \hat{b},
 \end{align}
-
 then $X$ represents the vicinity of $b$ to $b_0$, which is small,
 and $Y$ is a straight substitution of the velocity value $\dot{b}$.
 We can rewrite the linear system again, this time using our substituted values
-
 \begin{align}
-    \frac{dX}{dt} & = \frac{d}{dt}\left(b-b_0\right) = p \\
-    \frac{dY}{dt} & = \frac{dp}{dt} = (b-b_0)f'(b_0)
+    \frac{dX}{dt} & = \frac{d}{dt}\left(b-b_0\right) = \hat{b} \\
+    \frac{dY}{dt} & = \frac{d}{dt}\hat{b} = (b-b_0)f'(b_0)
 \end{align}
-
 which can be expressed as the matrix equation
-
 \begin{equation}
     \frac{d}{dt}\begin{pmatrix}
         X \\
@@ -478,15 +434,13 @@ which can be expressed as the matrix equation
     \end{pmatrix}.
     \label{eqn:first_order_approximated_substituted_matrix}
 \end{equation}
-
 This is the Jacobian matrix for the ODE. The linearisation is of the form
-
 \begin{align*}
     \frac{\mathrm{d}X}{\mathrm{d}t} &= g_1(X,Y) = Y \\
     \frac{\mathrm{d}Y}{\mathrm{d}t} &= g_2(X,Y) = Xf'(b_0) 
 \end{align*}
-
-to represent the linear approximation of the ODE at an equilibrium \(b_0\). Then the Jacobian is the matrix of first order derivatives of X and Y,
+to represent the linear approximation of the ODE at an equilibrium \(b_0\).
+Then the Jacobian is the matrix of first order derivatives of $X$ and $Y$,
 \begin{equation}
     \begin{bmatrix}
         \frac{\partial g_1}{\partial X}(b_0) & \frac{\partial g_1}{\partial Y}(b_0) \\
@@ -508,7 +462,6 @@ where $x$ is the small distance between the displacement $b$ and the critical po
 and $y$ is the velocity of the plate.
 If $u$ is an eigenvector of the matrix,
 it corresponds to an eigenvalue $\lambda_i$ such that
-
 \begin{equation}
 	\frac{d}{dt} \begin{pmatrix}
 		x_i \\
@@ -519,7 +472,6 @@ it corresponds to an eigenvalue $\lambda_i$ such that
     \end{pmatrix},
 \label{eqn:matrix_eigenvectors}
 \end{equation}
-
 implying that, if eigenpairs exist (which we can check by finding eigenvalues of the matrix),
 then the eigenvectors represent change in the vicinity $\lambda_i x_i$ of the plate to the critical point,
 and the change in velocity $\lambda_i y_i$ of the plate at that point.
@@ -574,7 +526,6 @@ In this case, we have that
     \label{eqn:matrix_eigenvectors_vicinity} %probably remove this whole thing
 \end{aligned}
 \end{equation}
-
 We have assumed in Equation \ref{eqn:matrix_eigenvectors_vicinity} that $\delta u$ is not an eigenvector.
 Instead we have considered only that the matrix equation holds,
 since both $\delta x_i$ (the displacement of $b$ from the critical point)
@@ -616,11 +567,10 @@ Hence the eigenvectors influence the motion in the phase-plane local to the crit
     }
     \label{fig:unstable_trajectories}
 \end{figure}
-
 We will first consider a range of behaviours exhibited by the model with the fixed parameters $\mu=1, q=0.2$,
 as used in sufigures A and B of Figure \ref{fig:phaseportrait_compare}.
 Figure \ref{fig:phaseportrait_oscillations} is a plot showing all families of curves in the phase plane for these parameters.
-%begin{dodgy}
+
 We can see there are four types of curve represented.
 Curves that cross the horizontal axis to the left of the point $b_1$ represent the plate travelling and accelerating (negative velocity as the plate travels in the non-positive direction) immediately to closure.
 Closed loops within the enclosed region are oscillations that continue indefinitely.
@@ -634,7 +584,6 @@ due to the precise behaviour of the ODE close to this critical point being subje
 Instead, this loop is shown to slightly increment the return position positively when an oscillation has been completed.
 The stationary point at $b_2$ is the oscillation with no energy,
 which is similar to the other closed loops.
-
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/equilibrium_solutions_eigenvalues_too.eps}
@@ -650,21 +599,21 @@ which is similar to the other closed loops.
 We will compute eigenvalues of the equilibria with data to four significant figures, taking \(b_1 = 0.1795\) and \(b_2 = 0.7659\).
 We are interested in the eigenvalues of \ref{eqn:first_order_approximated_substituted_matrix}.
 An eigenvalue of the Jacobian is determined by the characteristic polynomial \(\lambda^2 - f'(b_0) = 0\).
-At \(b_1\) we have roots at \(\lambda = \pm 2.4371\).
-At \(b_2\) we have roots at \(\lambda = \pm 0.9544 i\).
-The equilibrium at $b_1$ has entirely real eigenvalues, while the eigenvalues of the equilibrium at $b_2$ are entirely imaginary.
-Figure \ref{fig:equilibrium_eigenvalues} shows the equilibrium solutions as the parameter $q$ changes,
-and plots their eigenvalues in the complex plane as the equilibrium solutions converge.
+At \(b_1\) we have roots at \(\lambda = \pm 2.4371\), which are entirely real,
+and at \(b_2\) we have roots at \(\lambda = \pm 0.9544 i\), which are entirely imaginary.
+Due to one eigenvalue of \(b_1\) having negative real part,
+we can deduce that $b_1$ is an unstable equilibrium in this case.
+Figure \ref{fig:equilibrium_eigenvalues} shows the equilibrium solutions as the parameter $q$ changes and plots their eigenvalues in the complex plane as the equilibrium solutions converge.
 
-In the proximity of $b_2$, we observe oscillations about the fixed point. In proximity to $b_1,$ however,
-a variety of behaviours can be observed. Figures \ref{fig:stable_oscillations} and \ref{fig:unstable_trajectories} show the behaviours local to each equilibrium solution.
+In the proximity of $b_2$, oscillations can be observed about the fixed point,
+but in proximity to $b_1$ we can observe a variety of behaviours. 
+Figures \ref{fig:stable_oscillations} and \ref{fig:unstable_trajectories} show the behaviours local to each equilibrium solution.
 We conclude that if the Jacobian has entirely real eigenvalues at a stationary point, it is unstable,
 whereas if the eigenvalues are entirely imaginary (complex with zero real part) then it is stable. 
 
 Clearly in order for a stationary point \(b_0\) to have real eigenvalues, we must have \(f'(b_0) \ge 0\) such that the characteristic polynomial has real roots.
 If \(f'(b_0)=0\), eigenvalues will be zero since $\mathbf{J}$ is not a full-rank matrix.
-This condition can be expanded and written more explicitly as \(\mu q^2 \ge b_0^3\), which is a surprisingly simple statement.
-
+This condition can be expanded and written more explicitly as \(\mu q^2 \ge b_0^3\), which is a surprisingly simple expression.
 
 In any case where the curve $f$ has exactly two zeroes for positive $b$,
 we can compute these points and the eigenvalues of the Jacobian at each.
@@ -675,6 +624,7 @@ We require equality in Equation \ref{eqn:osc_condition} for any suitable paramet
     27\mu q^2 = 8(1-q)^3.
 \end{equation}
 We have no restrictions on uniqueness of solutions to this equation. Suitable real rational values for $\mu, q$ are \(\mu = 64/81, q=1/3\).
+Real rational solutions allow us to solve this case analytically.
 The single equilibrium is $b_0=(\mu q^2)^{1/3} = 2^2/3^{5/3}$. We can solve the eigenvalue equation as follows
 \begin{align*}
     &\det \left(\mathbf{J} - \lambda \mathbf{I}\right) = 0 \\
@@ -687,12 +637,7 @@ The single equilibrium is $b_0=(\mu q^2)^{1/3} = 2^2/3^{5/3}$. We can solve the 
     &\lambda = \pm \sqrt{ \frac{2^4}{3^\frac{10}{3}} - 1 } \\
     &\lambda \approx \pm 0.7675i
 \end{align*}
-
 hence at the single equilibrium, the eigenvalues are entirely imaginary, similar to the $b_2$ equilibrium in the particular case we computed earlier.
-
-
-
-
 
 \subsection{Comparison to analytical results}
 
@@ -706,7 +651,6 @@ hence at the single equilibrium, the eigenvalues are entirely imaginary, similar
     }
     \label{fig:sqrt_curves}
 \end{figure}
-
 The region of inital $b$, with zero initial velocity, for which oscillations will occur,
 is computed to be the approximate interval $(0.18,1.24)$.
 We will assume Equation \ref{eqn:integral_curve_supposed}.
@@ -719,7 +663,6 @@ Hence the range of zeroes to verify results should be the solutions to the equat
     (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b} - F(b_1) = 0.
     \label{eqn:integral_curves_zeroes_explicit}
 \end{equation}
-
 This is guaranteed to be zero at $b_1 \approx 0.1795$.
 We have the parameters \(\mu = 1,~ q = 0.2\)
 
@@ -733,10 +676,6 @@ It is fairly simple to figure out that if \(F(b)+C=0\) is required at the statio
 then \(C = -F(b_1)\)
 The function \(F(b)-F(b_i)\) is zero at $b_i$, allowing us to construct functions representing the kinetic energies of a solution to the ODE,
 which take zero at the equilibrium solutions.
-
-
-
-
 
 
 
