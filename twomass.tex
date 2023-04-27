@@ -449,15 +449,15 @@ Coming from the original model, we would expect three cases in which we can anal
 %EIGENVALUES HERE PLEASE
 
 \begin{enumerate}
-    \item There are no equilibrium solutions and oscillations never occur,
-    \item There is one equilibrium solution and oscillations do not occur,
-    \item There are two equilibrium solutions and oscillations may occur about a stable stationary point.
-\end{enumerate} %more on this
+    \item Potential case 1: there are no equilibrium solutions and oscillations never occur,
+    \item Potential case 2:here is one equilibrium solution and oscillations do not occur,
+    \item Potential case 3: here are two equilibrium solutions and oscillations may occur about a stable stationary point.
+\end{enumerate}
 
-The cases in this model are reduced, since the stationary point $1$ is always a solution for any value of \(\beta\).
-Hence there can be one or two stationary points.
-The single solution exists in the case of equality in Equation \ref{eqn:twomass_zeroes_equal_stiffness}.
-
+However, the model differs from the single mass model by the feature that there always exists at least one equilibrium solution.
+This is because the solution \((1,1)\) always satisfies the differential equations.
+In the section on intermediate coupling, and from then on,
+we will derive stronger results on existence of equilibrium solutions.
 
 %it gets rough from here
 
@@ -680,7 +680,7 @@ We will later refer to these definitions of the partial derivatives in order to 
     \centering
     \includegraphics[width=\linewidth]{figures/twomass_equilibrium_tests_case1.eps}
     \caption{
-        Computation of behavours starting at equilibrium solutions.
+        Computation of behaviours starting at equilibrium solutions.
         Parameters \(\alpha=1,~\lambda=0.8,~\beta=2.4,~\omega=0.6\).
         Initial conditions title each subfigure.
         We use the MATLAB \texttt{fsolve()} command to find the equilibrium solutions,
@@ -704,11 +704,12 @@ We will later refer to these definitions of the partial derivatives in order to 
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{figures/twomass_timeseries_settling.eps}
+    \includegraphics[width=\linewidth]{figures/twomass_timeseries_settling_2.eps}
     \caption{
         Long term behaviour of the model under parameters \(\alpha=1,~\lambda=0.5,~\beta=3,~\omega=0.3\).
         Oscillations tend towards an equilibrium solution given computation on a large timescale.
         Initial conditions \((1,3.79)\).
+        The equilibrium solution is computed to be $(4.31,5.88)$
     }
     \label{fig:twomass_timeseries_settling}
 \end{figure}
@@ -811,6 +812,19 @@ See Figure \ref{fig:twomass_first_poincare}, which visualises the Poincar\'e map
     \label{fig:twomass_generic_quasi}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_nested_oscillations_triplot.eps}
+    \caption{
+        An interesting result in time series, opposing displacement and phase portrait representation.
+        We set parameters \((1,0.5,3,0.3)\) and intitial conditions on the plates \((1,3.79)\).
+        We observe a nested pattern of orbits,
+        where there are three distint circles in the phase portrait for each mass and we move between orbits in a regular pattern.
+        Importantly, these behaviours eventually converge to microoscillating about an equilibrium.
+    }
+    \label{fig:twomass_nested_interesting_1}
+\end{figure}
+
 In general, equilibrium solutions are not affected by the mass quotient $\alpha$, so in most cases $\alpha = 1$ for simplicity.
 For readability, numerical values will be given to two decimal places.
 
@@ -871,6 +885,23 @@ Hence the Jacobian is not a full rank matrix.
 
 %the funny one
 
+We can generate a particular case under parameters \((1,0.5,3,0.3)\) which produces extremely interesting images.
+Figure \ref{fig:twomass_nested_interesting_1} shows multiple representations of a computation,
+where the phase portrait lightly resembles a chaotic attractor.
+Each plate $h_1,~h_2$ has three orbits in the phase portrait of distinct radius.
+However, the regularity in which each plate passes into each orbit is consistent,
+as shown by the opposing displacement plot.
+The opposing displacement plot itself is of high interest,
+since it draws a bounded region of the orbits.
+
+An extended time series of this behaviour is shown in Figure \ref{fig:twomass_timeseries_settling} from earlier.
+The orbits eventually close, breaking out of the bounded regions shown in the eariler figure.
+The two plates settle to the equilibrium solution \((4.31,5.88)\).
+In this case, the eigenvalues of this equilibrium can be computed at $\pm 1.17i$ and $\pm 0.79i$,
+indicating that the equilibrium is stable.
+This case is similar to the eigenvalues of equilibria represented in Figure \ref{fig:twomass_argand_eigenvalues}.
+
+
 \subsection{Verification of results}
 
 \begin{figure}
@@ -882,17 +913,35 @@ Hence the Jacobian is not a full rank matrix.
         being an upper bound on the error from the analytical solution.
         In MATLAB, the tolerance $\mathtt{AbsTol}$ can be set arbitrarily,
         however extremely small tolerances are infeasible and fail to provide any solution at all.
-        The figures show that decreasing the error tolerance can fundamentally change the solution,
-        especially where closure is not observed for tolerance of order $10^{-5}$,
-        but is observed for $10^{-10}$.
-        Stepping further down still provides a change in the solutions.
-        It is important to acknowledge how MATLAB recognises error,
-        since the computer cannot ``know'' the analytical solution.
-        MATLAB often uses the difference between two numerical methods of different order as a reasonable upper bound on the error from the analytical solution.
     }
     \label{fig:twomass_stepping_tolerance}
 \end{figure}
 
+One concern in compuation is the existence of numerical error.
+It is possible that the discretisation could induce a local error to the numerical solution,
+and this small difference could lead to a divergence in the result.
+Figure \ref{fig:twomass_stepping_tolerance} shows a change in results when reducing the $\mathtt{AbsTol}$ parameter for the MATLAB \texttt{ode45()} function.
+The figures show that decreasing the error tolerance can fundamentally change the solution,
+especially where closure is not observed for tolerance of order $10^{-5}$,
+but is observed for $10^{-10}$.
+Stepping further down still provides a change in the solutions.
+It is important to acknowledge how MATLAB recognises error,
+since the hardware can only store computed numerical values up to floating point precision.
+MATLAB often uses the difference between two numerical methods of different order as a reasonable upper bound on the error from the analytical solution.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_energy_comparison.eps}
+    \caption{
+        Attempting to verify the result of nested orbits we have seen in Figure \ref{fig:twomass_nested_interesting_1}.
+        The upper plot shows the same time series truncated at $t=3000$.
+        The lower plot uses the energy constant defined in Equation \ref{eqn:twomass_energy_constant}.
+        The energy constant accrues error from the initial conditions over the time span of the computation.
+    }
+    \label{fig:twomass_energy_madplot}
+\end{figure}
+
+We can also find a method of verification which relates to the energy of the system.
 Recall the equations of motion which are given by Equation \ref{eqn:twomass_master_system}
 We want to rearrange these equations and integrate, similar to what we did in the previous section, in order to find an expression that resembles the kinetic energy of the system.
 First, we will write \(u = h_1,~v=h_2\) for convenience, and express the equations of motion in the form
@@ -968,12 +1017,22 @@ and if we integrate the expression, and rearrange slightly, we obtain
 \end{equation}
 This equation gives us an expression on the values \(u,~v,~\mathrm{d}u/\mathrm{d}t\) and \(\mathrm{d}v/\mathrm{d}t\),
 which are the values we compute solutions of, and relates them to a constant $C$.
+This is an energy constant, similar to what we derived in the earlier section on the single mass model.
 Since the constant is unchanging in time, we can use it to verify that a computed solution is reliable,
 by evaluating $C$ at multiple points in the time span of the computation.
+Figure \ref{fig:twomass_energy_madplot} shows a verification of a result using this constant.
+Due to the nature of the integration method,
+the energy constant accrues error over the time span of the computation.
+However, the numerical value of the energy constant does form a smooth path, with no discontinuities.
+Due to the imperfect verification, we cannot claim that this computation is a completely accurate representation of the model's behaviour,
+however, since the value of the energy constant is certainly bounded,
+the result maintains some credibility.
+In combination with the consistency of the opposing displacements plot in Figure \ref{fig:twomass_nested_interesting_1},
+we may assert that this result, while not entirely accurate, depicts a characteristic behaviour of the model.
 
-One concern in compuation is the existence of numerical error.
-It is possible that the discretisation could induce a local error to the numerical solution,
-and this small difference could lead to a divergence in the result.
+% poincare section
+
+
 
 %\subsection{The motivation: voiced sounds}
 
