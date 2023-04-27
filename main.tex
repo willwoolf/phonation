@@ -22,23 +22,151 @@
 
 \chapter{Introduction}
 
-\section{Definitions}
+\section{The concept and process of phonation}
 
-Phonation is an extremely complex human mechanical process in which the vocal cords, being small regions of flexible tissue located in the larynx,
-are subjected to complex vibrations as air is expelled from the lungs and lower airway passages towards the throat and out of the mouth.
-The extremely rich and varied tones that may be produced  form the basis for the production of elongated vowel sounds.
-We will not consider wider aspects of speech, such as the role of the mouth in producing consonant sounds.
-The models discussed in this project are approximations to the motion of the vocal folds,
-from which we aim to observe key characteristics exhibited in natural phonation.
+Phonation is a complex human mechanical process in which the vocal cords, being small regions of flexible tissue located in the larynx,
+begin to vibrate as air is expelled from the lungs and lower airway passages towards the throat and out of the mouth.
+As such, phonation can be regarded as the interation of two processes in the body,
+being the exhalation of air from the lungs,
+and the forcing of muscles in the larynx.
+The extremely rich and varied tones that may be produced form the basis for the production of elongated vowel sounds.
 
-%more
+The phonation process begins when air is expelled from the lungs.
+The diaphragm contracts, applying a pressure to the lungs which causes air to be driven out.
+Air travels through the airways, which have an extremely complicated, inverted tree-like structure,
+collecting in the bronchi (single airway per lung) and then trachea (single airway).
+Now in the upper airways, the air travels upwards from the trachea, through the larynx, and out of the body through either the nose or mouth.
+It is in the larynx that the mechanical process of phonation occurs.
+The glottis is the opening in the larynx between the vocal folds,
+hence the glottis must be open in order for phonation to occur.
+When air travels through the glottis,
+a decrease in pressure may cause the vocal folds to oscillate.
+When these oscillations occur,
+the propagation of the vibrations lead to the production of voiced sounds.
 
-\dots
+When the glottis closes, it may be that the vocal folds come to rest,
+or it could be that the glottis collapses quickly, for example in a pattern of coughing or choking.
+In this case, it is important to consider how the vocal folds might collapse but then rebound open again,
+and how this would occur.
+The vocal folds do not deform in a linearly elastic manner \cite{alipour_2012},
+meaning that the rate at which they strain is not directly proportional to the stress they are subjected to.
+We could imagine that on a sudden closure of the glottis,
+a forcing pressure from the lower airway drives the vocal folds apart again.
+Deformations of the vocal folds on collision are one of the features considered in ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite{ishizaka_flanagan_1972},
+which will be discussed more in the section on reviewing mathematical models.
+
+The tones produced by the oscillations of the vocal folds produce a harmonic series,
+which is the nature of all pitched sounds, such as those produced by musical instruments.
+A harmonic series, in this context,
+means that the waveform produced by the oscillations is a series on integer-frequency-valued periodic functions,
+relative to a \textit{fundamental frequency}.
+Conventionally, the mathematical definition of the harmonic series is the infinite sum:
+\begin{equation}
+    \hat{W} = \sum_{n=1}^{\infty}\frac{1}{n} = 1 + \frac{1}{2} + \frac{1}{3} + \mathellipsis.
+\end{equation}
+The overtone series is the application of the harmonic series to the frequency of oscillations.
+If we have a fundamental frequency $\omega$, then we can take a series of periodic functions, in this case $\sin(x)$,
+on integer multiples of the fundamental frequency. We can write this in series form as follows:
+\begin{equation}
+    W(t) = \sum_{n=1}^{\infty}a_n \sin(n \omega t).
+\end{equation}
+The constant coefficients $a_n$ define the weighting of the linear combination of the periodic functions.
+A different bias on different regions of the harmonic series lead to different textures of sound.
+For the signal $W(t)$, the Fourier transform of $W$ on $x$ interprets information of the signal from a time domain $t$,
+and returns the data from the signal represented in the frequency domain.
+While plotting $W$ against $t$ gives a representation of the signal,
+the Fourier transform can give a direct plot of the strengths $a_n$ of each freqency $n\omega$. 
+
+When formulating mathematical models,
+we will make several assumptions that reduce the complexity of the model,
+which make the process of constructing purely mathematical expressions much easier than they would be otherwise.
+However, these approximations and assumptions also reduce the complexity of the mathematics we derive,
+meaning we lose features that would arise from a model that accommodates more complex features of phonation.
+There are two reasons we make these assumptions.
+First of all, due to the scope of this project,
+certain features must be neglected in order to finalise mathematical relationships that we can analyse in detail.
+Furthermore, we want to prioritise certain aspects that we would expect to see from the model,
+which in this case is the oscillatory motion of the vocal cords,
+and hence it is reasonable to neglect features that are not directly important for this process.
+For example, we could neglect terms in equations if their primary importance was describing how the tension on a vocal cord affects the texture of the tone it produces,
+since we are not interested in terms which give extremely precise modifications to the oscillations.
+
+\section{Structure}
+
+The first section of this project studies the single mass model from ``Theory and measurement of snores'' \cite{gavriely_jensen_1993},
+which is a model formulated to consider the factors involved in obstructive sleep apnea.
+We will find that the features derived in the model are very relevant to the investigation of phonation,
+and that this single mass model serves as a strong basis for more generalised models.
+In the second section, we generalise the single mass model into a structure in which two masses model a single vocal cord,
+where the masses have a component of stiffness coupling between them.
+This model builds on the single mass model,
+but also takes strong inspiration from the two mass model formulated in ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite{ishizaka_flanagan_1972},
+which discusses the formulation of a mathematical model for the purpose of generating artificial speech using a computer.
+The formulation and study of the two mass model is the largest and most important part of work contained in this project.
+After having investigated the single mass model and the two mass model,
+we will review the approximations and simplifications made during the formulation processes and suggest refinements to the models.
+We conclude by discussing the results, which are the insights to the nature of phonation that we have gained from inspecting the behaviours of the models.
 
 \section{Modelling phonation}
 
-The paper ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite{ishizaka_flanagan_1972} is arguably the most important work of research in the field of mathematical models for phonation.
+As discussed, we will make limitations to the mathematical models we consider,
+to refine the model into something we can feasibly analyse while also gaining interesting results.
+First of all, while inspiratory phonation (inspiration) differs from expiratory phonation (exhalation),
+we will only focus on the expiratory flow case.
+In the construction of the model, the cases turn out to be identical up to symmetry anyway.
+We will also simplify the geometry of a model of the larynx,
+reducing the problem to the flow through a cuboid, with a vocal fold modelled by a movable wall on the side of the channel.
+The motion of the wall can be restricted by Hooke springs, and we can control their properties.
+
+We will also assume either a steady or quasisteady flow.
+While it is entirely possible for the flow in real speech to be turbulent and not steady,
+assuming otherwise allows us to apply Bernoulli's equation for a steady flow,
+which gives a simple yet powerful statement on the relationship between pressure $p$, density $\rho$ and flow velocity $\mathbf{u}$.
+Restricting our investigation to incompressible fluids, namely where $\rho$ is constant,
+provides similar simplifications to our analysis.
+
+Due to the symmetry of the vocal tract,
+we can simplify our analysis by only studying one side,
+since accommodating both sides in our model would only provide insight under asymmetric forcing terms or initial conditions.
+
+Further assumptions we consider are the one-dimensional motion of the modelled vocal folds,
+the elasticity being linear and modelled by Hooke springs,
+and {whatever else}. 
+
+\section{Literature review for mathematical models of phonation}
+
+The paper ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite[1972]{ishizaka_flanagan_1972} is arguably the most important work of research in the field of mathematical models for phonation.
 In their research, Ishizaka and Flanagan devise a two-mass model for the vocal cords, and then compute results to generate synthesised voiced sounds.
+The model consists of two masses to represent a vocal fold, which are stiffness coupled, comprising the wall of a channel.
+A flow passes through the channel and waves propagate from the planes,
+and the approximation to voiced sounds is computed as the result of the waves transmitted. %% bit more on wave physics maybe
+
+The two mass model is an extremely simple yet insightful model,
+which generates behaviours of seemingly erratic oscillations.
+The main body of this project is the formulation and analysis of a two mass model.
+
+In the mathematical study of phonation, the myoelastic and aerodynamic theories suggest the nature of the production of voiced sounds.
+The myoelastic theory assumes that the vocal cords repeatedly close,
+each time being driven apart by the pressure from the forced airflow from the lower airways,
+and the frequency of this repeated process determines the frequency of the voiced sounds.
+The aerodynamic theory instead applies the properties of pressure in a fluid flow,
+imposing that a pressure drop in the glottis leads to sustained oscillations of the vocal cords.
+This kind of pressure drop is often referred to as \textit{Bernoulli pressure}, which will be discussed in more depth later.
+It is commonly believed that both theories are involved in the production of voiced sounds,
+and the ideas are discussed by Titze in ``Comments on the myoelastic-aerodynamic theory of phonation'' \cite[1980]{titze_1980}.
+Titze is an extremely prominent author in the field of voice and hearing in mathematical modelling.
+
+The research paper ``Theory and measurement of snores'' \cite[1993]{gavriely_jensen_1993} involves a model which is not designed to approximate phonation.
+Rather, its purpose is to provide mechanical insights to the factors present in obstructive sleep apnea.
+However, the model itself can be applied to the investigation of phonation,
+being a single mass in the wall of a channel subject to stiffness and Bernoulli pressure.
+One of the authors, Oliver Jensen, is the supervisor for this project.
+
+Mathematical models for the vocal folds are often heavily simplified, and hence some features of natural phonation are lost.
+In ``Synthesis of breathy, normal, and pressed phonation using a two-mass model with a triangular glottis'' \cite[2011]{birkholz_2011},
+the authors construct a model for phonation which considers a glottis of a particular shape, which is able to close gradually.
+The model is able to synthesise more modes of voiced sounds than traditional models,
+particularly being able to produce the range of sounds from ``breathy'' speech (soft-spoken, close to whispering) to ``pressed'' (tense, thin). 
 
 \section{Principles of fluid mechanics}
 
@@ -160,7 +288,7 @@ The most important result on eigenvalues of equilibria is that an equilibrium so
 
 
 
-\bibliographystyle{unsrt}
+\bibliographystyle{unsrt} % agsm is harvard
 \bibliography{sources}
 
 \end{document}
