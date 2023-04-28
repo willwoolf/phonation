@@ -336,7 +336,7 @@ For simplicity, we will from now on refer to the nondimensional dependent variab
 and the nondimensional time variable $t$.
 
 When examining individual cases, we often refer to the parameter quadruple \((\alpha,~\lambda,~\beta,~\omega)\), instead of listing each parameter individually.
-For convenience, computations are always performed with intial conditions restricting the masses to rest,
+For convenience, computations are always performed with initial conditions restricting the masses to rest,
 so the initial conditions \((1,2)\) mean the time-stepping MATLAB computation starts at $h_1=1,h_2=2$ with both at rest.
 
 \subsection{Strong coupling}
@@ -803,6 +803,18 @@ See Figure \ref{fig:twomass_first_poincare}, which visualises the Poincar\'e map
 
 \begin{figure}
     \centering
+    \includegraphics[width=\linewidth]{figures/twomass_consistent_tspp.eps}
+    \caption{
+        Time series and phase portrait representation of a clearly quasiperiodic pattern.
+        Orbits are represented in the phase portrait by distinct closed loops,
+        and the pattern of oscillations always moves between loops in a consistent pattern.
+        The orbits are bounded and their regions of distance are disjoint.
+    }
+    \label{fig:twomass_nice_orbits_tspp}
+\end{figure}
+
+\begin{figure}
+    \centering
     \includegraphics[width=\linewidth]{figures/twomass_generic_quasi.eps}
     \caption{
         Time series of $h_1$ (blue) and $h_2$ (orange).
@@ -906,13 +918,25 @@ This case is similar to the eigenvalues of equilibria represented in Figure \ref
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{figures/twomass_error_convergence.eps}
+    \includegraphics[width=\linewidth]{figures/twomass_error_consistent.eps}
     \caption{
-        Convergence of solution under progressive increase of the variable $\mathtt{AbsTol}$.
-        The controlled tolerance determines the precision to which the solution is computed,
-        being an upper bound on the error from the analytical solution.
+        Results converging to a consistent solution.
+        Under stepping down the tolerance \(\mathtt{AbsTol}\) from $10^{-5}$ to $10^{-20}$,
+        we maintain consistent results in this case.
+        Computed under parameters \((1, 0.8, 3, 0.3)\) with initial positions \((3.79, 4.57)\) visualising displacement of $h_1$ only
         In MATLAB, the tolerance $\mathtt{AbsTol}$ can be set arbitrarily,
         however extremely small tolerances are infeasible and fail to provide any solution at all.
+    }
+    \label{twomass_stepping_convergence}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_error_convergence.eps}
+    \caption{
+        Changes in solution as \(\mathtt{AbsTol}\) is decreased.
+        Computations under parameters \((1, 0.8, 3, 1)\) with initial positions \((1.96, 0.83)\).
+        The computed solution fundamentally changes under stepping down the tolerance.   
     }
     \label{fig:twomass_stepping_tolerance}
 \end{figure}
@@ -941,6 +965,32 @@ MATLAB often uses the difference between two numerical methods of different orde
     \label{fig:twomass_energy_madplot}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_timeseries_energy_comparison_2.eps}
+    \caption{
+        Second verification via energy constant.
+        Parameters \((1, 0.8, 3, 0.3)\) with initial positions \((4.57, 3.79)\).
+        The computation still diverges over time,
+        although the rate at which the simulation loses energy is not as drastic as the earlier case.
+    }
+    \label{fig:twomass_energy_2}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_timeseries_energy_verif_3.eps}
+    \caption{
+        Third verification via energy constant.
+        Parameters \((1, 0.8, 3, 0.3)\) with initial positions \((3.79, 4.57)\).
+        Regular, separate-bounded orbits.
+        Under particular initial conditions, parameters, and time span,
+        tbe system maintains a regular behaviour for which the energy constant is approximately maintained.
+        See that the value of the energy constant doesn't change up to and including the third decimal place.
+        We have restricted the time span of the computation to force that the solution is reliable.
+    }
+    \label{fig:twomass_energy_3}
+\end{figure}
 We can also find a method of verification which relates to the energy of the system.
 Recall the equations of motion which are given by Equation \ref{eqn:twomass_master_system}
 We want to rearrange these equations and integrate, similar to what we did in the previous section, in order to find an expression that resembles the kinetic energy of the system.
@@ -1020,19 +1070,89 @@ which are the values we compute solutions of, and relates them to a constant $C$
 This is an energy constant, similar to what we derived in the earlier section on the single mass model.
 Since the constant is unchanging in time, we can use it to verify that a computed solution is reliable,
 by evaluating $C$ at multiple points in the time span of the computation.
-Figure \ref{fig:twomass_energy_madplot} shows a verification of a result using this constant.
+Figure \ref{fig:twomass_energy_madplot} shows am attempted verification of a result using this constant.
 Due to the nature of the integration method,
 the energy constant accrues error over the time span of the computation.
-However, the numerical value of the energy constant does form a smooth path, with no discontinuities.
-Due to the imperfect verification, we cannot claim that this computation is a completely accurate representation of the model's behaviour,
-however, since the value of the energy constant is certainly bounded,
-the result maintains some credibility.
-In combination with the consistency of the opposing displacements plot in Figure \ref{fig:twomass_nested_interesting_1},
-we may assert that this result, while not entirely accurate, depicts a characteristic behaviour of the model.
+The computation of the energy constant forms a curve which is fairly smooth,
+however there is a large change in value,
+which discredits the reliability of this result as an actual demonstration of the behaviour of the system.
+Figures \ref{fig:twomass_energy_2} and \ref{fig:twomass_energy_3} show stronger results involving verification using the energy constant.
+The variation in the result from Figure \ref{fig:twomass_energy_3} is bounded enough that we can claim it to be a stable result.
 
-% poincare section
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_consistent_poincare.eps}
+    \caption{
+        The Poincar\'e map for the orbits represented earlier in Figure \ref{fig:twomass_nice_orbits_tspp}.
+        Parameters \((1, 0.8, 3, 0.3)\) with initial positions \((3.79,4.57)\).
+        The chosen hyperplane is the respective line where velocity is zero.
+        The first plot is the Poincar\'e map for $h_1$ intersecting the line $\mathrm{d}h_1/\mathrm{d}t = 0$,
+        where $v+$ indicates approaching the line with positive velocity.
+        We can identify the intersection regions from the visualisation in the phase portrait in Figure \ref{fig:twomass_nice_orbits_tspp}.
+        The transient is where we have plotted the intersection points against the order in which they were computed.
+    }
+    \label{fig:twomass_poincare_nice}
+\end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/twomass_poincare_map.eps}
+    \caption{
+        Another example of the Poincar\'e map, for the computation shown earlier in Figures \ref{fig:twomass_timeseries_settling}, \ref{fig:twomass_nested_interesting_1} and \ref{fig:twomass_energy_madplot}.
+        We have shown that this result is not reliable, since we can compute that the energy constant diverges.
+        As we can see, the orbits break out of a pattern and the points on the Poincar\'e map begin to converge.
+    }
+    \label{fig:twomass_poincare_bad}
+\end{figure}
 
+The Poincar\'e map is a useful technique we can use to analyse the behaviour of a system.
+First, we construct the Poincar\'e section,
+which is an $n-1$-dimensional subspace in the space that contains our solutions.
+Another name for this type of subspace is a \textit{hyperplane}.
+For a two dimensional problem, the Poincar\'e section is a line,
+and for our current four dimensional problem it is a three-dimensional space.
+The Poincar\'e map is the visualisation of the solution every time it intersects with the Poincar\'e section.
+This can be used to assess quasiperiodicity or chaotic nature of dynamical systems.
+
+In our case, we will consider the four dimensional problem as two separate two-dimensional problems,
+which makes it easier to demonstrate the result.
+We are essentially reducing the two mass model into two single mass models,
+while acknowledging the coupling between them.
+For our computations, the respective Poincar\'e sections for each mass are the lines in the phase portrait where their velocities are zero.
+
+For the case of separate bounded continuous quasiperiodic orbits depicted in Figures \ref{fig:twomass_nice_orbits_tspp} and \ref{fig:twomass_energy_3},
+we can construct the Poincar\'e map and analyse it in the context of the model.
+Figure \ref{fig:twomass_poincare_nice} visualises the Poincar\'e map for this problem..
+We see the intersection points begin to diverge as the computation continues,
+shown in the visualisations that include the transient.
+However, these diversions are small,
+and the intersection points are mapped in clearly bounded regions.
+
+The method used \cite{manohar_2011} to compute the Poincar\'e map constructs a new array of time points $T_n$ of intersections with the Poincar\'e section,
+hence the figures do not plot to the same time scale as the origincal computations.
+
+We have performed a similar computation of the Poincar\'e map in Figure \ref{fig:twomass_poincare_bad},
+for a case we have explored earlier.
+The points on the Poincar\'e map are much more irregular and break out of a pattern approximately halfway through the visualised computation.
+This result is not reliable, justified again by the large scale of change in the energy constant we computed earlier in Figure \ref{fig:twomass_energy_madplot}.
+
+The computations from the two mass model are, in general, very difficult to obtain reliable information from.
+We cannot expect a numerical method to produce results which would match analytical behaviours.
+However, it is sensible to deduce that there are families of behaviours that the model may exhibit,
+which the numerical methods are incapable of reproducing.
+For example, the computation shows that the initial quasiperiodic behaviour of Figure \ref{fig:twomass_nested_interesting_1},
+which eventually settles to the stable equilibrium as shown in Figure \ref{fig:twomass_timeseries_settling},
+can be shown to be invalid through computing the energy constant, shown in Figure \ref{fig:twomass_energy_madplot}.
+Since the computation of the energy constant for this problem progressively decreases,
+we could guess that the quasiperiodic motions will instead continue indefinitely, as shown in the early region of the time series.
+
+The numerical solver struggles with the unstable equilibrium solutions,
+since near these points, the ODE is extremely sensitive to minute differences in the numerical values.
+In combination with the limits of floating point precision,
+it is extremely difficult to produce consistent results near the unstable equilibria numerically.
+In combination with the stiffness coupling, there are often heavily unbalanced forces on each mass,
+for example if an unstable equilibrium lies between the two masses.
+However, as we have shown, it is still possible to compute results which are precise enough to be reliable.
 
 %\subsection{The motivation: voiced sounds}
 
