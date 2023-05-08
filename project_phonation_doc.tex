@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass{report}
 
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -12,20 +12,28 @@
 
 \graphicspath{{figures/}}
 
-\title{MATH30000 Project - Phonation}
+\title{One mass}
 \author{Will Woolfenden}
 
 \begin{document}
 
 \maketitle
 
-
+\chapter{The single mass model}
 
 \section{Principles of the single-mass model}
 
-\subsection{Derivation}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{onemass.jpeg}
+	\caption{
+		Two dimensional sketch of the single mass model.
+		Fluid flow $V$ travels through the channel,
+		and we are interested in the motion of the plate with mass $\mathrm{m}$.
+	}
+\end{figure}
 
-% TODO: Add figure of the model schematic
+\subsection{Derivation}
 
 The first model we will study is taken from Theory and Measurement of Snores \citep{gavriely_jensen_1993}.
 It models the inspiratory process, designed to investigate snoring as a symptom of obstructive sleep apnea.
@@ -33,6 +41,7 @@ The model proposes that the inspiratory path consists of first a region of the u
 which has a given viscous resistance.
 Then, there is a region of a channel between two walls of given area, where one wall is a suspended plate rather than being fixed in place.
 The term we wish to investigate is $b$, which describes the positive displacement between the fixed wall and the suspended wall opposite.
+Equivalently, $b$ models the glottal opening.
 The walls themselves are assumed to be of equal dimensions, and behave such that the surfaces are always parallel to each other.
 We impose that the plate may only move in the direction of $b$ which is the normal to its surface,
 hence $b$ measures the only degree of freedom of the plate's motion.
@@ -44,7 +53,7 @@ In the original paper, the oscillations are regarded as snores,
 whereas here they will be regarded as the production of phones.
 The idea is the same, since the mathematical principles applied in the definition of the model are not exclusive in any way to particular studies of sleep apnea or the like.
 
-Oscillations are the event where, given certain constraints, $b$ will exhibit simple harmonic motion. %maybe cite here
+Oscillations are the event where, given certain constraints, $b$ will exhibit periodic motion, regularly returning to an initial position. %maybe cite here
 In the model provided, indefinite oscillations can very much be observed given the right conditions,
 however it is important to be aware of some properties of the model,
 namely the region in which our attention is focussed. Given physical attributes are associated with the model,
@@ -57,9 +66,8 @@ so the tension force on the plate is acting tangent to the direction of positive
 
 % schematic with opposing walls and illustration of spring direction.
 
-Since the upper airway has a resistance $R$ to the inspiratory fluid flow,
+Since the upper airway has a viscous resistance $R$ to the fluid flow,
 this leads to a pressure drop in the airways. %TODO: Explain this
-
 An internal increase in pressure would produce an outward force on the airway,
 which in this model would be tangent to the positive displacement direction.
 Since there is instead a \textit{decrease} in pressure, an inward force is resultant,
@@ -97,14 +105,15 @@ since the terms should be nondimensionalised and normalised.
 For example, $x$ measures displacement but it is not stated under what scale.
 Furthermore, the terms for the forces are all products of pressure and their dimensional properties,
 meaning they measure in units that would ideally be reduced.
-We can normalise $x$ by defining $b = x/x_0$, where $x_0$ is the resting position of the plate under particular circumstances. %TODO: amend this!! what are the particular circumstances??
+We can normalise $x$ by defining $b = x/x_0$, where $x_0$ is an equilibrium position of the plate.
 The forces can be nondimensionalised by dividing by the areas or volumes they are acting over.
+We will further explore nondimensionalisation in the study of the two mass model.
 Resultingly, we produce the governing equation for the positive displacement of the channel wall from collapse at $0$,
 \begin{equation}
     \frac{d^2b}{dt^2} = 1 - q - b - \frac{\mu q^2}{2b^2}
     \label{eqn:master}
 \end{equation}
-where $\mu, q$ are parameters linked to the forces acting on the channel wall.
+where $\mu, q$ are parameters linked to the properties of the fluid flow.
 
 %plan is to have this chapter just discuss individual properties of the model with analysis where relevant. Will include matrix method. Then in next chapter we introduce KE graphs in the phase-plane.
 
@@ -126,7 +135,6 @@ First, note that
 \begin{equation}
     \frac{dv}{dt} = \frac{dv(b(t))}{dt} = \frac{dv}{db}\frac{db}{dt} = \frac{dv}{db}v,
 \end{equation}
-
 and hence,
 \begin{equation}
     v \frac{dv}{db} = 1 - q - b - \frac{1}{2}\mu q^2\left( \frac{1}{b^2} \right).
@@ -151,7 +159,7 @@ We could have deduced this from the explicit form of Equation \ref{eqn:master},
 but this section serves for illustration to aid the reader's understanding of why we cannot analytically solve this ODE.
 Additionally, the equation of the form $v^2 = g(b)$ will be useful later.
 
-\subsection{Autonomy}
+\subsection{Properties of an autonomous system}
 
 \begin{figure}[h!]
     \centering
@@ -159,11 +167,22 @@ Additionally, the equation of the form $v^2 = g(b)$ will be useful later.
     \caption{A plot of the function $f(b) = 1-q-b-\mu q^2/2b^2$ where $\mu=1$, $q$ ranging from $0.1$ (orange) to $0.5$ (green).}
     \label{fig:acc_b_plot}
 \end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{bifurcation_saddlenode}
+	\caption{
+		The convergence of the equilibrium solutions to a single point before annihilating. Computed by solving \(f(b)\) with Newton's method.
+		The parameter \(q\) is the independent variable that governs the distance between the equilibria, while we have \(\mu\) fixed.
+	}
+	\label{fig:bifurcation}
+\end{figure}
 The reader may notice that the Equation \ref{eqn:master} is an autonomous ODE,
 namely that the independent variable $t$ itself does not appear.
 If we let $f$ be a function of $b$ equal to the right-hand side of the equation,
-we can produce a plot of the behaviour of $f(b)$ against $b$,
-and since the equation is autonomous, this behaviour is not affected by position in time.
+we can produce a plot of the behaviour of $f(b)$ against $b$.
+The visualisation of $f(b)$ shows the acceleration on the plate given its position.
+Since the equation is autonomous, $f$ is unchanging in time.
 Figure \ref{fig:acc_b_plot} shows a plot of $f(b)= 1 - q - b - \mu q^2/2b^2$ against $b$.
 
 We will introduce the concept of equilibrium solutions of the ODE,
@@ -188,10 +207,9 @@ We will start by analysing the properties of the $f(b)$ curve.
 In order for there to exist a region of $f(b)$ that takes positive values,
 the local maximum of $f(b)$ must be greater than zero.
 We can take the derivative of $f(b)$,
-\begin{align}
-    f(b)              & = 1 - q - b - \frac{\mu q^2}{2b^2} \\
-    \Rightarrow f'(b) & = -1 + \frac{\mu q^2}{b^3},
-\end{align}
+\begin{equation}
+    f'(b) = -1 + \frac{\mu q^2}{b^3}
+\end{equation}
 from which we can deduce that the maximum is located at the point where $b^3 = \mu q^2$.
 If we plug this back into $f$, we can deduce the condition
 \begin{align}
@@ -206,18 +224,34 @@ We want \(f((\mu q^2)^{1/3}) > 0 \). We can expand and rearrange to obtain an ex
 If Equation \ref{eqn:osc_condition} is satisfied,
 then there exists a region of $f$ which is positive.
 Hence if this condition is met then oscillations may occur. %% I feel this should be more rigorous - we haven't proved that this is the condition for oscillations to occur.
-We have not yet provided the results to justify this statement, but in the next section we will provide rigorous arguments. % this is my backup argument for now.
+We have not yet provided the results to justify this statement, but later on we will provide more analysis on how the values of the parameters affect oscillations.
 Further on, we will be regularly making the assumption that this condition is satisfied,
 and hence that oscillations can occur,
 in order to develop our analysis of the model.
 
+Equation \ref{eqn:osc_condition} is a result on the existence of stationary point solutions to $f(b)$.
+Figure \ref{fig:bifurcation} is a plot showing the zeroes of $f(b)$ as the parameters change.
+With $\mu=1$ fixed, $q$ increases until the solutions converge close to $q=0.3$ and annihilate. % chat abt bifurcations
+The solutions cease to exist when \ref{eqn:osc_condition} is not satisfied.
+
+We can gain interesting and useful results regarding sufficient values of $\mu, q$,
+most noticeably that for any positive $\mu$, there exists some $q$ such that oscillations may occur.
+This relation is not symmetric, since $q>1$ immediately breaks the condition, for example.
+It is relatively simple to deduce this, since if the $1-q$ term of Equation \ref{eqn:osc_condition} is negative,
+the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fails.
+
 If a region of $f$ is positive, and $f$ tends to negative infinity when $b$ approaches $0$ or infinity,
 then there must be exactly two points $b_1,~b_2$ which are zeroes of $f$.
+These are equilibrium solutions.
 Formally, we are using the assumption of Equation \ref{eqn:osc_condition} to solve
-
 \begin{equation}
     1 - b - q - \frac{\mu q^2}{2b^2} = 0
 \end{equation}
+If the acceleration of the channel wall is positive,
+then the wall will accelerate outwards,
+however the acceleration will have to oscillate from positive to negative in order for there to be oscillations in the position itself.
+The values of $b$ we consider are strictly positive,
+since it represents a distance.
 
 % Clearly $f$ represents acceleration of the movable wall as a function of displacement $b$. We are only ever concerned with positive $b$ due to the assumptions of the model.
 % $f'$ is monotone decreasing, so there may be an interval $I_0=(p,q)$ such that if $b\in I_0$
@@ -225,10 +259,6 @@ Formally, we are using the assumption of Equation \ref{eqn:osc_condition} to sol
 % It is not certain that $f$ will have a positive region,
 % and this is decided by the parameters $\mu$ and $q$.
 % Particularly, we require that the maximum of $f$ ($f'(b_c) = 0$) is greater than zero:
-
-If the acceleration of the channel wall is positive, then the wall will accelerate outwards,
-however the acceleration will have to oscillate from positive to negative in order for there to be oscillations in the position itself.
-Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ an example which the reader should find familiar, the values of $b$ we consider are strictly positive.
 
 \section{Analytical methods for the single-mass model}
 
@@ -242,63 +272,34 @@ Unlike the simple harmonic oscillator $d^2 x/dt^2 + x = 0,$ an example which the
 %damping
 %we assumed steady bernoulli flow for an unsteady problem
 
-\subsection{The parameter space}
+\subsection{First order systems}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\linewidth]{bifurcation_saddlenode}
-	\caption{
-        The convergence of the equilibrium solutions to a single point before annihilating. Computed by solving \(f(b)\) with Newton's method.
-        The parameter \(q\) is the independent variable that governs the distance between the equilibria, while we have \(\mu\) fixed.
-    }
-	\label{fig:param_space}
-\end{figure}
-Recall the result obtained in Equation \ref{eqn:osc_condition}.
-We can produce a graph (see Figure \ref{fig:param_space}) where $\{\mu, q\}$ is the basis for the plane, and plot the distance between points.
-Note that, by the properties of the derivation of the model,
-$\mu$ and $q$ must be strictly positive,
-hence we are only considering points in the quarter-plane.
-Any suitable form of Equation \ref{eqn:master} can be placed in this region,
-and if that version exists within a particular contour,
-then oscillations may occur in a region of proportional scale.
-Around the edges of the curve, the points bifurcate,
-which is equivalent to the curve $f(b)$ only having one real-valued zero.
+%analytically forming a first order system
 
-We can gain interesting and useful results regarding sufficient values of $\mu, q$,
-most noticeably that for any positive $\mu$, there exists some $q$ such that oscillations may occur.
-This relation is not symmetric, since $q>1$ immediately breaks the condition, for example.
-It is relatively simple to deduce this, since if the $1-q$ term of Equation \ref{eqn:osc_condition} is negative,
-the $-3(\mu q^2)^{1/3}/2$ term will always be negative and thus the condition fails.
+Any ODE can be written as a system of first order ODEs.
+We can write Equation \ref{eqn:master} in the required form as
+\begin{equation}
+	\begin{aligned}
+		\frac{db}{dt}       & = \hat{b}                         \\
+		\frac{d\hat{b}}{dt} & = 1 - q - b - \frac{\mu q^2}{2b^2}.
+	\end{aligned}
+	\label{eqn:first_order_system}
+\end{equation}
+The variable $\hat{b}$ is a substitute variable for the first time-derivative,
+such that this system is equivalent to Equation \ref{eqn:master}.
+We can write this even more compactly as a single vector-valued ODE as
+\begin{equation}
+	\frac{d}{dt}\begin{pmatrix}
+		b \\
+		\hat{b}
+	\end{pmatrix} = \begin{pmatrix}
+		\hat{b} \\
+		1 - q - b - \frac{\mu q^2}{2b^2}
+	\end{pmatrix}.
+	\label{eqn:vector_system}
+\end{equation}
 
-\subsection{Solving differential equations in MATLAB}
-
-We use MATLAB, primarily the \texttt{ode45()} function, to compute solutions numerically.
-However, the governing differential equations must be provided as a first order system.
-Equation \ref{eqn:master} can be given in the following form, introducing variable $p$ for the reduction, as
-\begin{align}
-    \frac{db}{dt}       & = \hat{b}                         \\
-    \frac{d\hat{b}}{dt} & = 1 - q - b - \frac{\mu q^2}{2b^2}.
-    \label{eqn:first_order_system}
-\end{align}
-By using \texttt{ode45}, MATLAB performs numerical integration on all the equations in the system,
-thus giving numerical solutions for $b$ and $\dot{b}$ in terms of time $t$, subject to initial conditions.
-In most cases, we will consider the plate moving from rest ($\dot{b}(t=0) = 0$) given an initial position $b=b_0$.
-Working examples are available in the Appendix, and we encourage the reader to download code and test for themself.
-
-\subsection{Representations of solutions of differential equations}
-
-The phase-portrait is the vector space spanned by the vectors $b$ and $\dot{b}=db/dt$.
-We use phase-portrait representation as an alternative visualisation of the behaviour of motion. If a variable $x$ is governed by an ODE,
-we plot its behaviour over time where the different axes represent velocity $dx/dt$ against position $x$,
-rather than position against time.
-
-The phase-portrait is a useful method of representation for problems in dynamical systems,
-since an ODE or system of ODEs can be characterised by the locations and properties of its stationary equilibria.
-This alternative approach allows us to construct new visualisations of paths taken by the modelled plate.
-Paths in phase-plane representation have direct correspondence to plots in position against time.
-
-% phaseplane curves are mu=1, q=0.2 at b=0.1, b_0 ~= 0.1795, 0.3, 0.5
-% figures C and D at mu=1, q=1, b = 0.2, 0.4, 0.6, 0.8
+\subsection{Representations of solutions and equations of motion}
 
 \begin{figure}
     \centering
@@ -319,8 +320,9 @@ It becomes easier to see the critical points,
 namely the stationary point in the centre of the closed loops,
 and the inflection point between the regions of closure and oscillation.
 See Figure \ref{fig:phaseportrait_compare} for a demonstration.
-
-\subsection{Equations of motion represented as phase-plane curves}
+The most common form of the phase portrait representation that we will observe in this problem is shown in subfigure B from Figure \ref{fig:phaseportrait_compare}.
+Within a bounded region of $b$, closed oscillations occur,
+and outside of this we experience eventual closure.
 
 Recall Equation \ref{eqn:master}, of the form $d^2b/dt^2 = f(b)$.
 Assume the right hand side $f(b)$ is the derivative (with respect to $b$, remaining aware that $b$ depends on $t$) of some function $F(b)$.
@@ -354,7 +356,7 @@ Both expressions represent families of curves in the phase-portrait.
 However, when reducing and solving the ODE to derive the first order reduction, we made the assumption of separability of variables,
 which is not true in all cases,
 whereas here we have covered a different method.
-In combination of results, we will want to assume
+In combination of results, we will define the function $F$ as
 \begin{equation}
     F(b) = (1-q)b - \frac{1}{2}b^2 + \frac{\mu q^2}{2b}
     \label{eqn:integral_curve_supposed}
@@ -369,7 +371,7 @@ For example, we can find the particular constants $C$ such that we generate the 
 Oscillations occur when, for some $C$, the curve $\left((db/dt)^2\right)/2 = F(b) + C$ exhibits a closed loop.
 It is necessary and sufficient for there to exist a region of inflection (an interval where the derivative is positive,
 elsewhere negative) in $F(b)$ in order for this to occur.
-Hence the condition for oscillations to occur is equivalent to the requirement that $f(b)$ is somewhere positive.
+This is equivalent to the requirement that $f(b)$ is somewhere positive.
 
 Interesting behaviour occurs when the local minimum or maximum of $F(b)$ is a zero.
 We want to investigate the integral curves to find the conditions required for
@@ -381,7 +383,7 @@ If $\mu, q$ satisfy the condition for oscillations to occur,
 it is evident that there exists a $C$ such that Equation \ref{eqn:integral_curves_zeroes} will have exactly two zeroes.
 The interval between these is the region in which we observe the largest oscillation.
 
-\subsection{Matrix representation of a system of differential equations}
+\subsection{The Jacobian matrix}
 
 Recall the reduction of Equation \ref{eqn:master} to a first order system in Equation \ref{eqn:first_order_reduction}.
 Using the function $f(b)$ which we have defined, the equation can be represented by a first order system as
@@ -396,9 +398,9 @@ We can construct an approximation for the function $f(b)$ about a point $b_0$ us
     \label{eqn:taylor_series}
 \end{equation}
 Recall that $f(b)$ has zeroes. If we pick $b_0$ to be a zero of the function, then as $b\rightarrow b_0$,
-most of the terms in the Taylor series expansion vanish\footnote{they become negligibly small}.
+we can simplify the Taylor series expansion.
 More precisely, since $b_0$ is a zero of $f$, the $f(b_0)$ term tends to zero.
-We keep the $(b-b_0)f'(b_0)$ since, while the coefficient is small,
+We keep the $(b-b_0)f'(b_0)$ since, while $b-b_0$ is small,
 the terms succeeding it are far smaller in magnitude.
 With the Taylor series applied, propose the approximation about a point $b_0$
 \begin{align}
@@ -452,9 +454,14 @@ Then the Jacobian is the matrix of first order derivatives of $X$ and $Y$,
 \end{equation}
 which matches Equation \ref{eqn:first_order_approximated_substituted_matrix}.
 
+We have obtained the Jacobian matrix identical to how it was defined in our introduction,
+however the problem itself is simplified from the general form we first covered.
+
 % discuss the implications of this analysis and the matrix eigenvectors
 
 % could get rid of this whole next chunk
+
+\subsection{Fudge}
 
 The implications of the matrix model allow us to perform linear system analysis local to the critical points $b_0$ satisfying $f(b_0) = 0.$
 Let $\mathbf{u}=(x_i,y_i)^T$ be a vector denoting information on the plate local to $b_0$,
@@ -533,14 +540,38 @@ and $\delta y_i$ (the velocity) are small, so we are local to the critical point
 and thus can apply the matrix equation. If $\delta u$ is small, then it is negligible compared to the $\lambda_i (x_i,y_i)^T$ term.
 Hence the eigenvectors influence the motion in the phase-plane local to the critical points. 
 
-\section{Computational results provided by the single mass model}
+\section{Computational results and further analysis}
+
+\subsection{Formulating the problem for MATLAB}
+
+%providing an input for MATLAB
+We use MATLAB, primarily the \texttt{ode45()} function, to compute solutions numerically.
+However, the governing differential equations must be provided as a first order system.
+We have explored first order forms of Equation \ref{eqn:master} earlier,
+in Equations \ref{eqn:first_order_system} and \ref{eqn:vector_system}.
+MATLAB performs a time stepping method on a first order vector valued ODE,
+which is given in out case as
+\begin{equation*}
+	\frac{d}{dt}\begin{pmatrix}
+		b \\
+		\hat{b}
+	\end{pmatrix} = \begin{pmatrix}
+		\hat{b} \\
+		f(b)	
+	\end{pmatrix}
+\end{equation*}
+By using \texttt{ode45}, MATLAB performs numerical integration on all the equations in the system,
+thus giving numerical solutions for $b$ and $\dot{b}$ in terms of time $t$, subject to initial conditions.
+In most cases, we will consider the plate moving from rest ($\hat{b}(t=0) = 0$) given an initial position $b=b_0$.
+All scripts are available in the appendix of this report.
 
 \subsection{MATLAB results and inspection}
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{phaseportrait}
-    \caption{Representation of all families of curves in the phase portrait representation of numerical solutions for Equation \ref{eqn:master}.
+    \caption{
+        Representation of all families of curves in the phase portrait representation of numerical solutions for Equation \ref{eqn:master}.
         The parameters are set with $\mu = 1,~q=0.2$. The critical points were computed to be $b_1 \approx 0.1795,~ b_2 \approx 0.7659$, and have been marked.
     }
     \label{fig:phaseportrait_oscillations}
@@ -548,7 +579,7 @@ Hence the eigenvectors influence the motion in the phase-plane local to the crit
 
 \begin{figure}
     \centering
-    \includegraphics[width = 0.5\linewidth]{figures/stable_oscillations.eps}
+    \includegraphics[width = 0.7\linewidth]{figures/stable_oscillations.eps}
     \caption{
         Oscillations about the equilibrium solution $b_2$ with parameters $\mu=1,~q=0.1$, represented in the phase portrait.
         Computed using a random angle and small modulus to offset initial conditions within a small disc about $b_2$ in the phase-plane.
@@ -559,11 +590,13 @@ Hence the eigenvectors influence the motion in the phase-plane local to the crit
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{figures/trajectories_unstable.eps}
+    \includegraphics[width=\linewidth]{figures/trajectories_unstable.eps}
     \caption{
         Trajectories about the equilibrium solution $b_1$ with parameters $\mu=1,~q=0.1,$ drawn in the phase portrait.
         Paths either accelerate to closure (left of the fixed point), fall into orbit about $b_2$ (right),
         or follow a path outside of the closed region of oscillations (top and bottom) before closure.
+        We view an extremely close image of the unstable point,
+        showing how oscillations (right of the stationary point) come extremely close to the equilibrium.
     }
     \label{fig:unstable_trajectories}
 \end{figure}
@@ -677,7 +710,24 @@ then \(C = -F(b_1)\)
 The function \(F(b)-F(b_i)\) is zero at $b_i$, allowing us to construct functions representing the kinetic energies of a solution to the ODE,
 which take zero at the equilibrium solutions.
 
+Figure \ref{fig:sqrt_curves} shows plots of $F(b)+C$ and $\sqrt{F(b)+C}$ for different constants $C$.
+The blue curve is the line $F(b)-F(b_1)$ at the stationary point $b_1$,
+and plotting its square root forms a sharp point where it intersects with the horizontal axis.
+This resembles the shape of the unstable equilibrium in the phase portrait,
+which we visualised in Figure \ref{fig:unstable_trajectories}.
 
+We will now rigorously show that Equation \ref{eqn:osc_condition} guarantees oscillations.
+Assume that $f(b)$ is somewhere strictly positive, which is equivalent to \ref{eqn:osc_condition}.
+We do not include the case of equality,
+which is where $f(b)$ is zero exactly once.
+Equivalently, $F(b)$ has a region of inflection,
+since its gradient $f(b)$ is positive on a given interval.
+As shown by Figure \ref{fig:sqrt_curves},
+the curve $F(b)-F(b_1)$ is equivalent to the closed loop in the phase portrait that starts and ends at $b_1$.
+Curves $F(b)-F(b_1)-\eta$, where $\eta$ is small,
+correspond to closed loops bounded by the curve $F(b)-F(b_1)$.
+For sufficiently small $\eta$ such that $b_1+\eta$ is contained between the zeroes of $F(b)-F(b_1)$,
+we have a closed loop, which corresponds to an orbit represented in the phase portrait.
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
 
@@ -693,42 +743,5 @@ which take zero at the equilibrium solutions.
 
 \bibliographystyle{unsrt}
 \bibliography{sources}
-
-\appendix
-
-\section{MATLAB Scripts}
-
-In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows:
-
-%nicer written verbatim environment ode function here
-
-\begin{verbatim}
-function dbdt = OscillatorODE(t, x, mu, q)
-
-b=x(1);
-bdot=x(2);
-
-dbdt=zeros(size(x));
-dbdt(1) = bdot;
-dbdt(2) = 1 - q - b - (mu*power(q,2))/(2*power(b,2));
-
-end
-\end{verbatim}
-
-And it is solved with \texttt{ode45} as such:
-
-\begin{verbatim}
-q=0.1; u=1; % define fixed variables
-[t, x] = ode45(@(t,x) OscillatorODE(t,x,q,u));
-
-% distance-time plot
-figure
-plot(t,x(1,:))
-
-% phase-plane plot
-figure
-plot(x(1,:),x(2,:))
-\end{verbatim}
-
 
 \end{document}
