@@ -8,11 +8,24 @@
 \usepackage[a4paper, total={6in,8in}]{geometry}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{subcaption}
 \usepackage{datetime}
 \usepackage{natbib}
 \usepackage{hyperref}
 
-\graphicspath{{figures/}}
+%\usepackage{amssymb}
+%\usepackage{amsfonts}
+%\usepackage{amsmath}
+%\usepackage{dsfont}
+%\usepackage{bm}
+%\usepackage[a4paper, total={6in,8in}]{geometry}
+%\usepackage{graphicx}
+%\usepackage{float}
+%\usepackage{subcaption}
+%\usepackage{natbib}
+%\usepackage{hyperref}
+
+\graphicspath{{/figures/}{Matlab Demos/sounds/}{voiced_sounds/case_1}{voiced_sounds/case_2}{voiced_sounds/case_3}}
 
 \title{Models for Phonation}
 \author{Will Woolfenden}
@@ -440,9 +453,9 @@ particularly sections 1.1 on simple examples of linear systems,
 1.9 on the theory of stability,
 and 2.6 on linearisation.
 
-\chapter{Writing go here}
+%\include{project_phonation_doc.tex}
 
-\dots
+%\include{twomass.tex}
 
 \chapter{Review}
 
@@ -581,18 +594,76 @@ we would obtain a system of PDEs describing motion in more than one degree of fr
 and it would be difficult to replicate the one dimensional results from our two mass model.
 
 
-\chapter{Conclusion}
+\chapter{Discussion and conclusion}
+
+\section{Aims}
+% what did we aim to do
 
 In this project,
-we have explored two models for phonation and evaulated their accuracy and utility as mathematical models.
-We started by introducing the fundamentals of fluid mechanics and mathematical modelling,
-which build the foundation of our modelling process.
+we aimed to explore mathematical models for phonation,
+and analyse the characteristics that they can produce.
+We began by exploring a single mass model from a research paper,
+and derived results on its behaviour.
+We explored equilibrium solutions and criteria for closure.
+
+We generalised the properties of the single mass problem into a model involving two separate, stiffness-coupled masses.
+We analysed distinct behaviours of the two mass model,
+again investigating equilibrium solutions.
+We investigated the complex shape of the motion of the masses,
+and performed computational Fourier analysis on different results to provide insight into the frequencies of the oscillations.
+
+\section{The single mass model}
+% what does the single model do
+
+The single mass model exhibits oscillations when parameters take suitable values.
+Orbits oscillate about a stable equilibrium $b_2$ in the phase portrait.
+In the proximity of the unstable equilibrium $b_1$,
+orbits will gravitate towards the unstable point.
+Trajectories near $b_1$ outside the bound for oscillations will diverge from this unstable point and eventually reach closure.
+
+\section{The two mass model}
+% what does the two mass model do
+
+We constructed the two mass model by generalising the single mass model,
+but we chose to cover the formulation of the model from scratch.
+Two masses are given a coupling stiffness,
+and we aim to produce more complex dynamics with the two mass model.
+
+The two mass model always retains at least one equilibrium solution.
+Strong stiffness coupling between the masses can replicate the structure of solutions for the single mass model.
+In most cases,
+we can observe four separate equilibrium solutions for the system.
+Results such as the equilibrium solutions themselves, and the eigenvalues of the Jacobian local to these points,
+must be computed numerically.
+Some equilibrium solutions are often unstable and so precise that a computation at these equilibria eventually diverges into large oscillations.
+The motion of the masses is often quasiperiodic,
+following one or several dominant frequencies of oscillation.
+
+We could verify results by deriving an energy constant for the system from definite integration.
+This energy constant was used to verify the reliability of results.
+
+Finally, we performed Fourier analysis on a selection of results in order to analyse the frequency space of the quasiperiodic motion.
+We were able to analyse the spectra of the oscillations,
+where some results showed clear discrete peaks in the frequency space,
+but others showed more continuous ranges of oscillation frequencies.
+
+\section{Equilibrium solutions}
+% what is an equilibrium in phonation
+
+The existence of equilibrium solutions suggests that the vocal folds can remain in fixed positions under particular forcing terms.
+
+% what is quasiperiodic motion in phonation
+
+% what is collapse in phonation
+
+% what do we know about phonation from our models
 
 
 
 
-\bibliographystyle{unsrt} % agsm is harvard
-\bibliography{sources}
+
+\bibliographystyle{unsrt}
+\bibliography{sources.bib}
 
 \appendix
 
@@ -603,38 +674,324 @@ which build the foundation of our modelling process.
 
 \chapter{MATLAB Scripts}
 
-\section{Single mass model functions}
+\section{Single mass model}
 
-In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows:
-
-%nicer written verbatim environment ode function here
+This code produces computations of the single mass model.
+It also includes plotting functions for the curves which represent trajectories in the phase portrait.
 
 \begin{verbatim}
-	function dbdt = OscillatorODE(t, x, mu, q)
-	
-	b=x(1);
-	bdot=x(2);
-	
-	dbdt=zeros(size(x));
-	dbdt(1) = bdot;
-	dbdt(2) = 1 - q - b - (mu*power(q,2))/(2*power(b,2));
-	
-	end
+%% ODE Solver using ode45
+
+tspan=[0,20];
+
+%initial conditions. this field should be edited for new results
+xinit=[0.2, 0];
+
+q=0.1; k=0.1;
+mu = 1;
+[t, x] = ode45(@(t,x) OscODE(t,x,mu,q), tspan, xinit)
+b=x(:,1);
+bdot=x(:,2);
+
+%plot the computation
+hold on
+plot(t,b)
+hold off
+
+%compute equilibrium solutions and store
+b_1 = fzero(@(b) OscODE2(t,b,mu,q),0.4)
+b_2 = fzero(@(b) OscODE2(t,b,mu,q),0.6)
+
+%% KE Curves Plotter
+
+hold on
+
+fplot(@(x) sqrt(F(x,mu,q) - F(b_1,mu,q)), [0 2])
+fplot(@(x) sqrt(F(x,mu,q) - F(b_2,mu,q)), [0 2])
+fplot(@(x) sqrt(F(x,mu,q) + F(b_1,mu,q)), [0 2])
+fplot(@(x) sqrt(F(x,mu,q) + F(b_2,mu,q)), [0 2])
+
+fplot(@(x) sqrt(F(x,mu,q) - (F(b_2,mu,q) - F(b_1,mu,q))), [0 2])
+fplot(@(x) sqrt(F(x,mu,q) - (F(b_2,mu,q) + F(b_1,mu,q))), [0 2])
+
+fplot(0,[0 2],'k-')
+hold off
+
+
+%% Functions
+
+function dbdt = OscODE(t, x, mu, q)
+
+b=x(1);
+bdot=x(2);
+
+dbdt=zeros(size(x));
+dbdt(1) = bdot;
+dbdt(2) = 1 - q - b - (mu*power(q,2))/(2*power(b,2));
+
+end
+
+function d2b = OscODE2(t, b, mu, q)
+% used for computing equilibria
+
+d2b = 1 - q - b - (mu.*power(q,2))/(2*power(b,2));
+
+end
+
+function out = F(b,mu,q)
+out = (1-q)*b - (b^2)/2 + (mu*q^2)/(2*b);
+end
 \end{verbatim}
 
-And it is solved with \texttt{ode45} as such:
+\section{Two mass model}
+
+This is the code used to compute results for the two mass model.
+Should be run separately by section.
+For a quick result, run the first section,
+then ``stationary points and general equilibria solvers",
+then the implementation of \texttt{ode45}.
+Also includes code for computing eigenvalues near an equilibrium,
+plotting graphics of the equilibrium solutions,
+and extra functions for verification and computation.
 
 \begin{verbatim}
-	q=0.1; u=1; % define fixed variables
-	[t, x] = ode45(@(t,x) OscillatorODE(t,x,q,u));
-	
-	% distance-time plot
-	figure
-	plot(t,x(1,:))
-	
-	% phase-plane plot
-	figure
-	plot(x(1,:),x(2,:))
+%% Two Mass Model - Normalised ODE Attempt 3
+
+% final nondimensionalisation
+
+%set the required constants
+
+% alpha is quotient of second mass by first mass, we specify only its
+% inverse alpha_inv = m1/m2 since we only ever divide by alpha.
+% lambda is the quotient of their support spring stiffnesses k2/k1.
+% beta is proportional to the forcing pressure at lung.
+% omega is the quotient of the coupling stiffness by spring 1, i.e. if we
+% know omega and lambda, you can find the stiffness k_2.
+
+alpha_inv = 1;
+lambda = 0.8;
+beta = 3;
+omega = 0.3;
+
+%% Stationary points and general equilibria solvers
+
+%one-dimensional solvers for individual stationary points, neglecting the
+%stiffness coupling
+stat_point_11 = fzero(@(x) 1 - x + beta*(1 - power(x, -2)),[1e-5 power(2*beta, 1/3)]);
+stat_point_12 = fzero(@(x) 1 - x + beta*(1 - power(x, -2)),[power(2*beta, 1/3), 10]);
+stat_point_21 = fzero(@(x) lambda*(1 - x) + beta*(1 - power(x, -2)),[1e-5 power(2*beta/lambda, 1/3)]); 
+stat_point_22 = fzero(@(x) lambda*(1 - x) + beta*(1 - power(x, -2)),[power(2*beta, 1/3), 10]);
+
+%solver problem to find equilibria. MUST take vertical vector input
+init_search_point = [stat_point_12; stat_point_22];
+[steady_soln,fval] = fsolve(@(v) zeroesFunction2(v,lambda,beta,omega),init_search_point);
+
+x_equilibrium = steady_soln(1);
+y_equilibrium = steady_soln(2);
+
+%% Eigenvalue computation
+
+df1dx = partDf1(x_equilibrium,beta,omega);
+df1dy = omega;
+df2dx = omega;
+df2dy = partDf2(y_equilibrium,lambda,beta,omega);
+
+jcbn = [
+0, 1, 0, 0;
+df1dx, 0, df1dy, 0;
+0, 0, 0, 1;
+alpha_inv*df2dx, 0, alpha_inv*df2dy, 0;
+];
+
+eig_vals = eig(jcbn)
+
+% plot the eigenvalues in the complex plane with real, imag axes
+hold on
+for val = eig_vals
+plot([-5 5],[0 0],'k-')
+plot([0 0],[-5 5],'k-')
+plot(real(val),imag(val),'rx','MarkerSize',8)
+end
+hold off
+
+%% Contour graphic of equilibrium solutions
+
+x_axis = [-5:0.05:15];
+y_axis = [-5:0.05:15]';
+z_axis_1 = 1 - x_axis + beta*(1-1./(x_axis.^2)) + omega*(y_axis-x_axis);
+z_axis_2 = lambda*(1 - y_axis) + beta*(1-1./(y_axis.^2)) + omega*(x_axis-y_axis);
+
+hold on
+contour(x_axis,y_axis,z_axis_1,[-0.001,0,0.001],'b-')
+contour(x_axis,y_axis,z_axis_2,[-0.001,0,0.001],'r-')
+plot([-5 15],[-5 15],'g-')
+hold off
+
+%% Solver - Implementation of ODE45
+
+%enter initial conditions
+opts = odeset('AbsTol',1e-20,'RelTol',1e-12);
+tspan = [0 100];
+init = [stat_point_12, 0, stat_point_22, 0];
+[t,x] = ode45(@(t,x) twoMassModel(t,x,alpha_inv, lambda, beta, omega),tspan,init,opts);
+
+E = totalEnergy(x(:,1),x(:,2),x(:,3),x(:,4),alpha_inv,lambda,beta,omega);
+
+% plot different representations
+hold on
+%plot(x(:,1), x(:,2),'b');
+%plot(x(:,3), x(:,4),'r');
+
+plot(t, x(:,1))
+plot(t, x(:,3))
+
+%plot(t,E)
+
+%plot(x(:,1),x(:,3))
+%hold off
+
+%% Les functiones
+
+%the ODE function on two masses taking parameters alpha, lambda, beta,
+%omega
+function dhdt = twoMassModel(t,x,alpha_inv,lambda,beta,omega)
+
+%take inputs, initialise the h variables
+dhdt = zeros(size(x));
+
+h_1 = x(1);
+dh_1 = x(2);
+h_2 = x(3);
+dh_2 = x(4);
+
+%compute the equation
+
+dhdt(1) = dh_1;
+dhdt(2) = 1 - h_1 + beta*(1-1/(h_1)^2) + omega*(h_2-h_1);
+dhdt(3) = dh_2;
+dhdt(4) = alpha_inv*(lambda*(1 - h_2) + beta*(1-1/(h_2)^2) + omega*(h_1-h_2));
+
+end
+
+function out_vector = zeroesFunction2(v,lambda,beta,omega)
+x = v(1);
+y = v(2);
+out_x = 1-x + beta*(1-(1./(x.^2))) + omega.*(y-x);
+out_y = lambda*(1-y) + beta*(1-(1./(y.^2))) + omega.*(x-y);
+out_vector = [out_x; out_y];
+end
+
+%partial derivatives of f1 and f2
+function out = partDf1(x,beta,omega)
+out = -1 + 2*beta*power(x,-3) - omega;
+end
+function out = partDf2(x,lambda,beta,omega)
+out = -lambda + 2*beta*power(x,-3) - omega;
+end
+
+
+% conserved energy term
+function vec = totalEnergy(x1,v1,x2,v2,alpha_inv,lambda,beta,omega)
+kinetic_energy_term = (v1.^2 + (alpha_inv^-1)*(v2.^2))/2;
+x_potential_term = (1+beta)*x1 - (x1.^2)/2 + beta./x1;
+y_potential_term = (lambda+beta)*x2 - lambda*(x2.^2)/2 + beta./x2;
+mixed_term = -omega*((x1-x2).^2)/2;
+vec = kinetic_energy_term - x_potential_term - y_potential_term - mixed_term;
+end
+
+
+function starting_pts = findStatPoints(lambda,beta)
+stat_point_11 = fzero(@(x) 1 - x + beta*(1 - power(x, -2)),[1e-5 power(2*beta, 1/3)]);
+stat_point_12 = fzero(@(x) 1 - x + beta*(1 - power(x, -2)),[power(2*beta, 1/3), 10]);
+stat_point_21 = fzero(@(x) lambda*(1 - x) + beta*(1 - power(x, -2)),[1e-5 power(2*beta/lambda, 1/3)]); 
+stat_point_22 = fzero(@(x) lambda*(1 - x) + beta*(1 - power(x, -2)),[power(2*beta, 1/3), 10]);
+starting_pts = [
+stat_point_11, stat_point_12;
+stat_point_21, stat_point_22
+];
+end
+
+function [equilibria_x,equilibria_y] = findEquilibria(sp11,sp12,sp21,sp22,lambda,beta,omega)
+%opts_2 = optimset()
+steady_soln_11 = fsolve(@(v) zeroesFunction2(v,lambda,beta,omega),[sp11,sp21]);
+steady_soln_12 = fsolve(@(v) zeroesFunction2(v,lambda,beta,omega),[sp11,sp22]);
+steady_soln_21 = fsolve(@(v) zeroesFunction2(v,lambda,beta,omega),[sp12,sp21]);
+steady_soln_22 = fsolve(@(v) zeroesFunction2(v,lambda,beta,omega),[sp12,sp22]);
+if any([steady_soln_11 steady_soln_12 steady_soln_21 steady_soln_22]<0)
+equilibria_x = [
+missing missing;
+missing missing
+];
+equilibria_y = [
+missing missing;
+missing missing
+];
+end
+equilibria_x = [
+steady_soln_11(1), steady_soln_12(1);
+steady_soln_21(1), steady_soln_22(1)
+];
+equilibria_y = [
+steady_soln_11(2), steady_soln_12(2);
+steady_soln_21(2), steady_soln_22(2)
+];
+end
+\end{verbatim}
+
+\section{Fourier transform and sound file generation}
+
+This code requires that a computation of the two mass model has been performed and is currently stored.
+
+\begin{verbatim}
+%% Sound System
+
+%Generates a playable wave form and a Fourier spectrum from data provided
+%by the vocal fold model.
+
+%use nufft() for fourier transform
+
+%fourier analysis
+D1 = x(:,1);
+D2 = x(:,3);
+N = length(t);
+L = t(N);
+F = (0:N-1)/L;
+
+%fourier transform
+M1 = nufft(D1, t);
+M2 = nufft(D2, t);
+
+%conversion to the power of the frequencies
+P1 = abs(M1.^2)/N;
+P2 = abs(M2.^2)/N;
+
+%% Generate Sound Files
+
+%reinterpolate the signal to a uniform step
+t_new = linspace(0,L,N);
+V1 = interp1(t,D1,t_new);
+V2 = interp1(t,D2,t_new);
+
+%normalise the signal to [-1, 1]
+signal_u = max(max(V1),max(V2));
+signal_l = min(min(V1),min(V2));
+
+translation = -(signal_u+signal_l)/2
+scaling = 2/(signal_u-signal_l)
+
+V1 = scaling*(V1+translation);
+V2 = scaling*(V2+translation);
+
+%suggested playback frequency. 1000 time units is one second
+playback_frequency = floor(1000*N/L)
+
+filename="result_name";
+info = "parameters alpha=%d, lambda=%d, beta = %d, omega = %d. IV [%d %d]";
+comment = sprintf(info,1/alpha_inv,lambda,beta,omega,init(1),init(3));
+audiowrite(filename+"a.wav",V1,playback_frequency,'Comment',comment);
+audiowrite(filename+"b.wav",V2,playback_frequency,'Comment',comment);
+figure1 = plot(F,P1); ylim([0 2e5]); saveas(figure1,filename+"a",'epsc');
+figure2 = plot(F,P2); ylim([0 2e5]); saveas(figure2,filename+"b",'epsc');
 \end{verbatim}
 
 \end{document}
