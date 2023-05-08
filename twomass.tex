@@ -19,14 +19,14 @@
 \title{A Two Mass Model}
 \author{Will Woolfenden}
 
-\chapter{A two-mass model}
+\chapter{The two mass model}
 
 \section{Formulating the model}
-\
-\begin{figure}
+
+\begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{figures/twomass_bothsides.jpeg}
-    \caption{General illustration of the two-mass model. Plates with mass $\mathrm{m_1},\mathrm{m_2}$ are connected to the wall of the channel by springs.
+    \caption{General illustration of the two mass model. Plates with mass $\mathrm{m_1},\mathrm{m_2}$ are connected to the wall of the channel by springs.
     The fluid velocity $\bm{u(x)}$ and pressure $p$ are terms we can fix local to the lung.
     The stiffness coupling between masses provides a horizontal force which we ignore by restricting the masses to one-dimensional motion along the width of the channel.}
     \label{fig:twomass_bothsides}
@@ -39,7 +39,7 @@ in which two masses cause a constriction to the fluid passage.
 Each mass $m_i$ is indivually supported by a spring with Hooke constant $k_i$,
 and a coupling spring with constant $k_s$ connects the two masses.
 
-\subsection{Fluid flow and pressure}
+\subsection{Fluid and solid mechanics}
 
 We assume the masses to move one-dimensionally, perpendicular to the principal direction of the flow,
 such that they may extend indefinitely.
@@ -66,7 +66,7 @@ where $x$ is the position in the dominant direction of the flow, or equivalently
 The outer unit normal $\mathbf{n}$ is the vector pointing outwards normal to any cross-sectional area. 
 The integral term is negative because the outer unit normal points in the direction opposite to the flow.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{figures/twomass_fluxpressure.jpeg}
     \caption{The single side of the model.
@@ -85,7 +85,7 @@ Since we have a condition $u(x=x_0) = U_0$, we can write this as
     Q(x_0) = \iint_{A_0} \rho U_0~dS.
 \end{equation}
 We have made the assumption of incompressibility in order to write $\rho$ as a constant.
-Since $A_0$ is a cross-section of known area $\mathrm{wh}$, and $U_0$ is known, we have
+Since $A_0$ is a cross-section of known area $\mathrm{\mathrm{wh}}$, and $U_0$ is known, we have
 \begin{equation}
     Q(x_0) = \rho \mathrm{wh} U_0
     \label{eqn:twomass_lung_flux}
@@ -103,7 +103,7 @@ We will take time derivatives:
     \dot{V_i} = \dot{h_i} \mathrm{wd}.
 \end{equation}
 Conservation of mass \ref{eqn:cons_mass_formal} in combination with incompressibility tells us that the rate of change of a volume is equal to the rate at which its enclosed mass increases.
-In volume $V_1$, mass enters through flux $Q_in$ and exits through flux $Q_mid$. The case for $V_2$ is analogous.
+In volume $V_1$, mass enters through flux $Q_\mathrm{in}$ and exits through flux $Q_\mathrm{mid}$. The case for $V_2$ is analogous.
 From this we can force an assumption to relate flux around a volume to its rate of change, which can be expressed as follows:
 
 \begin{equation}
@@ -197,10 +197,11 @@ Importantly \(p_0 = \tilde{p}_0\) is still the forcing term.
 
 %now we're really in a pickle. How can we have atmospheric pressure when we can force pressure?
 
-We now impose the assumtion of a quasisteady flow.
+We now impose the assumption of a quasisteady flow.
 This lets us regard a consistent flux $Q$ throughout the mechanics,
 rather than separate fluxes at different regions of interest.
-Equations \ref{eqn:twomass_flux_in}, \ref{eqn:twomass_flux_out} give us an expression for velocity in terms of flux and the channel dimensions,
+This does neglect the condition $\dot{V}_i = \dot{h_i}\mathrm{wd}$.
+Equations \ref{eqn:twomass_flux_in} and \ref{eqn:twomass_flux_out} give us an expression for velocity in terms of flux and the channel dimensions,
 which we can generalise outside the region of interest:
 \begin{equation}
     U = \frac{Q}{\mathrm{wh}},
@@ -218,12 +219,11 @@ Given \(i=1,2:\)
         p_i &= \rho\left(\mathrm{E} - \frac{1}{2}U_i^2 \right) \\
         &= \frac{1}{2}\rho\left(U_\infty^2 - U_i^2\right) \\
         &= \frac{1}{2}\rho\left( \left(\frac{Q}{\mathrm{wh}}\right)^2 - \left(\frac{Q}{\mathrm{w}h_i}\right)^2 \right) \\
-        &= \frac{\rho Q^2}{\mathrm{w}^2}\left( \frac{1}{\mathrm{h}^2} - \frac{1}{h_i^2} \right)
+        &= \frac{\rho Q^2}{2\mathrm{w}^2}\left( \frac{1}{\mathrm{h}^2} - \frac{1}{h_i^2} \right).
     \end{aligned}
     \label{eqn:twomass_pressureterm}
 \end{equation}
-
-\subsection{Solid mechanics of springs and stiffness}
+We can multiply the pressure $p_i$ by the area of plate $i$ to find the force.
 
 \begin{figure}
     \centering
@@ -243,33 +243,39 @@ We use linear elastic Hooke springs to model the stiffness of the walls.
 Support springs are similar to the original model we have considered,
 however we now introduce stiffness coupling between two separate walls.
 A plate $i = 1,2$ is connected to the wall by a stiffness spring with constant ${k}_i$.
-The coupling spring has constant $\mathrm{k}_s$, and the resting equilibrium positions of all springs are at $0$.
+The coupling spring has constant $k_s$, and the resting equilibrium positions of all springs are at $0$.
+
+\subsection{Forming the equations of motion}
 
 The forces on a plate with position $b_i$ provide the equation of motion by Newton's second law:
 \begin{equation}
-    \mathrm{m}_i\frac{\mathrm{d}^2 b_i}{\mathrm{d}t^2} = -F_\mathrm{stiffness} - F_\mathrm{pressure} + F_\mathrm{coupling}
+    m_i\frac{\mathrm{d}^2 b_i}{\mathrm{d}t^2} = -F_\mathrm{stiffness} - F_\mathrm{pressure} + F_\mathrm{coupling}
 \end{equation}
 for $i=1,2$. In full:
 \begin{equation}
     \begin{aligned}
-        \mathrm{m}_1\frac{\mathrm{d}^2 b_1}{\mathrm{d}t^2} &= -\mathrm{k}_1(b_1 - \mathrm{b}*) - \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{(\mathrm{h}-b_1)^2} \right) + \mathrm{k}_s(b_2-b_1) \\
-        \mathrm{m}_2\frac{\mathrm{d}^2 b_2}{\mathrm{d}t^2} &= -\mathrm{k}_1(b_2 - \mathrm{b}*) - \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{(\mathrm{h}-b_2)^2} \right) + \mathrm{k}_s(b_1-b_2)
+        m_1\frac{\mathrm{d}^2 b_1}{\mathrm{d}t^2} &= -k_1(b_1 - \mathrm{b}*) - \frac{\mathrm{wd}\rho Q^2}{2\mathrm{w}^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{(\mathrm{h}-b_1)^2} \right) + k_s(b_2-b_1) \\
+        m_2\frac{\mathrm{d}^2 b_2}{\mathrm{d}t^2} &= -k_1(b_2 - \mathrm{b}*) - \frac{\mathrm{wd}\rho Q^2}{2\mathrm{w}^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{(\mathrm{h}-b_2)^2} \right) + k_s(b_1-b_2)
     \end{aligned}
 \end{equation}
-where $b*$ is the resting position of both masses. It will be easier to make $h$ the variable of interest, since closure at $h=0$ is identifiable,
-and we will impose the resting position to be $h* = \mathrm{h}$. Recall the definition $b_i + h_i = \mathrm{h}$. The conversion yields
+where $b*$ is the resting position of both masses.
+The coupling term has been approximated as a linear term on the distances between each $b$.
+We will now make a change of variables, constructing the equivalent equation on $h$.
+This simplifies our problem, since closure at $h=0$ is easily identifiable.
+We will impose the resting position to be $h* = \mathrm{h}$. Recall the definition $b_i + h_i = \mathrm{h}$.
+The conversion yields
 \begin{equation}
     \begin{aligned}
-        \mathrm{m}_1\frac{\mathrm{d}^2 h_1}{\mathrm{d}t^2} &= -\mathrm{k}_1(h_1 - \mathrm{h}) + \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{h_1^2} \right) + \mathrm{k}_s(h_2-h_1) \\
-        \mathrm{m}_2\frac{\mathrm{d}^2 h_2}{\mathrm{d}t^2} &= -\mathrm{k}_2(h_2 - \mathrm{h}) + \frac{wd\rho Q^2}{w^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{h_2^2} \right) + \mathrm{k}_s(h_1-h_2).
+        m_1\frac{\mathrm{d}^2 h_1}{\mathrm{d}t^2} &= -k_1(h_1 - \mathrm{h}) + \frac{\mathrm{wd}\rho Q^2}{2\mathrm{w}^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{h_1^2} \right) + k_s(h_2-h_1) \\
+        m_2\frac{\mathrm{d}^2 h_2}{\mathrm{d}t^2} &= -k_2(h_2 - \mathrm{h}) + \frac{\mathrm{wd}\rho Q^2}{2\mathrm{w}^2}\left(\frac{1}{\mathrm{h}^2} - \frac{1}{h_2^2} \right) + k_s(h_1-h_2).
     \end{aligned}
 \end{equation}
 We introduce the following parameters
 \begin{equation*}
     \begin{aligned}
-        h_1 = \mathrm{h}\tilde{h}_1,~h_2 = \mathrm{h}\tilde{h}_2,~t=\sqrt{\frac{\mathrm{m}_1}{\mathrm{k}_1}}\tilde{t}, \\
-        \alpha = \frac{\mathrm{m}_2}{\mathrm{m}_1},~\lambda = \frac{\mathrm{k}_2}{\mathrm{k}_1},~\omega = \frac{\mathrm{k}_s}{\mathrm{k}_1} \\
-        \beta = \frac{\mathrm{wd}\rho U_\infty^2}{2\mathrm{k}_1\mathrm{h}}
+        h_1 = \mathrm{h}\tilde{h}_1,~h_2 = \mathrm{h}\tilde{h}_2,~t=\sqrt{\frac{m_1}{k_1}}\tilde{t}, \\
+        \alpha = \frac{m_2}{m_1},~\lambda = \frac{k_2}{k_1},~\omega = \frac{k_s}{k_1} \\
+        \beta = \frac{\mathrm{wd}\rho U_\infty^2}{2k_1\mathrm{h}}
     \end{aligned}
 \end{equation*}
 and the coupled fourth-order system of differential equations can be reduced to the nondimensional problem:
@@ -303,27 +309,29 @@ so the initial conditions \((1,2)\) mean the time-stepping MATLAB computation st
 
 \subsection{Strong coupling}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{figures/twomass_phaseplanes_separate.eps}
     \caption{
         Separate phase portrait representations of solutions to the two mass model.
-        Parameters \((1,1,3,20)\) iNumerical methods do not provide exact results,
-        and it is very easy to produce results which seem plausible but are fundamentally wrong.nduces a strong coupling which replicates the behaviour of the single mass model.
-        Perturbations of distance of between $h_1$ and $h_2$ of order $10^{-2}$ induce steady microoscillations
+        Parameters \((1,1,3,20)\). Numerical methods do not provide exact results,
+        and it is very easy to produce results which seem plausible but are fundamentally wrong.High $\omega$ induces a strong coupling which replicates the behaviour of the single mass model.
+        Perturbations of distance of between $h_1$ and $h_2$ of order $10^{-2}$ induce small oscillations,
+        shown by the closed loops in the phase portraits which do not draw perfect circles.
     }
     \label{fig:twomass_phaseportrait_replicated}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{figures/twomass_equal_coupleosc.eps}
-    \caption{Coupled oscillations under parameters \((1, 1, 3, 20)\) and initial conditions \(h_1 = 1.2, h_2 = 3.59\),
-    with equilibrium positions \(1\) and \(3.7913\) respectively. The pair of masses, forced into different initial positions,
-    equioscillate about each other rapidly, while following a dominant oscillation path.}
+    \caption{Coupled oscillations under parameters \((1, 1, 3, 20)\) and initial conditions \(h_1 = 1.2, h_2 = 3.59\).
+    The pair of masses, forced into different initial positions,
+    oscillate about each other rapidly, while following a dominant oscillation path.}
     \label{fig:twomass_dominant_osc}
 \end{figure}
-\begin{figure}
+
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.75\linewidth]{figures/twomass_coupling_pillowplot}
     \caption{
@@ -361,11 +369,12 @@ Equation \ref{eqn:twomass_zeroes_equal_stiffness} reduces to
     \frac{(1+\beta)^3}{\beta} \ge \frac{27}{4}.
 \end{equation}
 This is satisfied for all positive $\beta>0$ and has equality at $\beta = 0.5$.
+Note that this is the case specifically for $\lambda = 1$.
 If the initial conditions for \(h_1, h_2\) set their individual positions between the two equilibrium solutions,
 provided they exist,
 then we observe coupled oscillations as in Figure \ref{fig:twomass_dominant_osc}.
 An important feature is that for \(\lambda = 1\), there exists a stationary stable equilibrium solution.
-We will see later that this case is not satisfied elsewhere. %or is it
+We will see later that this case may not be satisfied under other conditions. %or is it
 The equilibria, being the solutions of Equation \ref{eqn:twomass_existence_of_equilibria}, are identical for both components of the system of differential equations,
 provided the parameters satisfy \(\alpha = 1, \lambda = 1, \omega \gggtr 1\) in order to model two strongly coupled masses.
 This allows us to discuss the solutions to a single equation without loss of generality.
@@ -446,6 +455,8 @@ We now develop our analysis of the two mass model by examining multiple dimensio
 First, we will retain the stiffness coupling \(\omega \gggtr 1\),
 but consider the cases induced by \(\lambda \ne 1\), which are where the relative stiffnesses for each component are not the same.
 We freely change \(\beta\) since it is similar to a forcing term, which we can change to observe different behaviours of the model.
+
+% TODO: important stuff here to add about general requirements for oscillations to occur
 
 In general, we observe quasiperiodic oscillating motion of the masses.
 We will clarify the behaviours that we would expect the coupled system to exhibit.
@@ -630,6 +641,8 @@ The definitions of these partial derivatives are as follows:
     \label{eqn:twomass_partial_derivatives}
 \end{equation}
 We will later refer to these definitions of the partial derivatives in order to analyse the matrix $\mathbf{J}$ and its properties.
+Eigenvalues of $\mathbf{J}$ are the constant terms $\mu$ which satisfy the equation $\mathbf{J} - \mu \mathbf{I} = \mathbf{0}$.
+Including zero, $\mu$ always has four values for any form of $\mathbf{J}$.
 
 \subsection{Oscillations and closure}
 
@@ -1047,8 +1060,8 @@ the evaluations of the energy constant will always diverge slightly.
 This occurs since the error of the numerical method is non-zero,
 so an error accrues in the energy of the system.
 Our criterion for a reliable solution is for the energy constant to be exact up to four decimal places.
-When producing Figures \ref{fig:twomass_energy_madplot}, \ref{fig:twomass_energy_2} and \ref{fig:twomass_energy_3}, we have reduced the tolerances to meet this criterion,
-such that we can claim these results are reliable.
+When producing Figures \ref{fig:twomass_energy_madplot}, \ref{fig:twomass_energy_2} and \ref{fig:twomass_energy_3}, we have restricted the tolerances such that the solutions meet this criterion,
+so that we can claim these results are reliable.
 
 \subsection{The Poincar\'e map}
 
@@ -1188,10 +1201,12 @@ is affected by how MATLAB handles solutions that approach zero.
 		\includegraphics[width=\textwidth]{voiced_sounds/case_1/most_stable_resultb.eps}
 	\end{subfigure}
 	\caption{
-		Fourier transforms of extended time series data from Figure \ref{fig:twomass_energy_madplot}.
-		Computation initialised with parameters \((1, 0.5, 3, 0.3)\) and initial positions \((1,3.79)\).
-		We observe continuous orbits.
+		Fourier transforms of time series data from same conditions as Figure \ref{fig:twomass_energy_3}, with extended time span.
+		Left is $h_1$, right is $h_2$ with parameters \((1, 0.8, 3, 0.3)\) and initial positions $(3.79,4.57)$.
+		We can identify similar spectra of different magnitude,
+		particularly three distinct spikes with the middle value being the most powerful.
 	}
+	\label{fig:twomass_fourier_first}
 \end{figure} % same as energy madplot
 
 \begin{figure}
@@ -1206,6 +1221,8 @@ is affected by how MATLAB handles solutions that approach zero.
         Presentation is identical to the prior figure.
         Parameters \((1, 0.8, 3, 0.3)\) and initial positions $(1.80,3.79)$.
         Quasiperiodic orbits that intersect.
+        The dominant frequencies of oscillation are close together,
+        but the weighting of these frequencies is extremely different in both.
     }
     \label{fig:twomass_fourier_second}
 \end{figure}
@@ -1218,13 +1235,14 @@ is affected by how MATLAB handles solutions that approach zero.
 		\includegraphics[width=\textwidth]{voiced_sounds/case_3/interesting_quasi_b.eps}
 	\end{subfigure}
 	\caption{
-		Fourier transforms of time series data from same conditions as Figure \ref{fig:twomass_energy_3}, with extended time span.
-		Left is $h_1$, right is $h_2$ with parameters \((1, 0.8, 3, 0.3)\) and initial positions $(3.79,4.57)$.
+		Fourier transforms of extended time series data from Figure \ref{fig:twomass_energy_madplot}.
 		Vertical axis is the power of frequencies on the horizontal.
 		Frequency ranges from $0$ to $n/T$ where $n$ is the number of time points and $T$ is the end time of the computation.
-		We can identify similar spectra of different magnitude.
+		We computed the solution initialised with parameters \((1, 0.5, 3, 0.3)\) and initial positions \((1,3.79)\).
+		The continuous quasiperiodic orbits provide a far richer visualisation than the prior two examples,
+		where we can identify clusters of frequencies rather than distinct single spikes of intensity.
 	}
-	\label{fig:twomass_fourier_goodcase}
+	\label{fig:twomass_fourier_madplot}
 \end{figure}
 
 We can generate playable sound files in \texttt{.wav} format of the time series computations,
@@ -1238,11 +1256,13 @@ with three results each containing a time series graph we have shown,
 and two playable sound files for each mass.
 
 A Fourier transform can be applied to the original time series data to provide information on the frequencies of the oscillations.
-Figure \ref{fig:twomass_fourier_goodcase} applies the transform to data we are familiar with, having extended the time scale.
-requency space is computed as the $n$ points in the time array divided by the total time span.
+Figures \ref{fig:twomass_fourier_first},
+\ref{fig:twomass_fourier_second} and \ref{fig:twomass_fourier_madplot} apply the transform to data we are familiar with,
+having extended the time scale.
+Frequency space is computed as the $n$ points in the time array divided by the total time span.
 Since the time series data is produced by a non-uniform timestep,
 we use the \texttt{nufft()} function in MATLAB,
-which is a non-uniform fast Fourier transform algorithm that requires the time series array and the time array.
+which is a non-uniform fast Fourier transform algorithm that requires the time series array and the time array as arguments.
 We apply the Fourier transform to the positions of $h_1$ and $h_2$ in the time series.
 
 On long time scales, solutions may diverge from a consistent behaviour if we do not control the tolerance of the numerical solver.
@@ -1250,7 +1270,17 @@ The results provided are computed with the settings $\mathtt{AbsTol}=10^{-40}$ a
 The Fourier transform graphs are all results which have been studied earlier,
 and are all available in the repository.
 
-%comments on the fourier transforms
+In all the Fourier transform visualisations we have available,
+we can identify similar spectra between the masses.
+Figures \ref{fig:twomass_fourier_first} and \ref{fig:twomass_fourier_second} visualise frequency spectra with discrete spikes.
+The first plot shows the two masses oscillate with identical frequencies,
+and the strength of these frequencies are very close in both.
+In the second, smaller spikes in frequency information do appear more often,
+which can describe more complex behaviour of the masses.
+In Figure \ref{fig:twomass_fourier_madplot},
+the spectral information is much richer,
+where frequencies cluster together instead of being distinct spikes.
+The form of this Fourier transform representation describes much more complex motion of the masses than the other cases we have shown.
 
 \bibliographystyle{unsrt}
 \bibliography{sources.bib}
