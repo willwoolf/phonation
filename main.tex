@@ -1,4 +1,4 @@
-\documentclass{book}
+\documentclass{report}
 
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -8,17 +8,58 @@
 \usepackage[a4paper, total={6in,8in}]{geometry}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{datetime}
 \usepackage{natbib}
 \usepackage{hyperref}
 
 \graphicspath{{figures/}}
 
-\title{MATH30000 Project - Phonation}
+\title{Models for Phonation}
 \author{Will Woolfenden}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+            
+        \Huge
+        \textbf{Models for Phonation}
+            
+        \vspace{0.5cm}
+        \LARGE
+        Mathematical Models for Voice Production in Nonlinear Dynamics
+            
+        \vspace{1.5cm}
+            
+        \textbf{Will Woolfenden}
+        
+        \vspace{0.5cm}
+        
+        $10628968$
+            
+        \vfill
+
+        Project supervisor: Prof. Oliver Jensen \\
+
+        \vspace{0.8cm}
+            %final submission
+        Da submission for MATH30000 Double Project for the $2022/23$ academic year
+            
+        \vspace{0.8cm}
+            
+        \Large
+
+        School of Mathematics\\
+        The University of Manchester\\
+        United Kingdom\\
+        \today
+    \end{center}
+\end{titlepage}
+
+\begin{abstract}
+    ABSTRACT GO HERE
+\end{abstract}
 
 \chapter{Introduction}
 
@@ -61,21 +102,23 @@ A harmonic series, in this context,
 means that the waveform produced by the oscillations is a series on integer-frequency-valued periodic functions,
 relative to a \textit{fundamental frequency}.
 Conventionally, the mathematical definition of the harmonic series is the infinite sum:
-\begin{equation}
+\begin{equation*}
     \hat{W} = \sum_{n=1}^{\infty}\frac{1}{n} = 1 + \frac{1}{2} + \frac{1}{3} + \mathellipsis.
-\end{equation}
+\end{equation*}
 The overtone series is the application of the harmonic series to the frequency of oscillations.
-If we have a fundamental frequency $\omega$, then we can take a series of periodic functions, in this case $\sin(x)$,
-on integer multiples of the fundamental frequency. We can write this in series form as follows:
-\begin{equation}
-    W(t) = \sum_{n=1}^{\infty}a_n \sin(n \omega t).
-\end{equation}
+If we have a fundamental frequency $\omega$, then we can take a series of periodic functions, in this case sine,
+on integer multiples of the fundamental frequency.
+We can write this in series form as follows:
+\begin{equation*}
+    W(x,t) = \sum_{n=1}^{\infty}a_n \sin(ct) \sin(n \omega x).
+\end{equation*}
+For clarity, $W$ is a function on length $x$ and time $t$.
+The wave speed $c$ is the speed at which the waves oscillate in time,
+and $\omega$ is their fundamental frequency.
+We may consider $x$ to be bounded on an interval, such as $[0, \pi]$.
+In this case, we can visualise $W$ as a series of waves on a string.
 The constant coefficients $a_n$ define the weighting of the linear combination of the periodic functions.
 A different bias on different regions of the harmonic series lead to different textures of sound.
-For the signal $W(t)$, the Fourier transform of $W$ on $x$ interprets information of the signal from a time domain $t$,
-and returns the data from the signal represented in the frequency domain.
-While plotting $W$ against $t$ gives a representation of the signal,
-the Fourier transform can give a direct plot of the strengths $a_n$ of each freqency $n\omega$. 
 
 When formulating mathematical models,
 we will make several assumptions that reduce the complexity of the model,
@@ -97,6 +140,7 @@ The first section of this project studies the single mass model from ``Theory an
 which is a model formulated to consider the factors involved in obstructive sleep apnea.
 We will find that the features derived in the model are very relevant to the investigation of phonation,
 and that this single mass model serves as a strong basis for more generalised models.
+
 In the second section, we generalise the single mass model into a structure in which two masses model a single vocal cord,
 where the masses have a component of stiffness coupling between them.
 This model builds on the single mass model,
@@ -131,14 +175,46 @@ since accommodating both sides in our model would only provide insight under asy
 
 Further assumptions we consider are the one-dimensional motion of the modelled vocal folds,
 the elasticity being linear and modelled by Hooke springs,
-and {whatever else}. 
+and a simple geometry for the vocal tract. 
+
+\section{Motivation}
+
+Models for phonation provide insight on the mechanics that contribute to real voice production.
+Humans do not have conscious control over the vocal folds,
+rather the muscles in the larynx work together with the exhalatory pressure from the lungs in order to induce glottal oscillations.
+As such, producing a model for phonation means we can begin to understand the mechanics of the process.
+
+Our goal is to formulate a model for phonation,
+which we wish to can analyse to obtain mathematical descriptions of real voice production.
+This can be divided into several sections.
+First, we will briefly discuss the principles of mathematical modelling in fluid mechanics,
+so we have a strong foundation before building our models.
+When we are constructing a mathematical model,
+we will be able to understand how different assumptions in the basic fluid mechanics lead to different components of the model.
+Finally, this carries through into the analysis of the model,
+allowing us to make links between the results a model provides,
+and the mechanical properties that cause these behaviours.
+If we produce a model starting with only fundamental mechanics,
+then we can more easily understand which components of the model merit which features that arise in our analysis.
+This means we have clear links between the physics that forms our model,
+and the properties of our results.
+
+Once we have a model,
+there are many directions that can be explored to develop our study,
+A mechanical model can act as a foundation for synthesis of speech \cite{ishizaka_flanagan_1972},
+where we would apply mathematical principles of sound wave propagation.
+Phonation is affected by plenty of factors outside of the glottal region itself,
+most notably the resonance coming from the structure of the lower and upper airways as well as the mouth.
+The models we explore are simplified,
+and more generally study the properties of Bernoulli flow in wind tunnels.
+These have applications to the study of fluid mechanics and aerodynamics of channel flows.
 
 \section{Literature review for mathematical models of phonation}
 
 The paper ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite[1972]{ishizaka_flanagan_1972} is arguably the most important work of research in the field of mathematical models for phonation.
 In their research, Ishizaka and Flanagan devise a two-mass model for the vocal cords, and then compute results to generate synthesised voiced sounds.
 The model consists of two masses to represent a vocal fold, which are stiffness coupled, comprising the wall of a channel.
-A flow passes through the channel and waves propagate from the planes,
+A flow passes through the channel and sound waves propagate from the planes,
 and the approximation to voiced sounds is computed as the result of the waves transmitted. %% bit more on wave physics maybe
 
 The two mass model is an extremely simple yet insightful model,
@@ -170,8 +246,8 @@ particularly being able to produce the range of sounds from ``breathy'' speech (
 
 \section{Principles of fluid mechanics}
 
-Conventional fluid mechanics defines a flow $\mathbf{u}$ in a $2$D or $3$D space,
-often as a function of position.
+Euleriean fluid mechanics in a Cartesian coordinate system defines a flow $\mathbf{u}=(u_x,u_y,u_z)$ in a $2$D or $3$D domain,
+which is a function of position $\mathbf{r} = (x,y,z)$ and time $t$.
 We will describe the $3$D case.
 As well as a flow $\mathbf{u}$,
 we have fluid density $\rho$ and pressure $p$,
@@ -182,6 +258,13 @@ meaning $\rho$ is uniform across the domain of the flow.
 This may appear like a restrictive assumption,
 but we still obtain rich and interesting mathematical results from the analysis of an incompressible flow.
 
+The Eulerian framework fundamentally describes the flow field, not the fluid it contains.
+A property $\bullet$ of a fluid object must be found using the material derivative
+\begin{equation}
+    \frac{D\bullet}{Dt} = \frac{\partial \bullet}{\partial t} + (\mathbf{u}\cdot \nabla)\bullet
+\end{equation}
+where $\nabla$ is the vector differential operator.
+
 A steady flow is a flow $u$ which is independent of time.
 The streamlines in a steady flow are fixed, and are identical to the paths taken by a supposed particle placed into a flow at any time.
 Bernoulli's equation for a steady flow is as follows:
@@ -189,6 +272,8 @@ Bernoulli's equation for a steady flow is as follows:
     \frac{1}{2}|\mathbf{u}|^2 + \Omega + \int\frac{\mathrm{d}p}{\rho} = \mathrm{constant~along~a~streamline}.
 \end{equation}
 The term $\Omega$ is the potential for the body forces on the fluid, such as gravity.
+If the potential is either zero or constant,
+then $\Omega$ cancels when applying Bernoulli's equation since the body forces $\mathbf{F} = \nabla \Omega$ are zero. %plurals
 For our research, we will assume there are no body forces and thus neglect $\Omega$.
 Bernoulli's equation is extremely useful, since it gives us a relationship between fluid velocity and pressure in a steady flow.
 
@@ -209,9 +294,36 @@ This can be formally expressed as follows
 
 In this research project, the models we will consider involve simplified geometry and more straightforward assumptions of mechanics in comparison to some of the literature we have acknowledged.
 Fundamentally, we want to consider a fluid flow through a rigid channel, and suppose that a region of wall has freedom of motion in one dimension normal to the flow.
-It is appropriate to introduce the definition of a \textit{plug flow}, being a fluid flow through a channel in which the flow is uniform over cross-sections through the channel. 
+It is appropriate to introduce the definition of a \textit{plug flow}, being a fluid flow through a channel in which the flow is uniform over cross-sections through the channel.
+The plug flow model is a general form for the simple geometry channel flow models we will consider throughout this project.
+We will only discuss a case for a two-dimensional flow, since the intricacies are not vital to our analysis.
+Assume an incompressible steady flow \(\mathbf{u}(x,y)\) travels through a channel which extends indefinitely in the $x$ direction.
+Suppose the channel has a fixed floor at $y=0$ but a variable height $y=h(x)$.
+The changes in $h$ affect the flow, since we must maintain conservation of mass.
+We can express $Q$ rigorously as an integral
+\begin{equation*}
+    Q(x) = \int_{0}^{h(x)}u(x,y) \mathrm{d}y
+\end{equation*}
+and $Q$ must be uniform for any $x$.
+We can attempt to find the partial derivative of $Q$ in $x$, which must be zero:
+\begin{align*}
+    \frac{\partial Q}{\partial x} &= \frac{\partial}{\partial x} \int_{0}^{h(x)}\mathbf{u}(x,y)\mathrm{d}y \\
+    &= \int_{0}^{h(x)}\frac{\partial \mathbf{u}}{\partial x}\mathrm{d}y + \left.\frac{\partial h}{\partial x}\mathbf{u}(x,y)\right|_h \tag{by Product Rule,} \\
+    &= \left[ \mathbf{u} \right]_0^{h(x)} + \left.
+        \left( \mathbf{u}\frac{\partial h}{\partial x} \right)
+    \right|_{h_x}.
+\end{align*}
+We can also find the material derivative of $h$ for a fluid particle:
+\begin{equation*}
+    \frac{Dh}{Dt} = \frac{\partial h}{\partial t} + U \frac{\partial h}{\partial x}
+\end{equation*}
+where the remaining terms in the material derivative vanish since all other velocities are negligible.
+Incompressibility gives us \(\nabla \cdot \mathbf{u} = \mathbf{0}\), which expands to
+\begin{equation*}
+    \frac{\partial u_x}{\partial x} + \frac{\partial u_y}{\partial y} = 0.
+\end{equation*}
 
-% want to finish fm section with a clear explanation of plug flow.
+%potentially remove most of this
 
 \section{Principles of non-linear dynamics and dynamical systems}
 
@@ -229,7 +341,24 @@ Consider the example on two variables \((x,~y)\), being
         \frac{\mathrm{d}y}{\mathrm{d}t} &= g(x,y).
     \end{aligned}
 \end{equation}
-If the equations \(f\) and \(g\) are non-linear on their variables,
+In this example,
+the equations are autonomous,
+which will be the case for all problems considered in this report.
+The \textit{phase portrait} is the representation in which the coordinate axes are the variables $x,y$,
+which can be generalised to higher dimensional cases,
+but cannot be fully visualised for dimensions higher than three.
+We use phase-portrait representation as an alternative visualisation of the behaviour of a system.
+If a variable $x$ is governed by an ODE,
+we plot its behaviour over time where the different axes represent velocity $dx/dt$ against position $x$,
+rather than just visualising position against time.
+The phase-portrait is a useful method of representation for problems in dynamical systems,
+since an ODE or system of ODEs can be characterised by the locations and properties of its stationary equilibria.
+This alternative approach allows us to construct visualisations that show some characteristics of a system more clearly, such as the radii of different closed orbits,
+and the positions of equilibrium solutions.
+The path we visualise in the phase portrait is a curve of the behaviour of the system parameterised by time $t$. 
+Representation of solutions in the phase portrait will be vital to our analysis of our models.
+
+If the equations \(f\) and \(g\) are non-linear,
 we can't do much to solve this equation.
 Aside from producing numerical computations, we could look intuitively for equilibrium solutions \((x,y) = (x_0,y_0)\),
 which are fixed point solutions for which all time derivatives of \(x\) and \(y\) are zero.
@@ -242,7 +371,10 @@ we would expect the functions' behaviour to be well approximated by their first 
         g(x,y) &\approx g(x_0,y_0) + (x-x_0)\frac{\partial g}{\partial x}(x_0,y_0) + (y-y_0)\frac{\partial g}{\partial y}(x_0,y_0).
     \end{aligned}
 \end{equation}
-The constant terms disappear since \(f, g\) are zero at an equilibrium by definition. We obtain the approximation for the system local to an equilibrium solution,
+The constant terms disappear since \(f, g\) are zero at an equilibrium by definition.
+As $(x,y) \rightarrow (x_0,y_0)$, the terms of order $n > 1$ approach zero,
+and the most significant terms are those involving the first partial derivatives.
+We obtain the approximation for the system local to an equilibrium solution,
 \begin{equation}
     \begin{aligned}
         \frac{\mathrm{d}x}{\mathrm{d}t} &= \left(\frac{\partial f}{\partial x}(x_0,y_0)\right)(x-x_0) + \left(\frac{\partial f}{\partial y}(x_0,y_0)\right)(y-y_0) \\
@@ -265,8 +397,8 @@ Hence the above approximation is equivalent to the following matrix equation:
     \end{pmatrix}.
 \end{equation}
 Letting \(\mathbf{u} = (u,v)^\mathrm{T}\) and writing \(J\) as the matrix of derivatives,
-we can write the matrix equation compactly as \(\mathrm{d}\mathbf{u}/\mathrm{d}t = \mathbf{J}\mathbf{u}\).
-The matrix \(J\) is the \textit{Jacobian matrix}.
+we can write the matrix equation compactly as \( \dot{\mathbf{u}} = \mathbf{Ju}\), where the dot denotes the time derivative.
+The matrix \(\mathbf{J}\) is the \textit{Jacobian matrix}.
 The Hartman-Grobman Theorem in dynamical systems tells us a very important result,
 being that the behaviour of the system near the stationary point can be determined by computing the Jacobian matrix \(\mathbf{J}\) at the equilibrium solution,
 and computing the eigenvalues of the matrix.
@@ -275,20 +407,234 @@ For every equilibrium solution, we must compute the Jacobian and its eigenvalues
 For clarity, the eigenvalues of the Jacobian are the constant terms \(\lambda\) that solve the equation \( \mathbf{J} -  \lambda \mathbf{I} = \mathbf{0}\),
 where \(\mathbf{I}\) is the appropriate size identity matrix.
 This also concerns the problem of finding equilibrium solutions in the first place, which is usually non-trivial.
+Importantly, the vector $\mathbf{u}$ is defined on the independent variables $u,v$ which map one-to-one to the vectors which define the phase portrait.
+Hence, eigenvectors of the matrix $\mathbf{J}$ are vectors in the phase portrait from equilibrium solutions,
+hence they affect behaviours of the system near these stationary points.
 
-For a more rigorous understanding of linearisation of a system of equations and an understanding of the Hartman-Grobman Theorem,
-see \cite{perko_textbook_1996}, particularly sections
-1.1 on simple examples of linear systems,
+The most important result on eigenvalues of equilibria is that an equilibrium solution is unstable if any of its eigenvalues have positive real part.
+Recall that the linearisation of the system is of the form
+\begin{equation}
+	\dot{\mathbf{u}} = \mathbf{Ju}.
+\end{equation}
+If $\mathbf{J}$ has an eigenvalue $\lambda$ for an eigenvector $\mathbf{u}_0$,
+then we can model the trajectory from this eigenvector by the ODE and initial condition
+\begin{equation*}
+	\begin{aligned}
+		\dot{\mathbf{u}} &= \lambda \mathbf{u} \\
+		\mathbf{u}(t=0) &= \mathbf{u}_0.
+	\end{aligned}
+\end{equation*}
+This is a first order vector ODE and has a general solution
+\begin{equation}
+	\mathbf{u} = \mathbf{u}_0 e^{\lambda t}
+\end{equation}
+and hence the value of $\lambda$ determines the trajectory from the initial point $\mathbf{u}_0$.
+If $\lambda$ has positive real part,
+then the trajectory diverges exponentially from the equilibrium,
+and hence the equilibrium is unstable.
+
+For a more rigorous understanding of the linearisation of a system of equations and an understanding of the Hartman-Grobman Theorem,
+see \cite{perko_textbook_1996},
+particularly sections 1.1 on simple examples of linear systems,
 1.5 on two-dimensional linear systems,
 1.9 on the theory of stability,
 and 2.6 on linearisation.
-The most important result on eigenvalues of equilibria is that an equilibrium solution is unstable if any of its eigenvalues have negative real part.
 
-%bit on phase portrait representations of equilibrium solutions
+\chapter{Writing go here}
+
+\dots
+
+\chapter{Review}
+
+\section{Energy}
+
+Both the single mass and the two mass model are systems which perfectly preserve energy.
+This is not consistent in the computations,
+but we have shown for both models that there exists a constant term,
+depending on the variables of position and velocity,
+which is unchanging in time.
+From a realistic perspective,
+systems tend to dissipate energy and eventually come to rest,
+rather than behaving like perfect conservative machines that operate indefinitely.
+
+Both models we have studied lack any form of damping,
+so all potential energies are perfectly transferred to kinetic energies and vice versa.
+If we were to introduce a damping parameter,
+we would observe closed oscillations about a stationary point to always converge to that equilibrium,
+rather than oscillating indefinitely.
+
+A mass $m$ attached to a Hooke spring obeys the ODE
+\begin{equation*}
+	m\frac{\mathrm{d}^2 x}{\mathrm{d}t^2} + k(x-x_0) = 0
+\end{equation*}
+where $x$ is the length of the spring, $x_0$ is the length at rest,
+$k$ is the stiffness,
+and $t$ is time.
+This is the equation for a simple harmonic oscillator,
+with equilibrium solution $x=x_0$.
+The general solution is the expression
+\begin{equation*}
+	x = x_0 + A\exp \left(
+		\sqrt{-\frac{k}{m}}t
+	\right) + B\exp \left(
+		-\sqrt{-\frac{k}{m}}t
+	\right),
+\end{equation*}
+where $A$ and $B$ are free constants.
+With the inclusion of a damping parameter,
+we obtain a different ODE
+\begin{equation*}
+	m\frac{\mathrm{d}^2 x}{\mathrm{d}t^2} + c\frac{\mathrm{d}x}{\mathrm{d}t} + k(x-x_0) = 0
+\end{equation*}
+where the constant $c$ describes the damping strength.
+We retain the equilibrium solution $x=x_0$, but the general solution changes to
+\begin{equation*}
+	x = x_0 + A \exp \left(
+		\frac{-c+\sqrt{c^2-4mk}}{2m}t
+	\right) + B \exp \left(
+		\frac{-c-\sqrt{c^2-4mk}}{2m}t
+	\right).
+\end{equation*}
+We require $m,~k,~c$ to be positive constants.
+The harmonic oscillator is periodic,
+whereas the damped harmonic oscillator eventually decays to rest at the equilibrium.
+
+Our models describe systems where energy is perfectly transferred between useful forms,
+namely potential and kinetic energies.
+In other words, the systems we study have $100\%$ efficiency.
+In reality, there are virtually no dynamical systems with this level of efficiency,
+rather that some energy is always wasted.
+If would be interesting to develop our models by introducing forms of energy dissipation,
+such that our models would not describe systems which are $100\%$ efficient.
+We could then consider how the forcing pressure could adapt to continue phonation to take place when the motion of the vocal cords begins to decay towards equilibrium.
+
+% talk about voice and natural systems that lose energy
+
+\section{Elasticity}
+
+From studies into the material properties of the vocal cords,
+they have been observed to deform under stress in a very nonlinear elastic way \cite{alipour_2012}.
+However, in the models we have studied,
+the stiffness of the vocal cords are modelled by a Hooke spring with linear elasticity.
+It is important to note that in the two mass model,
+we simplified these assumptions further,
+by approximating the stiffness coupling by a linear force,
+rather than as the vertical component of a diagonal spring.
+
+The purpose of our mathematical models are to describe the potentially intricate motion of the vocal cords.
+In order to do this,
+we used Hooke springs to model the stiffnesses.
+While not ideal, these are fundamental to the quasiperiodic behaviours we observed in the two mass model.
+If we considered non-linear stiffnesses,
+these might provide fundamentally different oscillations to our observations.
+However, our analysis does not extend to the impacts of different spring behaviours on the results.
+Rather, we made the approximation of linear Hooke springs and analysed their impact in depth.
+
+It also serves to mention that the linear Hooke spring is a first-order approximation to the stiffness of a real spring.
+As such, it is reasonably accurate for small displacements,
+which occur in the proximity of stable equilibria,
+being a large portion of our analysis.
+
+\section{Stablility of fluid flow}
+
+In both models,
+we applied Bernoulli's equation for a steady flow in order to deduce a relationship between the velocity and the pressure of the fluid.
+It is possible for the spoken sounds in phonation to be produced by a steady flow,
+but phonation can occur more generally for unsteady, turbulent flows,
+and this is not a case which is accommodated in our modelling.
+
+In the two mass model,
+we forced the assumption of a quasisteady flow,
+however this reduced the cases we accommodated in the modelling.
+Ideally we would construct a model which provides accurate simulation of vocal folds moving, subject to a turbulent flow through the glottis.
+However, the quasisteady flow still provided rich results which led to a wide variety of behaviours which we were able to analyse.
+Were we to develop the model and introduce the non-steady flow,
+it would be very important to replicate results from the quasisteady flow assumption.
+This is because if a model cannot retain a result when a component changes,
+then there may be something fundamental to that original component,
+which we have now lost.
+As such,
+it was important to focus on the quasisteady flow assumption,
+even if this does not capture the range of flow types that may be involved in phonation.
+
+\section{Physical structure of the model}
+
+The formulation of the two mass model involved extremely simple geometry,
+being the flow through a rectangular channel.
+A more varied and irregular structure,
+similar to the interior shape of the larnyx and glottis,
+could potentially influence the dynamics of the fluid flow.
+A varying inner channel width could have implications in Bernoulli flow,
+and could contribute to more complex flow patterns in phonation.
+
+The masses which model the vocal cord are extremely simple objects,
+being stiffness-coupled planes,
+and are restricted to one dimensional motion in the direction of their ourward normal.
+In reality, the vocal folds have a much more intricate shape than the cuboid blocks we modelled them as.
+We could develop the two mass model by constructing the vocal fold with a much more gemoetrically complex shape,
+and allowing more degrees of freedom in their motion.
+This would lead to more complex behaviour in the motion of the masses,
+but it would be difficult to recover results from the simpler model which we have analysed.
+This is because the ODE we have analysed in the two mass model is characteristic of the one dimensional motion.
+If we were to remove this restriction,
+we would obtain a system of PDEs describing motion in more than one degree of freedom,
+and it would be difficult to replicate the one dimensional results from our two mass model.
+
+
+\chapter{Conclusion}
+
+In this project,
+we have explored two models for phonation and evaulated their accuracy and utility as mathematical models.
+We started by introducing the fundamentals of fluid mechanics and mathematical modelling,
+which build the foundation of our modelling process.
+
 
 
 
 \bibliographystyle{unsrt} % agsm is harvard
 \bibliography{sources}
+
+\appendix
+
+%% bibliography styles
+% agsm is harvard
+% unsrt is standard numerical
+% ieeetr is whatever jasmine uses
+
+\chapter{MATLAB Scripts}
+
+\section{Single mass model functions}
+
+In MATLAB, we define the ODE function \texttt{OscillatorODE(t,x,q,u)} as follows:
+
+%nicer written verbatim environment ode function here
+
+\begin{verbatim}
+	function dbdt = OscillatorODE(t, x, mu, q)
+	
+	b=x(1);
+	bdot=x(2);
+	
+	dbdt=zeros(size(x));
+	dbdt(1) = bdot;
+	dbdt(2) = 1 - q - b - (mu*power(q,2))/(2*power(b,2));
+	
+	end
+\end{verbatim}
+
+And it is solved with \texttt{ode45} as such:
+
+\begin{verbatim}
+	q=0.1; u=1; % define fixed variables
+	[t, x] = ode45(@(t,x) OscillatorODE(t,x,q,u));
+	
+	% distance-time plot
+	figure
+	plot(t,x(1,:))
+	
+	% phase-plane plot
+	figure
+	plot(x(1,:),x(2,:))
+\end{verbatim}
 
 \end{document}
