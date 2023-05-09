@@ -128,6 +128,7 @@ We can write this in series form as follows:
 For clarity, $W$ is a function on length $x$ and time $t$.
 The wave speed $c$ is the speed at which the waves oscillate in time,
 and $\omega$ is their fundamental frequency.
+All frequencies $n\omega$ are integer multiples of $\omega$.
 We may consider $x$ to be bounded on an interval, such as $[0, \pi]$.
 In this case, we can visualise $W$ as a series of waves on a string.
 The constant coefficients $a_n$ define the weighting of the linear combination of the periodic functions.
@@ -433,7 +434,7 @@ If $\mathbf{J}$ has an eigenvalue $\lambda$ for an eigenvector $\mathbf{u}_0$,
 then we can model the trajectory from this eigenvector by the ODE and initial condition
 \begin{equation*}
 	\begin{aligned}
-		\dot{\mathbf{u}} &= \lambda \mathbf{u} \\
+		\dot{\mathbf{u}} &= \lambda \mathbf{u}, \\
 		\mathbf{u}(t=0) &= \mathbf{u}_0.
 	\end{aligned}
 \end{equation*}
@@ -442,9 +443,7 @@ This is a first order vector ODE and has a general solution
 	\mathbf{u} = \mathbf{u}_0 e^{\lambda t}
 \end{equation}
 and hence the value of $\lambda$ determines the trajectory from the initial point $\mathbf{u}_0$.
-If $\lambda$ has positive real part,
-then the trajectory diverges exponentially from the equilibrium,
-and hence the equilibrium is unstable.
+If $\lambda$ has a positive real part then the trajectory diverges exponentially from the equilibrium and hence the equilibrium is unstable.
 
 For a more rigorous understanding of the linearisation of a system of equations and an understanding of the Hartman-Grobman Theorem,
 see \cite{perko_textbook_1996},
@@ -452,6 +451,28 @@ particularly sections 1.1 on simple examples of linear systems,
 1.5 on two-dimensional linear systems,
 1.9 on the theory of stability,
 and 2.6 on linearisation.
+
+\section{Housekeeping}
+
+Before we begin investigating models, we will briefly discuss the structure of the writing.
+Within a chapter, all notation will be almost completely consistent,
+however variables are not consistent across separate chapters.
+For example, we use $\mu$ as a parameter for the single mass model,
+and denote eigenvalues of the Jacobian with $\lambda$,
+however in the two mass model we use $\lambda$ as a parameter and thus it cannot be used to also denote eigenvalues,
+so we denote eigenvalues with $\sigma$ instead.
+
+The only significant inconsistency in our writing is when we derive the two mass model.
+We denote the dimensional dependent variables $h_1,h_2,$
+and analyse the model to obtain the dimensionless variables $\hat{h}_1,\hat{h}_2.$
+Once we have obtained the ODEs in nondimensional form,
+we won't consider the dimensional variables again,
+so for simplicity we change back to writing the independent variables as $h_1,h_2$,
+but use them to denote the nondimensional quantities.
+We do the same for all the nondimensionalised variables in the problem.
+
+The computations in this project are all performed in MATLAB,
+using the $64$-bit double precision floating point arithmetic standard.
 
 %\include{project_phonation_doc.tex}
 
@@ -650,15 +671,78 @@ but others showed more continuous ranges of oscillation frequencies.
 \section{Equilibrium solutions}
 % what is an equilibrium in phonation
 
-The existence of equilibrium solutions suggests that the vocal folds can remain in fixed positions under particular forcing terms.
+The existence of equilibrium solutions suggests that, during phonation, the vocal folds can remain in fixed positions under particular forcing terms.
+The nature of stable and unstable equilibria imply different relationships between forces local to these points.
+An unstable equilibrium suggests that a vocal cord may remain in a fixed shape under a precise balance of forces,
+and will diverge from this position when offset even slightly.
+However, a stable equilibrium implies that if energy were to slowly dissipate from the system then a vocal cord will come to rest at a fixed position.
 
+The two mass model yields different kinds of equilibrium solutions.
+We defined two categories, being diagonal and off-diagonal equilibria.
+The diagonal equilibria are stationary points where both components of a vocal cord are close together.
+When a diagonal equilibrium is unstable,
+the components of the vocal cord start close together but are sensitive to initial conditions,
+and if their positions are offset slightly then they will diverge into their own quasiperiodic motions like we observed.
+If the point is instead stable then a slight offset leads to continuous small oscillations.
+The off-diagonal equilibria are points where the components of a vocal cord have a significant distance apart from each other, so the stiffness coupling induces tension which is balanced by the Bernoulli flow and individual stiffnesses.
+We have no results where the off-diagonal equilibria are stable,
+instead we have observed that the component positions diverge when slightly offset.
+In fact, these are so sensitive to position that the machine arithmetic used in our computations is not precise enough to store variables that maintain equilibrium.
+The eigenvalues of these equilibria are entirely imaginary in all cases we have considered.
+
+\section{Quasiperiodic motion}
 % what is quasiperiodic motion in phonation
 
+We analysed the Fourier spectrum of the motion of the two mass model,
+showing that the motions are formed from a harmonic series of frequencies.
+Different Fourier spectra indicate different combinations of the harmonic series,
+which produce different textures of sound.
+This analysis applies most naturally to pitched sounds, such as the tones produced by musical instruments.
+If, for example, we recorded a violin and a clarinet both playing exactly the same note and performed Fourier transforms on the data,
+we would observe vastly different frequency spectra with the same fundamental frequency.
+Singing is an example of phonation producing pitched sounds,
+however natural speech also has pitch and timbre formed form a harmonic series.
+Hence, we can apply the Fourier transform to analyse the frequency spectrum.
+From our results, we deduced that the two mass model is capable of producing a range of sound textures from the range of unique frequency spectra we observed.
+
+\section{Collapse}
 % what is collapse in phonation
 
+The collapse of the glottis in regular phonation leads to the airway becoming blocked and building up pressure.
+In our analysis, however, closure is considered to be a stopping condition and hence we do not explore behaviours after collapse.
+The single mass model accommodated for the possibility of no equilibrium solutions,
+and in these cases we would always observe closure in sufficient time.
+For the two mass model, there is instead always at least one equilibrium solution,
+so we do not have the same closure conditions.
+However in both of our models,
+collapse tends to occur when either one or both masses is sufficiently close to $0$,
+where the Bernoulli pressure term in the model dominates and the masses accelerate to closure.
+
+These results could infer that in real phonation,
+a sufficiently small glottal opening could cause collapse,
+and so the oscillations can only be sustained if they remain bounded to a particular interval.
+If the range of oscillations is too large and exceeds these bounds,
+the glottal opening could become too small would cause a dominating pressure term,
+where it would be likely for closure to occur.
+
+\section{Conclusion}
 % what do we know about phonation from our models
 
-
+From our models,
+we can deduce that the principle factors in phonation are the stiffness of the vocal cords and how they behave under the pressure from a steady Bernoulli flow from the lungs.
+A two mass model characterises phonation as the motion of two stiffness-coupled components of a single vocal fold.
+Under sufficient parameters, the two mass model reproduces the regular periodic orbits that we see in the single mass model.
+However, the two mass model is much more sensitive and shows more interesting behaviours,
+due to the stiffness coupling which makes the problem a fourth order dynamical system.
+In general, we observe quasiperiodic motion of the components of the vocal folds,
+and the model accommodates that oscillations could continue indefinitely due to the lack of any energy sink in the model.
+This quasiperiodic motion is a weighted sum of a harmonic series of frequencies,
+which can be visualised using a Fourier transform.
+The two mass model is capable of producing signals with discrete peaks in the frequency spectrum,
+but also with frequencies clustered together more continuously.
+In the results we have observed,
+both components of the two mass model appear to resonate with each other,
+since the frequency domains are often identical but the power representations in the Fourier transforms are weighted slightly differently.
 
 
 
