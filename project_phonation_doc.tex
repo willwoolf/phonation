@@ -1,31 +1,29 @@
-\documentclass{report}
+%\documentclass{report}
 
-\usepackage{amssymb}
-\usepackage{amsfonts}
-\usepackage{amsmath}
-\usepackage{dsfont}
-\usepackage[a4paper, total={6in,8in}]{geometry}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{natbib}
-\usepackage{hyperref}
+%\usepackage{amssymb}
+%\usepackage{amsfonts}
+%\usepackage{amsmath}
+%\usepackage{dsfont}
+%\usepackage[a4paper, total={6in,8in}]{geometry}
+%\usepackage{graphicx}
+%\usepackage{float}
+%\usepackage{natbib}
+%\usepackage{hyperref}
 
-\graphicspath{{figures/}}
+%\graphicspath{{figures/}}
 
-\title{One mass}
-\author{Will Woolfenden}
+%\title{One mass}
+%\author{Will Woolfenden}
 
-\begin{document}
-
-\maketitle
+%\begin{document}
 
 \chapter{The single mass model}
 
 \section{Principles of the single-mass model}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=\linewidth]{onemass.jpeg}
+	\includegraphics[width=\linewidth]{figures/onemass.jpeg}
 	\caption{
 		Two dimensional sketch of the single mass model.
 		Fluid flow $V$ travels through the channel,
@@ -163,14 +161,14 @@ Additionally, the equation of the form $v^2 = g(b)$ will be useful later.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\linewidth]{f_plot_mu_1_q_vary}
+    \includegraphics[width=0.5\linewidth]{figures/f_plot_mu_1_q_vary}
     \caption{A plot of the function $f(b) = 1-q-b-\mu q^2/2b^2$ where $\mu=1$, $q$ ranging from $0.1$ (orange) to $0.5$ (green).}
     \label{fig:acc_b_plot}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=\linewidth]{bifurcation_saddlenode}
+	\includegraphics[width=\linewidth]{figures/bifurcation_saddlenode}
 	\caption{
 		The convergence of the equilibrium solutions to a single point before annihilating. Computed by solving \(f(b)\) with Newton's method.
 		The parameter \(q\) is the independent variable that governs the distance between the equilibria, while we have \(\mu\) fixed.
@@ -301,9 +299,9 @@ We can write this even more compactly as a single vector-valued ODE as
 
 \subsection{Representations of solutions and equations of motion}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{quadplot_phaseplane_versus_time_2}
+    \includegraphics[width=\linewidth]{figures/quadplot_phaseplane_versus_time_2}
     \caption{
         A comparison of plots in the traditional distance-time representation compared to in the phase portrait.
         The left column (A and C) illustrates curves as displacement against time, while the right column (B and D) draw the same plots as shown in the respective figure to the left.
@@ -459,87 +457,6 @@ however the problem itself is simplified from the general form we first covered.
 
 % discuss the implications of this analysis and the matrix eigenvectors
 
-% could get rid of this whole next chunk
-
-\subsection{Fudge}
-
-The implications of the matrix model allow us to perform linear system analysis local to the critical points $b_0$ satisfying $f(b_0) = 0.$
-Let $\mathbf{u}=(x_i,y_i)^T$ be a vector denoting information on the plate local to $b_0$,
-where $x$ is the small distance between the displacement $b$ and the critical point $b_0$,
-and $y$ is the velocity of the plate.
-If $u$ is an eigenvector of the matrix,
-it corresponds to an eigenvalue $\lambda_i$ such that
-\begin{equation}
-	\frac{d}{dt} \begin{pmatrix}
-		x_i \\
-		y_i
-	\end{pmatrix} = \lambda_i \begin{pmatrix}
-	    x_i \\
-	    y_i
-    \end{pmatrix},
-\label{eqn:matrix_eigenvectors}
-\end{equation}
-implying that, if eigenpairs exist (which we can check by finding eigenvalues of the matrix),
-then the eigenvectors represent change in the vicinity $\lambda_i x_i$ of the plate to the critical point,
-and the change in velocity $\lambda_i y_i$ of the plate at that point.
-
-Note that this analysis is governed by being local to the zeroes of $f(b)$.
-It only provides insight on the behaviour of the model when considering these points.
-When oscillations occur, it is a consequence of the condition of Equation \ref{eqn:osc_condition},
-which is the condition of $f(b)$ having two positive zeroes.
-Thus, the matrix equation analysis is only valid at two points,
-being these solutions of $f(b)$ at the bounds of oscillation.
-
-The eigenvectors influence motion in the vicinity of the critical points in the phase portrait.
-See subfigure A of Figure \ref{fig:phaseportrait_compare}, and observe the plot which starts near the critical point.
-It appears that in this case, $b$ remains stationary for a period of time before oscillations begin,
-and once undergoing, the peaks of the wave are much sharper than the troughs.
-This occurs because we approach the vicinity of this critical point in the phase portrait,
-and Equation \ref{eqn:first_order_approximated_substituted_matrix} can be applied to find the eigenvectors.
-If $\mathbf{u}$ is a vector that satisfies this equation,
-then we can define points in the phase-plane that are close to these critical points by $\mathbf{u} + \mathbf{\delta u}$,
-where $\delta\mathbf{u}$ is small.
-Write $\mathbf{u + \delta u} = (x_i + \delta x_i, y_i + \delta y_i)^T$.
-In this case, we have that
-\begin{equation}
-\begin{aligned}
-    \frac{d}{dt} \begin{pmatrix}
-        x_i + \delta x_i\\
-        y_i + \delta y_i
-    \end{pmatrix} &= \frac{d}{dt}\begin{pmatrix}
-        x_i \\
-        y_i
-    \end{pmatrix} + \frac{d}{dt}\begin{pmatrix}
-        \delta x_i \\
-        \delta y_i
-    \end{pmatrix} \\
-    &= \lambda_i \begin{pmatrix}
-        x_i \\
-        y_i
-    \end{pmatrix} + \begin{bmatrix}
-        0 & 1 \\
-        f'(b_0) & 0
-    \end{bmatrix} \begin{pmatrix} % can't really do this because delta u is not necessarily an eigenvector, this needs fixing. might be able to get validity or another result out of delta u being small.
-        \delta x_i \\
-        \delta y_i
-    \end{pmatrix} \\
-    &= \lambda_i \begin{pmatrix}
-        x_i \\
-        y_i
-    \end{pmatrix} + \begin{pmatrix}
-        \delta y_i \\
-        f'(b_0) \delta x_i
-    \end{pmatrix}.
-    \label{eqn:matrix_eigenvectors_vicinity} %probably remove this whole thing
-\end{aligned}
-\end{equation}
-We have assumed in Equation \ref{eqn:matrix_eigenvectors_vicinity} that $\delta u$ is not an eigenvector.
-Instead we have considered only that the matrix equation holds,
-since both $\delta x_i$ (the displacement of $b$ from the critical point)
-and $\delta y_i$ (the velocity) are small, so we are local to the critical point on the phase-plane,
-and thus can apply the matrix equation. If $\delta u$ is small, then it is negligible compared to the $\lambda_i (x_i,y_i)^T$ term.
-Hence the eigenvectors influence the motion in the phase-plane local to the critical points. 
-
 \section{Computational results and further analysis}
 
 \subsection{Formulating the problem for MATLAB}
@@ -567,9 +484,9 @@ All scripts are available in the appendix of this report.
 
 \subsection{MATLAB results and inspection}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{phaseportrait}
+    \includegraphics[width=\linewidth]{figures/phaseportrait}
     \caption{
         Representation of all families of curves in the phase portrait representation of numerical solutions for Equation \ref{eqn:master}.
         The parameters are set with $\mu = 1,~q=0.2$. The critical points were computed to be $b_1 \approx 0.1795,~ b_2 \approx 0.7659$, and have been marked.
@@ -577,7 +494,7 @@ All scripts are available in the appendix of this report.
     \label{fig:phaseportrait_oscillations}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width = 0.7\linewidth]{figures/stable_oscillations.eps}
     \caption{
@@ -588,7 +505,7 @@ All scripts are available in the appendix of this report.
     \label{fig:stable_oscillations}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{figures/trajectories_unstable.eps}
     \caption{
@@ -617,7 +534,7 @@ due to the precise behaviour of the ODE close to this critical point being subje
 Instead, this loop is shown to slightly increment the return position positively when an oscillation has been completed.
 The stationary point at $b_2$ is the oscillation with no energy,
 which is similar to the other closed loops.
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{figures/equilibrium_solutions_eigenvalues_too.eps}
     \caption{
@@ -674,7 +591,7 @@ hence at the single equilibrium, the eigenvalues are entirely imaginary, similar
 
 \subsection{Comparison to analytical results}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{figures/sqrt_integral_curves.eps}
     \caption{
@@ -733,7 +650,6 @@ we have a closed loop, which corresponds to an orbit represented in the phase po
 
 % rigorous understanding of the range of oscillations
 
-
 % behaviour of oscillations local to the "matrix points", tie in the analysis to the matrix methods.
 
 % comparison of phaseplane and distance-time graphs
@@ -741,7 +657,7 @@ we have a closed loop, which corresponds to an orbit represented in the phase po
 
 
 
-\bibliographystyle{unsrt}
-\bibliography{sources}
+%\bibliographystyle{unsrt}
+%\bibliography{sources}
 
-\end{document}
+%\end{document}
