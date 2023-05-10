@@ -57,7 +57,7 @@
 
         \vspace{0.8cm}
             %final submission
-        Da submission for MATH30000 Double Project for the $2022/23$ academic year
+        Submission for MATH30000 Double Project for the $2022/23$ academic year
             
         \vspace{0.8cm}
             
@@ -71,7 +71,22 @@
 \end{titlepage}
 
 \begin{abstract}
-    ABSTRACT GO HERE
+    A single mass model for phonation considers steady Bernoulli flow through a channel and a vocal fold modelled by a stiff mass.
+    The model formulates a second order non-linear ordinary differential equation for the motion of the mass with two parameters.
+    Conditions for oscillations can be expressed in terms of the parameters involved,
+    and we deduce explicit results involving the stationary equilibrium solutions.
+    We formulate the equation as a first order vector ODE and derive the Jacobian matrix for equilibria,
+    allowing us to compute eigenvalues which inform us on the stability of these stationary points.
+    A two mass model considers the same problem with two stiffness-coupled masses and a quasisteady flow.
+    We obtain a fourth order system with four parameters.
+    Under strong stiffness coupling, the two masses move as one and are able to replicate the oscillatory behaviour of the single mass model.
+    We explore parameter configurations that yield different equilibrium solutions,
+    and again construct the Jacobian matrix to analyse the stability of these equilibrium solutions.
+    In some cases, we can obtain results analytically.
+    We introduce methods to verify solutions through analytical and numerical methods,
+    and provide a Fourier analysis of particular results which yield frequency spectra of quasiperiodic motions.
+    We end by analysing the results of the two mass model in relation to real phonation,
+    and considering how the models could be improved.
 \end{abstract}
 
 \chapter{Introduction}
@@ -303,41 +318,31 @@ This leads to the principle of conservation of mass, where the net flux entering
 The net flux is the flux out minus the flow in.
 This can be formally expressed as follows
 \begin{equation*}
-    \iiint_V \frac{\mathrm{d}\rho}{\mathrm{d}t} \mathrm{d}V = - \iint_A \rho \mathbf{u} \cdot \mathbf{n} \mathrm{d}S 
-\end{equation*} 
+    \iiint_V \frac{\partial\rho}{\partial t} \mathrm{d}V = - \iint_A \rho \mathbf{u} \cdot \mathbf{n} \mathrm{d}S 
+\end{equation*}
+We can combine conservation of mass with the fact that for an incompressible fluid,
+the material derivative of density $D\rho / Dt$ is zero.
+We obtain an expression for incompressibility
+\begin{equation*}
+	\nabla \cdot \mathbf{u} = 0.
+\end{equation*}
 
 In this research project, the models we will consider involve simplified geometry and more straightforward assumptions of mechanics in comparison to some of the literature we have acknowledged.
 Fundamentally, we want to consider a fluid flow through a rigid channel, and suppose that a region of wall has freedom of motion in one dimension normal to the flow.
 It is appropriate to introduce the definition of a \textit{plug flow}, being a fluid flow through a channel in which the flow is uniform over cross-sections through the channel.
 The plug flow model is a general form for the simple geometry channel flow models we will consider throughout this project.
 We will only discuss a case for a two-dimensional flow, since the intricacies are not vital to our analysis.
-Assume an incompressible steady flow \(\mathbf{u}(x,y)\) travels through a channel which extends indefinitely in the $x$ direction.
-Suppose the channel has a fixed floor at $y=0$ but a variable height $y=h(x)$.
-The changes in $h$ affect the flow, since we must maintain conservation of mass.
-We can express $Q$ rigorously as an integral
-\begin{equation*}
-    Q(x) = \int_{0}^{h(x)}u(x,y) \mathrm{d}y
-\end{equation*}
-and $Q$ must be uniform for any $x$.
-We can attempt to find the partial derivative of $Q$ in $x$, which must be zero:
-\begin{align*}
-    \frac{\partial Q}{\partial x} &= \frac{\partial}{\partial x} \int_{0}^{h(x)}\mathbf{u}(x,y)\mathrm{d}y \\
-    &= \int_{0}^{h(x)}\frac{\partial \mathbf{u}}{\partial x}\mathrm{d}y + \left.\frac{\partial h}{\partial x}\mathbf{u}(x,y)\right|_h \tag{by Product Rule,} \\
-    &= \left[ \mathbf{u} \right]_0^{h(x)} + \left.
-        \left( \mathbf{u}\frac{\partial h}{\partial x} \right)
-    \right|_{h_x}.
-\end{align*}
-We can also find the material derivative of $h$ for a fluid particle:
-\begin{equation*}
-    \frac{Dh}{Dt} = \frac{\partial h}{\partial t} + U \frac{\partial h}{\partial x}
-\end{equation*}
-where the remaining terms in the material derivative vanish since all other velocities are negligible.
-Incompressibility gives us \(\nabla \cdot \mathbf{u} = \mathbf{0}\), which expands to
-\begin{equation*}
-    \frac{\partial u_x}{\partial x} + \frac{\partial u_y}{\partial y} = 0.
-\end{equation*}
-
-%potentially remove most of this
+Assume an incompressible steady flow \(\mathbf{u}(x)\) travels through a channel in the positive $x$ direction and has zero velocity in the $y$ direction.
+such that the horizontal $x$ length $L$ of the flow is much larger than vertical $y$ width $W$.
+We assume the flow is uniform over a cross section.
+We can evaluate flux over a cross-section with length/area $A$
+since velocity is uniform over said cross section, and we obtain
+\begin{equation}
+	Q(x) = -\int_W \rho \mathbf{u}\cdot \mathbf{n} dS = WU
+\end{equation}
+where $U = \mathbf{u}(x) \cdot \mathbf{e}_x $ at the point in the path of the flow normal to the cross section.
+Velocity still may change in $x$, for example if the flow is driven by a pressure gradient in the $x$ direction.
+This gives us a very flexible method to express the fluid flux in a rigid channel.
 
 \section{Principles of non-linear dynamics and dynamical systems}
 
@@ -474,13 +479,15 @@ We do the same for all the nondimensionalised variables in the problem.
 The computations in this project are all performed in MATLAB,
 using the $64$-bit double precision floating point arithmetic standard.
 
-%\include{project_phonation_doc.tex}
+\include{project_phonation_doc.tex}
 
-%\include{twomass.tex}
+\include{twomass.tex}
 
-\chapter{Review}
+\chapter{Critique of the models, overview of results and conclusion}
 
-\section{Energy}
+\section{Improving our models}
+
+\subsection{Energy}
 
 Both the single mass and the two mass model are systems which perfectly preserve energy.
 This is not consistent in the computations,
@@ -544,10 +551,10 @@ We could then consider how the forcing pressure could adapt to continue phonatio
 
 % talk about voice and natural systems that lose energy
 
-\section{Elasticity}
+\subsection{Elasticity}
 
 From studies into the material properties of the vocal cords,
-they have been observed to deform under stress in a very nonlinear elastic way \cite{alipour_2012}.
+they have been observed to deform under stress with nonlinear elasticity \cite{alipour_2012}.
 However, in the models we have studied,
 the stiffness of the vocal cords are modelled by a Hooke spring with linear elasticity.
 It is important to note that in the two mass model,
@@ -569,7 +576,7 @@ As such, it is reasonably accurate for small displacements,
 which occur in the proximity of stable equilibria,
 being a large portion of our analysis.
 
-\section{Stablility of fluid flow}
+\subsection{Stablility of fluid flow}
 
 In both models,
 we applied Bernoulli's equation for a steady flow in order to deduce a relationship between the velocity and the pressure of the fluid.
@@ -591,7 +598,7 @@ As such,
 it was important to focus on the quasisteady flow assumption,
 even if this does not capture the range of flow types that may be involved in phonation.
 
-\section{Physical structure of the model}
+\subsection{Physical structure of the model}
 
 The formulation of the two mass model involved extremely simple geometry,
 being the flow through a rectangular channel.
@@ -614,10 +621,9 @@ If we were to remove this restriction,
 we would obtain a system of PDEs describing motion in more than one degree of freedom,
 and it would be difficult to replicate the one dimensional results from our two mass model.
 
+\section{Discussion}
 
-\chapter{Discussion and conclusion}
-
-\section{Aims}
+\subsection{Aims}
 % what did we aim to do
 
 In this project,
@@ -633,7 +639,7 @@ again investigating equilibrium solutions.
 We investigated the complex shape of the motion of the masses,
 and performed computational Fourier analysis on different results to provide insight into the frequencies of the oscillations.
 
-\section{The single mass model}
+\subsection{The single mass model}
 % what does the single model do
 
 The single mass model exhibits oscillations when parameters take suitable values.
@@ -642,7 +648,7 @@ In the proximity of the unstable equilibrium $b_1$,
 orbits will gravitate towards the unstable point.
 Trajectories near $b_1$ outside the bound for oscillations will diverge from this unstable point and eventually reach closure.
 
-\section{The two mass model}
+\subsection{The two mass model}
 % what does the two mass model do
 
 We constructed the two mass model by generalising the single mass model,
@@ -668,7 +674,7 @@ We were able to analyse the spectra of the oscillations,
 where some results showed clear discrete peaks in the frequency space,
 but others showed more continuous ranges of oscillation frequencies.
 
-\section{Equilibrium solutions}
+\subsection{Equilibrium solutions}
 % what is an equilibrium in phonation
 
 The existence of equilibrium solutions suggests that, during phonation, the vocal folds can remain in fixed positions under particular forcing terms.
@@ -690,7 +696,7 @@ instead we have observed that the component positions diverge when slightly offs
 In fact, these are so sensitive to position that the machine arithmetic used in our computations is not precise enough to store variables that maintain equilibrium.
 The eigenvalues of these equilibria are entirely imaginary in all cases we have considered.
 
-\section{Quasiperiodic motion}
+\subsection{Quasiperiodic motion}
 % what is quasiperiodic motion in phonation
 
 We analysed the Fourier spectrum of the motion of the two mass model,
@@ -705,7 +711,7 @@ however natural speech also has pitch and timbre formed form a harmonic series.
 Hence, we can apply the Fourier transform to analyse the frequency spectrum.
 From our results, we deduced that the two mass model is capable of producing a range of sound textures from the range of unique frequency spectra we observed.
 
-\section{Collapse}
+\subsection{Collapse}
 % what is collapse in phonation
 
 The collapse of the glottis in regular phonation leads to the airway becoming blocked and building up pressure.
@@ -744,7 +750,22 @@ In the results we have observed,
 both components of the two mass model appear to resonate with each other,
 since the frequency domains are often identical but the power representations in the Fourier transforms are weighted slightly differently.
 
+We have discussed approaches which could improve the model.
+To extend the study of models for phonation, we could apply a more complex circulation of energy within the system.
+We could also consider more kinds of fluid flow,
+and explore how phonation may occur for turbulent, unstable flows.
+In turn, it could be beneficial to develop the geometry of our models,
+and consider multiple degrees of freedom in the motion of the modelled vocal folds.
+Were we to develop these aspects of our model,
+it would be interesting to see how our results develop,
+however it is also important that we are still able to reproduce fundamental results.
 
+The two mass model we have studied is capable of producing quasiperiodic motions of two stiffness-coupled components of a vocal cord.
+In formulating the model,
+we have made assumptions that limit the accuracy that we might obtain from more advanced assumptions in fluid mechanics.
+However, the results we have obtained provide forms of motion which we can analyse and relate to real phonation.
+Particularly, we showed that the results from the two mass model can be analysed as a harmonic series of frequencies,
+which is a key characteristic of the acoustic structure of voiced sounds.
 
 \bibliographystyle{unsrt}
 \bibliography{sources.bib}
