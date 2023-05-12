@@ -52,86 +52,80 @@ and a coupling spring with constant $k_s$ connects the two masses.
 	\label{fig:twomass_fluxpressure}
 \end{figure}
 
-We assume the masses to move one-dimensionally, perpendicular to the principal direction of the flow such that they may extend indefinitely.
-We assume a plug flow, as discussed in the introduction. % citation here - there's a text "fundamentals of fluid mechanics 9780471675822"
-This assumption ignores any potential stagnation or interference.
-We also neglect external forces on the fluid such as gravity.
-Air is expelled from the lung and into the upper airway, before being released into the atmosphere.
-We fix a pressure $p_0$ and velocity $U_0$ local to the lung.
-We can find the flux $Q_0$, being the flux at $x_0$ local to the lung, from the terms $U_0,~p_0$ which are defined in our initial conditions,
+\subsection{Modelling with unknown flux}
+
+The two mass model considers a quasisteady flow in order to simplify the relationships that determine the fluxes at different points in the structure.
+However, we will first discuss a full formulation without this assumption.
+
+We assume that each mass moves one-dimensionally in the direction perpendicular to the dominant flow.
+The masses may close to $b_j = \mathrm{h}$ at closure, or extend outwards (increasingly negative $b_j$) indefinitely.
+We assume an incompressible fluid travels in a plug flow, which neglects the possibility of any stagnation or interference.
+In the introduction we defined the concept of flux,
+however now we divide by $rho$ to give the total flow per unit volume that travels across a cross section.
+With a pressure driven flow, we can fix $p_0$ and $U_0$, being the fluid pressure and velocity local to the lung (at $x_0$).
+Hence, we can evaluate the flux $Q_0 = Q(x=x_0)$ at the lung
 \begin{equation}
-    Q(x_0) = -\iint_{A_0} \rho \mathbf{u}(x_0)\cdot \mathbf{n}(x_0)~dS.
+	Q_0 = -\iint_{A_0} \mathbf{u}(x_0)\cdot \mathbf{n}(x_0)~\mathrm{d}S.
 \end{equation}
-Since we have a condition $u(x=x_0) = U_0$, we can write this as
+since the velocity at $x_0$ is scalar $U_0$ in the positive $x$ direction,
+this becomes
 \begin{equation}
-    Q(x_0) = \iint_{A_0} \rho U_0~dS.
+	Q_0 = \iint_{A_0} U_0~\mathrm{d}S = \mathrm{wh}U_0
 \end{equation}
-We have made the assumption of incompressibility in order to write $\rho$ as a constant.
-Since $A_0$ is a cross-section of known area $\mathrm{\mathrm{wh}}$, and $U_0$ is known, we have
-\begin{equation}
-    Q(x_0) = \rho \mathrm{wh} U_0
-    \label{eqn:twomass_lung_flux}
-\end{equation}
-by evaluating the integral of a uniform quantity $U_0$ over a surface $A_0$ as the quantity multiplied by the whole area.
-The flux itself is not uniform over the whole domain, because we have regions of variable volume, and a varying flux local to these regions do not break assumptions of conservation of mass.
-For example, if more fluid is entering a region than what is leaving, then the volume will increase.
-Later on we will force the assumption of a quasisteady flow,
-however we will still gain insight from analysing the relationships between fluxes at different points in the model without this restriction.
-We have flux $Q_\mathrm{in}$ on the entry border of the two mass region, and $Q_\mathrm{out}$ on the exit,
+where $\mathrm{wh}$ is the area of $A_0$.
+Since we have changing volumes,
+we can still maintain conservation of mass without requiring uniform flux across the whole model.
+In the glottal region we have flux $Q_\mathrm{in}$ on the entry border of the two mass region, and $Q_\mathrm{out}$ on the exit,
 with $Q_\mathrm{mid}$ on the plane in between the masses.
-
-A volume $V_j$ has dimensions $h_j \mathrm{wd}$, where $h_j + b_j = \mathrm{h}$ for $j=1,2$.
-The height $h_j$ is the only parameter that may vary, since we have granted a plate with position $b_j$ one dimensional motion.
-We will take time derivatives:
+The regions before and beyond the glottal opening are fixed channels,
+hence the flux is consistent in these regions and we can state that $Q_\mathrm{in} = Q_0$ and $Q_\mathrm{out} = Q_\infty$.
+We then find the velocities  from the flux, by dividing by the area of the cross section
 \begin{equation}
-    \dot{V_j} = \dot{h_j} \mathrm{wd}.
-\end{equation} % maybe remove
-In the introduction, we discussed conservation of mass in combination with incompressibility tells us that the rate of change of a volume is equal to the rate at which its enclosed mass increases.
-In volume $V_1$, mass enters through flux $Q_\mathrm{in}$ and exits through flux $Q_\mathrm{mid}$. The case for $V_2$ is analogous.
-From this we can force an assumption to relate flux around a volume to its rate of change, which can be expressed as follows:
-\begin{equation}
-    \begin{aligned}
-        \dot{h_1} \mathrm{w d} &= Q_\mathrm{in} - Q_\mathrm{mid} \\
-        \dot{h_2} \mathrm{w d} &= Q_\mathrm{mid} - Q_\mathrm{out}.
-    \end{aligned} % maybe remove
-    \label{eqn:twomass_flux_motion}
+	\begin{aligned}
+		U_\mathrm{in} &= \frac{Q_\mathrm{in}}{\mathrm{w}h_1} \\
+		U_\mathrm{out} &= \frac{Q_\mathrm{out}}{\mathrm{w}h_2},
+	\end{aligned}
 \end{equation}
-Since the lower airway region is fixed,
-the flux $Q_0$ local to the lung is equal to the flux $Q_\mathrm{in}$ on the boundary of the lower mass,
-and hence it is a known term. The fluid velocity $U_\mathrm{in}$ on the flux boundary can be deduced from conservation of mass in the lower airway, i.e.
+which gives us the fluid velocities on the borders of the glottal region.
+However, in order to find the fluid velocity in the two glottal volumes,
+we need some kind of interpolatory flux. 
+We will make the assumption that the fluid velocities in their respective volumes are determined by the flux, where we take the average flux using the borders of each region:
 \begin{equation}
-    U_\mathrm{in} = \frac{Q_\mathrm{in}}{\mathrm{w}h_1}.
-    \label{eqn:twomass_flux_in}
+	\begin{aligned}
+		U_1 &= \frac{1}{\mathrm{w}h_1}\left(\frac{Q_\mathrm{in} + Q_\mathrm{mid}}{2}\right) \\
+		U_2 &= \frac{1}{\mathrm{w}h_2}\left(\frac{Q_\mathrm{mid} + Q_\mathrm{out}}{2}\right).
+		\label{eqn:twomass_velocity_interpolation}
+	\end{aligned}
 \end{equation}
-However the terms $Q_\mathrm{mid}, Q_\mathrm{out}$ are not immediately known.
-We will make the assumption that the fluid velocities in the respective volumes are determined by the flux,
-where we take the average of the flux on the boundaries of a region of interest:
+
+We can directly express a relationship between the change in the size of a volume and the change in the volume of fluid that enters that region.
+First, the two glottal volumes $V_j$ have dimensions $h_j\mathrm{wd}$ where $h_j+b_j=\mathrm{h}$ for $j=1,2$. Since $h_j$ is the only dimension which is not fixed, we can take time derivatives:
 \begin{equation}
-    \begin{aligned}
-        U_1 &= \frac{1}{\mathrm{w}h_1}\left(\frac{Q_\mathrm{in} + Q_\mathrm{mid}}{2}\right) \\
-        U_2 &= \frac{1}{\mathrm{w}h_2}\left(\frac{Q_\mathrm{mid} + Q_\mathrm{out}}{2}\right).
-        \label{eqn:twomass_velocity_interpolation}
-    \end{aligned}
+	\dot{V_j} = \dot{h_j} \mathrm{wd}.
 \end{equation}
-The regions of the model which represent the upper and lower airways are rigid fixed volumes equal in cross sectional area.
-If mass is conserved, then the velocity $U_0$ and flux $Q_0$ local to the lung are equal to the velocity $U_\infty$ and flux $Q_\infty$ local to the vocal opening.
-Using the same method as in Equation \ref{eqn:twomass_flux_in}, we have
+The dot denotes explicit time derivative.
+We can write these in terms of the net flux, being flux in minus flux out, in each volume
 \begin{equation}
-    U_\mathrm{out} = \frac{Q_\mathrm{out}}{\mathrm{w}h_2},
-    \label{eqn:twomass_flux_out}
+	\begin{aligned}
+		\dot{h_1} \mathrm{w d} &= Q_\mathrm{in} - Q_\mathrm{mid} \\
+		\dot{h_2} \mathrm{w d} &= Q_\mathrm{mid} - Q_\mathrm{out}.
+	\end{aligned}
+	\label{eqn:twomass_flux_motion}
 \end{equation}
-where the flux $Q_\mathrm{out}$ is equal to the opening flux $Q_\mathrm{\infty}$.
 
-%% weve made the firm conservation of mass argument. This may not be true if the masses are moving,
-% since the volume may be increasing so more fluid goes in than comes out.
-% however there is a ceiling to how much the volume can increase
-
-%TODO: The chunk above is about the flux relationships. rework virtually all of it, since the quasisteady flow neglects a lot of the analysis
-
-We have deduced several results on the velocity of the fluid through different locations in the model,
+We have deduced several properties of the velocity of the fluid through different locations in the model,
 however we don't have explicit expressions for either the plate velocities or the fluxes,
-which are the key values in our statements so far.
+which are the key values in our problem.
 
+\subsection{Quasisteady flow}
+
+We will now introduce the assumption of a quasisteady flow.
+In this simplification, we have a constant flux $Q$ throughout the structure,
+which makes it easier to find the pressure terms that we are interested in.
+In turn, we lose a lot of powerful statements from earlier.
+For example, Equation \ref{eqn:twomass_flux_motion} is trivialised since the fluxes cancel.
+We will continue our formulation of the problem,
+retaining that the fluid is incompressible and driven by the forcing pressure $p_0$ from the lung.
 Recall Bernoulli's equation for a steady flow.
 In order to evaluate an expression for the pressure in a region,
 we need to know the fluid velocity, the body forces, and the local density.
@@ -147,8 +141,6 @@ Along a streamline, we have:
     \end{aligned}
 \end{equation}
 where $\mathrm{E}$ is the Bernoulli constant on the streamline.
-We will later discuss the assumption of quasisteady flow in the model,
-which justifies the application of Bernoulli's equation for a steady flow.
 We can rearrange and obtain explicit expressions for pressure, being
 \begin{equation}
     \begin{aligned}
@@ -172,7 +164,7 @@ which are the pressure values we actually wish to compute.
 We express the pressure terms as follows:
 \begin{equation}
     \begin{aligned}
-        p_0 &= \rho\mathrm{E} - \rho\frac{1}{2}U_0^2 - \rho\mathrm{E} + \frac{1}{2}U_\infty^2 = \frac{1}{2}\rho\left(U_\infty^2 - U_0^2\right) \\
+        p_0 &= \rho\mathrm{E} - \rho\frac{1}{2}U_0^2 - \rho\mathrm{E} + \rho\frac{1}{2}U_\infty^2 = \frac{1}{2}\rho\left(U_\infty^2 - U_0^2\right) \\
         p_1 &= \frac{1}{2}\rho\left(U_\infty^2 - U_1^2\right) \\
         p_2 &= \frac{1}{2}\rho\left(U_\infty^2 - U_2^2\right).
     \end{aligned}
@@ -181,11 +173,9 @@ Importantly \(p_0 = \tilde{p}_0\) is still the forcing term.
 
 %now we're really in a pickle. How can we have atmospheric pressure when we can force pressure?
 
-We now impose the assumption of a quasisteady flow.
-This lets us regard a consistent flux $Q$ throughout the mechanics,
-rather than separate fluxes at different regions of interest.
-This does neglect the condition $\dot{V}_j = \dot{h_j}\mathrm{wd}$.
-Equations \ref{eqn:twomass_flux_in} and \ref{eqn:twomass_flux_out} give us an expression for velocity in terms of flux and the channel dimensions,
+In a quasisteady flow,
+we can deduce velocities using the uniform flux $Q$.
+Equation \ref{eqn:twomass_flux_motion} gave us an expression for velocity in terms of flux and the channel dimensions,
 which we can generalise outside the region of interest:
 \begin{equation}
     U = \frac{Q}{\mathrm{wh}},
@@ -207,7 +197,9 @@ Given \(j=1,2:\)
     \end{aligned}
     \label{eqn:twomass_pressureterm}
 \end{equation}
-We can multiply the pressure $p_j$ by the area of plate $j$ to find the force.
+We can multiply the pressure $p_j$ by the area $\mathrm{wd}$ of plate $j$ to find the force.
+
+\subsection{Forming the equations of motion}
 
 \begin{figure}[h!]
     \centering
@@ -228,8 +220,6 @@ Support springs are similar to the original model we have considered,
 however we now introduce stiffness coupling between two separate walls.
 A plate $j = 1,2$ is connected to the wall by a stiffness spring with constant ${k}_j$.
 The coupling spring has constant $k_s$, and the resting equilibrium positions of all springs are at $b_j = 0$.
-
-\subsection{Forming the equations of motion}
 
 The forces on a plate with position $b_j$ provide the equation of motion by Newton's second law:
 \begin{equation}
