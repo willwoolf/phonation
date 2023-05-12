@@ -85,11 +85,11 @@
     In some cases, we can obtain results analytically.
     We introduce methods to verify solutions through analytical and numerical methods,
     and provide a Fourier analysis of particular results which yield frequency spectra of quasiperiodic motions.
-    We end by analysing the results of the two mass model in relation to real phonation,
-    and considering how the models could be improved.
+    We end by analysing the results of the two mass model in relation to real phonation and considering how the models could be improved.
 \end{abstract}
 
 \chapter{Introduction}
+\label{cha:intro}
 
 \section{The concept and process of phonation}
 
@@ -163,49 +163,6 @@ and hence it is reasonable to neglect features that are not directly important f
 For example, we could neglect terms in equations if their primary importance was describing how the tension on a vocal cord affects the texture of the tone it produces,
 since we are not interested in terms which give extremely precise modifications to the oscillations.
 
-\section{Structure}
-
-The first section of this project studies the single mass model from ``Theory and measurement of snores'' \cite{gavriely_jensen_1993},
-which is a model formulated to consider the factors involved in obstructive sleep apnea.
-We will find that the features derived in the model are very relevant to the investigation of phonation,
-and that this single mass model serves as a strong basis for more generalised models.
-
-In the second section, we generalise the single mass model into a structure in which two masses model a single vocal cord,
-where the masses have a component of stiffness coupling between them.
-This model builds on the single mass model,
-but also takes strong inspiration from the two mass model formulated in ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite{ishizaka_flanagan_1972},
-which discusses the formulation of a mathematical model for the purpose of generating artificial speech using a computer.
-The formulation and study of the two mass model is the largest and most important part of work contained in this project.
-After having investigated the single mass model and the two mass model,
-we will review the approximations and simplifications made during the formulation processes and suggest refinements to the models.
-We conclude by discussing the results, which are the insights to the nature of phonation that we have gained from inspecting the behaviours of the models.
-
-\section{Modelling phonation}
-
-As discussed, we will make limitations to the mathematical models we consider,
-to refine the model into something we can feasibly analyse while also gaining interesting results.
-First of all, while inspiratory phonation (inspiration) differs from expiratory phonation (exhalation),
-we will only focus on the expiratory flow case.
-In the construction of the model, the cases turn out to be identical up to symmetry anyway.
-We will also simplify the geometry of a model of the larynx,
-reducing the problem to the flow through a cuboid, with a vocal fold modelled by a movable wall on the side of the channel.
-The motion of the wall can be restricted by Hooke springs, and we can control their properties.
-
-We will also assume either a steady or quasisteady flow.
-While it is entirely possible for the flow in real speech to be turbulent and not steady,
-assuming otherwise allows us to apply Bernoulli's equation for a steady flow,
-which gives a simple yet powerful statement on the relationship between pressure $p$, density $\rho$ and flow velocity $\mathbf{u}$.
-Restricting our investigation to incompressible fluids, namely where $\rho$ is constant,
-provides similar simplifications to our analysis.
-
-Due to the symmetry of the vocal tract,
-we can simplify our analysis by only studying one side,
-since accommodating both sides in our model would only provide insight under asymmetric forcing terms or initial conditions.
-
-Further assumptions we consider are the one-dimensional motion of the modelled vocal folds,
-the elasticity being linear and modelled by Hooke springs,
-and a simple geometry for the vocal tract. 
-
 \section{Motivation}
 
 Models for phonation provide insight on the mechanics that contribute to real voice production.
@@ -237,6 +194,32 @@ most notably the resonance coming from the structure of the lower and upper airw
 The models we explore are simplified,
 and more generally study the properties of Bernoulli flow in wind tunnels.
 These have applications to the study of fluid mechanics and aerodynamics of channel flows.
+
+\section{Modelling phonation}
+
+As discussed, we will make limitations to the mathematical models we consider,
+to refine the model into something we can feasibly analyse while also gaining interesting results.
+First of all, while inspiratory phonation (inspiration) differs from expiratory phonation (exhalation),
+we will only focus on the expiratory flow case.
+In the construction of the model, the cases turn out to be identical up to symmetry anyway.
+We will also simplify the geometry of a model of the larynx,
+reducing the problem to the flow through a cuboid, with a vocal fold modelled by a movable wall on the side of the channel.
+The motion of the wall can be restricted by Hooke springs, and we can control their properties.
+
+We will also assume either a steady or quasisteady flow.
+While it is entirely possible for the flow in real speech to be turbulent and not steady,
+assuming otherwise allows us to apply Bernoulli's equation for a steady flow,
+which gives a simple yet powerful statement on the relationship between pressure $p$, density $\rho$ and flow velocity $\mathbf{u}$.
+Restricting our investigation to incompressible fluids, namely where $\rho$ is constant,
+provides similar simplifications to our analysis.
+
+Due to the symmetry of the vocal tract,
+we can simplify our analysis by only studying one side,
+since accommodating both sides in our model would only provide insight under asymmetric forcing terms or initial conditions.
+
+Further assumptions we consider are the one-dimensional motion of the modelled vocal folds,
+the elasticity being linear and modelled by Hooke springs,
+and a simple geometry for the vocal tract. 
 
 \section{Literature review for mathematical models of phonation}
 
@@ -288,7 +271,7 @@ This may appear like a restrictive assumption,
 but we still obtain rich and interesting mathematical results from the analysis of an incompressible flow.
 
 The Eulerian framework fundamentally describes the flow field, not the fluid it contains.
-A property $\bullet$ of a fluid object must be found using the material derivative
+The change in a property $\bullet$ of a fluid object must be found using the material derivative
 \begin{equation}
     \frac{D\bullet}{Dt} = \frac{\partial \bullet}{\partial t} + (\mathbf{u}\cdot \nabla)\bullet
 \end{equation}
@@ -341,6 +324,7 @@ since velocity is uniform over said cross section, and we obtain
 	Q(x) = -\int_W \rho \mathbf{u}\cdot \mathbf{n} dS = WU
 \end{equation}
 where $U = \mathbf{u}(x) \cdot \mathbf{e}_x $ at the point in the path of the flow normal to the cross section.
+The elementary vector $\mathbf{e}_x$ is the unit vector in the positive $x$ direction.
 Velocity still may change in $x$, for example if the flow is driven by a pressure gradient in the $x$ direction.
 This gives us a very flexible method to express the fluid flux in a rigid channel.
 
@@ -350,8 +334,8 @@ The modelling of phonation uses techniques from analysing systems of differentia
 The study of dynamical systems, as far as we are concerned,
 involves studying systems of differential equations that describe time-dependence in a model,
 and provides insight into characteristics of a model such as equilibrium solutions and classes of behaviours.
-In Chapter 2, we study a single mass model to approximate a vocal cord,
-and in Chapter 3 we generalise into a two mass model and obtain a fourth order system of differential equations.
+In Chapter \ref{cha:onemass}, we study a single mass model to approximate a vocal cord,
+and in Chapter \ref{cha:twomass} we generalise into a two mass model and obtain a fourth order system of differential equations.
 In all cases the equations of motion are autonomous and non-linear.
 Consider the example on two variables \((x,~y)\), being
 \begin{equation}
@@ -459,7 +443,7 @@ and 2.6 on linearisation.
 
 \section{Housekeeping}
 
-Before we begin investigating models, we will briefly discuss the structure of the writing.
+We will briefly discuss the notation used and any preliminary notes on methods.
 Within a chapter, all notation will be almost completely consistent,
 however variables are not consistent across separate chapters.
 For example, we use $\mu$ as a parameter for the single mass model,
@@ -479,11 +463,29 @@ We do the same for all the nondimensionalised variables in the problem.
 The computations in this project are all performed in MATLAB,
 using the $64$-bit double precision floating point arithmetic standard.
 
+\section{Structure}
+
+The first section of this project studies the single mass model from ``Theory and measurement of snores'' \cite{gavriely_jensen_1993},
+which is a model formulated to consider the factors involved in obstructive sleep apnea.
+We will find that the features derived in the model are very relevant to the investigation of phonation,
+and that this single mass model serves as a strong basis for more generalised models.
+
+In the second section, we generalise the single mass model into a structure in which two masses model a single vocal cord,
+where the masses have a component of stiffness coupling between them.
+This model builds on the single mass model,
+but also takes strong inspiration from the two mass model formulated in ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite{ishizaka_flanagan_1972},
+which discusses the formulation of a mathematical model for the purpose of generating artificial speech using a computer.
+The formulation and study of the two mass model is the largest and most important part of work contained in this project.
+After having investigated the single mass model and the two mass model,
+we will review the approximations and simplifications made during the formulation processes and suggest refinements to the models.
+We conclude by discussing the results, which are the insights to the nature of phonation that we have gained from inspecting the behaviours of the models.
+
 \include{project_phonation_doc.tex}
 
 \include{twomass.tex}
 
 \chapter{Critique of the models, overview of results and conclusion}
+\label{cha:conclusion}
 
 \section{Improving our models}
 
@@ -556,7 +558,7 @@ We could then consider how the forcing pressure could adapt to continue phonatio
 From studies into the material properties of the vocal cords,
 they have been observed to deform under stress with nonlinear elasticity \cite{alipour_2012}.
 However, in the models we have studied,
-the stiffness of the vocal cords are modelled by a Hooke spring with linear elasticity.
+the stiffness of the vocal cords are modelled with linear elasticity by a Hooke spring.
 It is important to note that in the two mass model,
 we simplified these assumptions further,
 by approximating the stiffness coupling by a linear force,
@@ -597,6 +599,14 @@ which we have now lost.
 As such,
 it was important to focus on the quasisteady flow assumption,
 even if this does not capture the range of flow types that may be involved in phonation.
+
+When we began to discuss the two mass model,
+we introduced relationships between the fluxes and the velocities of the masses.
+We supported these suggestions with the argument of conservation of mass for an incompressible fluid.
+However, the quasisteady flow was a stronger assumption which neglected these rules.
+If we were to develop the model,
+these assumptions on the flux would be good candidates to involve in the modelling.
+The quasisteady flow implies ``$\mathrm{change~in~volume}=\mathrm{change~in~flux}$'' for any fixed volume.
 
 \subsection{Physical structure of the model}
 
@@ -739,7 +749,7 @@ we can deduce that the principle factors in phonation are the stiffness of the v
 A two mass model characterises phonation as the motion of two stiffness-coupled components of a single vocal fold.
 Under sufficient parameters, the two mass model reproduces the regular periodic orbits that we see in the single mass model.
 However, the two mass model is much more sensitive and shows more interesting behaviours,
-due to the stiffness coupling which makes the problem a fourth order dynamical system.
+since it is a fourth order system describing two masses with a stiffness coupling.
 In general, we observe quasiperiodic motion of the components of the vocal folds,
 and the model accommodates that oscillations could continue indefinitely due to the lack of any energy sink in the model.
 This quasiperiodic motion is a weighted sum of a harmonic series of frequencies,
@@ -753,7 +763,7 @@ since the frequency domains are often identical but the power representations in
 We have discussed approaches which could improve the model.
 To extend the study of models for phonation, we could apply a more complex circulation of energy within the system.
 We could also consider more kinds of fluid flow,
-and explore how phonation may occur for turbulent, unstable flows.
+for example by exploring how phonation may occur for turbulent, unstable flows.
 In turn, it could be beneficial to develop the geometry of our models,
 and consider multiple degrees of freedom in the motion of the modelled vocal folds.
 Were we to develop these aspects of our model,
@@ -762,7 +772,7 @@ however it is also important that we are still able to reproduce fundamental res
 
 The two mass model we have studied is capable of producing quasiperiodic motions of two stiffness-coupled components of a vocal cord.
 In formulating the model,
-we have made assumptions that limit the accuracy that we might obtain from more advanced assumptions in fluid mechanics.
+we have made assumptions that may limit the potential for valuable, intricate results that provide strong insight into the nature of phonation.
 However, the results we have obtained provide forms of motion which we can analyse and relate to real phonation.
 Particularly, we showed that the results from the two mass model can be analysed as a harmonic series of frequencies,
 which is a key characteristic of the acoustic structure of voiced sounds.
@@ -776,6 +786,98 @@ which is a key characteristic of the acoustic structure of voiced sounds.
 % agsm is harvard
 % unsrt is standard numerical
 % ieeetr is whatever jasmine uses
+
+\chapter{Computations}
+
+\section{Unstable results}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{figures/twomass_timeseries_settling_2.eps}
+	\caption{
+		Long term behaviour of the model under parameters \(\alpha=1,~\lambda=0.5,~\beta=3,~\omega=0.3\).
+		Computed with \texttt{ode45()} using default tolerances.
+		Oscillations tend towards an equilibrium solution given computation on a large timescale.
+		Initial conditions \((1,3.79)\).
+		The equilibrium solution is computed to be $(4.31,5.88)$.
+		The behaviours diverge from the initial behaviours and slowly settle to equilibria,
+		despite the lack of any damping in the system.
+		This is an unreliable solution, due to an inadequately high tolerance in the computation.
+	}
+	\label{fig:twomass_timeseries_settling}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{figures/twomass_individual_converging}
+	\caption{
+		Parameters given are \((1, 0.8, 3, 1)\). The masses oscillate near independently starting at different positions $(1.96, 0.83)$ at time $t=0$.
+		The figures, left to right, progressively increase the time we run the computation.
+		We can see in the left-most plot that the weak coupling leads to the masses oscillating at independent frequencies.
+		As running time increases, the masses converge to their own equilibrium positions.
+	}
+	\label{fig:twomass_independent}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{figures/twomass_error_convergence.eps}
+	\caption{
+		Changes in solution as \(\mathtt{AbsTol}\) is decreased.
+		Computations under parameters \((1, 0.8, 3, 1)\) with initial positions \((1.96, 0.83)\).
+		The computed solution fundamentally changes under stepping down the tolerance.   
+	}
+	\label{fig:twomass_stepping_tolerance}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{figures/twomass_energy_comparison.eps}
+	\caption{
+		Solution from \texttt{ode45()} for the problem seen in Figures \ref{fig:twomass_nested_interesting_1} and \ref{fig:twomass_energy_madplot}.
+		Without reducing the tolerance of the solver,
+		the solution diverges.
+	}
+	\label{fig:twomass_energy_mistake}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{figures/twomass_poincare_map.eps}
+	\caption{
+		Another example of the Poincar\'e map, for the computation shown earlier in Figure \ref{fig:twomass_timeseries_settling}.
+		We have shown that this result is not reliable, since we can compute that the energy constant diverges.
+		As we can see, the orbits break out of a pattern and the points on the Poincar\'e map begin to converge.
+	}
+	\label{fig:twomass_poincare_bad}
+\end{figure}
+
+We cannot expect a numerical method to produce results which would perfectly match analytical behaviours.
+However, it is sensible to deduce that there are families of behaviours that the model may exhibit,
+which the numerical methods are incapable of reproducing.
+For example, the computation shows that the initial quasiperiodic behaviour of Figure \ref{fig:twomass_nested_interesting_1},
+which eventually settles to the stable equilibrium as shown in Figure \ref{fig:twomass_timeseries_settling},
+can be shown to be invalid through computing the energy constant shown in Figure \ref{fig:twomass_energy_madplot}.
+Since the computation of the energy constant for this problem progressively decreases,
+we could guess that the quasiperiodic motions will instead continue indefinitely as shown in the early region of the time series.
+
+The numerical solver struggles with the unstable equilibrium solutions,
+since near these points, the ODE is extremely sensitive to minute differences in the numerical values.
+Due to finite precision floating point arithmetic,
+it is extremely difficult to produce consistent results near the unstable equilibria numerically.
+In combination with the stiffness coupling, there are often heavily unbalanced forces on each mass,
+for example if an unstable equilibrium lies between the two masses.
+Figures \ref{fig:twomass_energy_mistake} and \ref{fig:twomass_poincare_bad} show analysis of computations where the behaviour has diverged from a consistent result.
+The time series slowly breaks out of quasiperiodic orbits and begins to converge towards a stable equilibrium,
+while the reliable solution in Figure \ref{fig:twomass_energy_madplot} shows continuous quasiperiodic behaviour.
+
+Figure \ref{fig:twomass_stepping_tolerance} shows a change in results when reducing the $\mathtt{AbsTol}$ parameter for the MATLAB \texttt{ode45()} function.
+The figures show that decreasing the error tolerance can fundamentally change the numerical solution,
+especially where closure is not observed for tolerance of order $10^{-5}$,
+but is observed for $10^{-10}$.
+Recall that $\mathtt{AbsTol}$ is a lower bound on the magnitude of the solution that MATLAB will compute.
+Clearly, the closure of the model, being the case of a mass approaching zero,
+is affected by how MATLAB handles solutions that approach zero.
 
 \chapter{MATLAB Scripts}
 
