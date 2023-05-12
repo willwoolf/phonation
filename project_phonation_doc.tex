@@ -18,6 +18,7 @@
 %\begin{document}
 
 \chapter{The single mass model}
+\label{cha:onemass}
 
 \section{Principles of the single-mass model}
 
@@ -25,7 +26,7 @@
 	\centering
 	\includegraphics[width=\linewidth]{figures/onemass.jpeg}
 	\caption{
-		Two dimensional sketch of the single mass model.
+		Two dimensional schematic sketch of the single mass model.
 		Fluid flow $V$ travels through the channel,
 		and we are interested in the motion of the plate with mass $\mathrm{m}$.
 	}
@@ -451,7 +452,11 @@ Then the Jacobian is the matrix of first order derivatives of $X$ and $Y$,
     \end{bmatrix},
 \end{equation}
 which matches Equation \ref{eqn:first_order_approximated_substituted_matrix}.
-
+The characteristic polynomial for this matrix is
+\begin{equation}
+	\lambda^2 - f'(b_0) = 0.
+	\label{eqn:onemass_char_poly}
+\end{equation}
 We have obtained the Jacobian matrix identical to how it was defined in our introduction,
 however the problem itself is simplified from the general form we first covered.
 
@@ -548,10 +553,10 @@ which is similar to the other closed loops.
 
 We will compute eigenvalues of the equilibria with data to four significant figures, taking \(b_1 = 0.1795\) and \(b_2 = 0.7659\).
 We are interested in the eigenvalues of \ref{eqn:first_order_approximated_substituted_matrix}.
-An eigenvalue of the Jacobian is determined by the characteristic polynomial \(\lambda^2 - f'(b_0) = 0\).
+An eigenvalue of the Jacobian is determined by the characteristic polynomial which we saw in Equation \ref{eqn:onemass_char_poly}.
 At \(b_1\) we have roots at \(\lambda = \pm 2.4371\), which are entirely real,
 and at \(b_2\) we have roots at \(\lambda = \pm 0.9544 i\), which are entirely imaginary.
-Due to one eigenvalue of \(b_1\) having negative real part,
+Due to one eigenvalue of \(b_1\) having positive real part,
 we can deduce that $b_1$ is an unstable equilibrium in this case.
 Figure \ref{fig:equilibrium_eigenvalues} shows the equilibrium solutions as the parameter $q$ changes and plots their eigenvalues in the complex plane as the equilibrium solutions converge.
 
@@ -645,6 +650,14 @@ Curves $F(b)-F(b_1)-\eta$, where $\eta$ is small,
 correspond to closed loops bounded by the curve $F(b)-F(b_1)$.
 For sufficiently small $\eta$ such that $b_1+\eta$ is contained between the zeroes of $F(b)-F(b_1)$,
 we have a closed loop, which corresponds to an orbit represented in the phase portrait.
+
+\section{Review and motivation}
+
+The single mass model is capable of producing oscillations within a bounded region.
+Trajectories converge towards the vicinity of the unstable equilibrium when they pass near the boundary for oscillations.
+Close to the stable equilibrium, oscillations are periodic and regular.
+However, the motions of the mass have a very simple pattern which do not relate very strongly to the complicated nature of the mechanics of phonation.
+We will develop a two mass model, using the concepts we have introduced so far, for a further study.
 
 % derivation of the conditions on +C which guarantee the closed orbit. 
 
