@@ -20,6 +20,7 @@
 %\author{Will Woolfenden}
 
 \chapter{The two mass model}
+\label{cha:twomass}
 
 \section{Formulating the model}
 
@@ -76,8 +77,8 @@ The flux itself is not uniform over the whole domain, because we have regions of
 For example, if more fluid is entering a region than what is leaving, then the volume will increase.
 Later on we will force the assumption of a quasisteady flow,
 however we will still gain insight from analysing the relationships between fluxes at different points in the model without this restriction.
-We have flux $Q_{in}$ on the entry border of the two mass region, and $Q_{out}$ on the exit,
-with $Q_{mid}$ on the plane in between the masses.
+We have flux $Q_\mathrm{in}$ on the entry border of the two mass region, and $Q_\mathrm{out}$ on the exit,
+with $Q_\mathrm{mid}$ on the plane in between the masses.
 
 A volume $V_j$ has dimensions $h_j \mathrm{wd}$, where $h_j + b_j = \mathrm{h}$ for $j=1,2$.
 The height $h_j$ is the only parameter that may vary, since we have granted a plate with position $b_j$ one dimensional motion.
@@ -124,6 +125,8 @@ where the flux $Q_\mathrm{out}$ is equal to the opening flux $Q_\mathrm{\infty}$
 %% weve made the firm conservation of mass argument. This may not be true if the masses are moving,
 % since the volume may be increasing so more fluid goes in than comes out.
 % however there is a ceiling to how much the volume can increase
+
+%TODO: The chunk above is about the flux relationships. rework virtually all of it, since the quasisteady flow neglects a lot of the analysis
 
 We have deduced several results on the velocity of the fluid through different locations in the model,
 however we don't have explicit expressions for either the plate velocities or the fluxes,
@@ -350,8 +353,7 @@ Equation \ref{eqn:twomass_zeroes_equal_stiffness} reduces to
     \frac{(1+\beta)^3}{\beta} \ge \frac{27}{4}.
 \end{equation}
 We will reiterate that this is the condition specifically for $\lambda=1$.
-This is satisfied for all positive $\beta>0$ and has equality at $\beta = 0.5$.
-Note that this is the case specifically for $\lambda = 1$.
+When this is the case, this equation is satisfied for all positive $\beta>0$ and has equality at $\beta = 0.5$.
 If the initial conditions for \(h_1, h_2\) set their individual positions between the two equilibrium solutions,
 provided they exist,
 then we observe coupled oscillations as in Figure \ref{fig:twomass_dominant_osc}.
@@ -620,7 +622,7 @@ We will later refer to these definitions of the partial derivatives in order to 
 Eigenvalues of $\mathbf{J}$ are the constant terms $\sigma$ which satisfy the equation $\mathbf{J} - \sigma \mathbf{I} = \mathbf{0}$.
 Including zero, $\mu$ always has four values for any form of $\mathbf{J}$.
 At an equilibrium point \((x_0,y_0)\),
-the eigenvalues $\sigma$ of the Jacobian are given explicitly by the equation
+the eigenvalues $\sigma$ of the Jacobian are given explicitly by the characteristic polynomial
 \begin{equation}
 	\sigma^4 + \left(\frac{\partial f_1}{\partial x}(x_0,y_0)\right)\sigma^2 + \left(\frac{\partial f_1}{\partial x}(x_0,y_0) \frac{\partial f_2}{\partial y}(x_0,y_0) - \omega^2\right) = 0.
 \end{equation}
@@ -655,23 +657,6 @@ the eigenvalues $\sigma$ of the Jacobian are given explicitly by the equation
     \label{fig:twomass_equilibria_timeseries_2}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\linewidth]{figures/twomass_timeseries_settling_2.eps}
-    \caption{
-        Long term behaviour of the model under parameters \(\alpha=1,~\lambda=0.5,~\beta=3,~\omega=0.3\).
-        Computed with \texttt{ode45()} using default tolerances.
-        Oscillations tend towards an equilibrium solution given computation on a large timescale.
-        Initial conditions \((1,3.79)\).
-        The equilibrium solution is computed to be $(4.31,5.88)$.
-        The behaviours diverge from the initial behaviours and slowly settle to equilibria,
-        despite the lack of any damping in the system.
-        This is an unreliable solution,
-        and we will explore this more later.
-    }
-    \label{fig:twomass_timeseries_settling}
-\end{figure}
-
 We provide results to explore the stability of equilibria by computing and examining behaviours, and explore interesting behaviours that occur as a result.
 Figure \ref{fig:twomass_equilibria_timeseries} highlights equilibrium solutions and the consequence of finite precision arithmetic.
 In Figure \ref{fig:twomass_equilibria_timeseries_2}, by reversing the initial conditions of the objects,
@@ -683,7 +668,7 @@ hence on a long time scale we can identify motion that appears periodic and stab
 However on a small timescale we observe irregularity.
 Irregular behaviour may or may not be periodic in nature and we cannot determine this easily.
 If we observe a pattern in the data plot, % weird plot here
-we want to know if these behaviours eventually repeat themselves (periodic) or if there is an irrational relationship between the oscillating masses and small scale irregular behaviour is never repeated (quasiperiodic).
+we want to know if these behaviours eventually repeat themselves (periodic) or if there is an irrational relationship between the oscillating masses and small scale irregular behaviour is never repeated, despite appearing periodic on a large time scale (quasiperiodic).
 Even if we can determine the nature of this,
 it may be difficult to determine whether the determined behaviour is actually in the nature of the model,
 or if the finite-precision numerical computation of the model introduces irregularity.
@@ -764,7 +749,6 @@ we cannot specify a time $T$ up to which the displacement between the masses can
         We set parameters \((1,0.5,3,0.3)\) and intitial conditions on the plates \((1,3.79)\).
         We observe a nested pattern of orbits,
         where there are three distint circles in the phase portrait for each mass and we move between orbits in a regular pattern.
-        Importantly, these behaviours eventually converge to microoscillating about an equilibrium.
     }
     \label{fig:twomass_nested_interesting_1}
 \end{figure}
@@ -782,7 +766,7 @@ With the Jacobian as in Equation \ref{eqn:twomass_matrix_jacobian_quad},
 the diagonal solution \((1,1)\) has entirely real eigenvalues, and \((3.94,4.39)\) has entirely imaginary eigenvalues.
 Each off-diagonal solution has a combination, with one pair of eigenvalues being entirely imaginary and the other being entirely real.
 See Figure \ref{fig:twomass_argand_eigenvalues} for a visualisation of the eigenvalues for the steady solutions in this example.
-We can see that all equilibrium solutions, except for \((3.94,4,39)\), bear an eigenvalue with negative real part, and are thus unstable.  %eigenvalues computed and included in figure
+We can see that all equilibrium solutions, except for \((3.94,4,39)\), bear an eigenvalue with positive real part, and are thus unstable.  %eigenvalues computed and included in figure
 
 The existence of four equilibrium solutions is the most common case we observe with the model.
 Continuous orbits may occur which run indefinitely, with small scale quasiperiodic behaviour,
@@ -805,7 +789,7 @@ In the case where the parameters take the values \((1,~0.3,~1,~0.8)\),
 then we have exactly two equilibrium solutions,
 being \((1,1)\) and \((2.15,2.62)\).
 The solution \((2.15,2.62)\) is stable, with eigenvalues $\pm 1.47i$ and $\pm 0.67i$ all being entirely imaginary.
-However the solution \((1,1)\) has eigenvalues $\pm 1.19$ and $\pm 0.57i$, with one eigenvalue with negative real part. %eigenvalues included
+However the solution \((1,1)\) has eigenvalues $\pm 1.19$ and $\pm 0.57i$, with one eigenvalue with positive real part. %eigenvalues included
 The case of exactly two equilibrium solutions does not yield fundamentally different results from when four are present.
 See Figure \ref{fig:twomass_equilibria_timeseries} and look at the particular cases of the off-diagonal equilibria,
 which disappear in the case of two stationary points.
@@ -819,7 +803,7 @@ we can say with certainty that it is the solution \((1,1)\),
 which is always a solution to the model under all parameters.
 The consistent single equilibrium solution \((1,1)\) has a unique property,
 in which it is the only equilibrium solution of the model where the stiffness coupling terms always cancel.
-In cases with more than one solution, the other diagonal equilibrium solution may be a solution \((x,x)\) for $x=1$,
+In cases with more than one solution, the other diagonal equilibrium solution may be a solution \((x,x)\) for $x \neq 1$,
 but this is not guaranteed.
 The conditions for oscillations,
 which we explored in Equation \ref{eqn:twomass_coupled_equilibria_uncoupled},
@@ -853,17 +837,18 @@ However, the regularity in which each plate passes into each orbit is consistent
 as shown by the opposing displacement plot.
 The opposing displacement plot itself is of high interest since it draws a bounded region of the orbits.
 
-An extended time series of this behaviour is shown in Figure \ref{fig:twomass_timeseries_settling} from earlier.
-The orbits eventually close, breaking out of the bounded regions shown in the eariler figure.
-The two plates settle to the equilibrium solution \((4.31,5.88)\).
+We will explore extended behaviours of this example, as well as others, later on when discussing verification of energy. For now, briefly see Figure \ref{fig:twomass_energy_madplot}.
+The two plates oscillate around the equilibrium solution \((4.31,5.88)\).
 In this case, the eigenvalues of this equilibrium can be computed at $\pm 1.17i$ and $\pm 0.79i$,
 indicating that the equilibrium is stable.
-This case is similar to the eigenvalues of equilibria represented in Figure \ref{fig:twomass_argand_eigenvalues}.
+This case is similar to the eigenvalues of equilibria represented in Figure \ref{fig:twomass_argand_eigenvalues}. All eigenvalues belong to the same regions of the complex p
 
 \section{Verification of results}
 
 Numerical methods do not provide exact results and it is very easy to produce results which seem plausible but are fundamentally wrong.
 We will introduce a few concepts that will allow us to verify solutions.
+Most results from the two mass model will be unreliable if the tolerances are not strict enough.
+See the appendix for a review on unstable results.
 
 \subsection{Numerical methods}
 
@@ -886,7 +871,7 @@ It is possible that the discretisation could induce a local error to the numeric
 
 The ordinary differential equation solvers in MATLAB feature options which can be modified using the \texttt{odeset} struct.
 We are particularly interested in the parameters $\mathtt{AbsTol}$ and $\mathtt{RelTol}$,
-which affect the precision of the solution.
+which affect the precision of the numerical solution \cite{shampine_1997}.
 The value for $\mathtt{AbsTol}$ gives a lower bound on the magnitude of the solution,
 encouraging the timestepping algorithm to remain above a particular magnitude.
 If the solution approaches zero asymptotically,
@@ -894,8 +879,7 @@ this will reach a point where the solver fails.
 The $\mathtt{RelTol}$ term instead controls a termwise precision of the solution,
 comparing a term in the timestep to an immediately previous solution.
 If we decrease $\mathtt{RelTol}$,
-the numerical values will be closer to the exact solution for our initial conditions.
-For more information, see the MATLAB documentation. %TODO: cite
+the numerical values will be closer to the exact solution for our initial conditions. %TODO: cite
 
 The differential equation solvers in MATLAB implement Runge-Kutta methods of different order \cite{moler_2014}.
 For example, \texttt{ode45()} applies one method where the error is order $\mathcal{O}(h^4)$ and another with error of order $\mathcal{O}(h^5)$, where $h$ is the length of a time step.
@@ -923,7 +907,7 @@ which is assumed to be greater than the error from one method to the exact solut
         Attempting to verify the result of nested orbits we have seen in Figure \ref{fig:twomass_nested_interesting_1}.
         The upper plot shows the same time series truncated at $t=3000$.
         The lower plot uses the energy constant defined in Equation \ref{eqn:twomass_energy_constant}.
-        The energy constant accrues error from the initial conditions over the time span of the computation.
+        The energy constant accrues miniscule error from the initial conditions over the time span of the computation.
     }
     \label{fig:twomass_energy_madplot}
 \end{figure}
@@ -935,7 +919,8 @@ which is assumed to be greater than the error from one method to the exact solut
         Second verification via energy constant.
         Parameters \((1, 0.8, 3, 0.3)\) with initial positions \((1.80, 3.79)\).
         The computation still diverges over time,
-        although the rate at which the simulation loses energy is not as drastic as the earlier case.
+        although energy is lost very slowly.
+        Under a strong enough tolerance, results can be reliable for very long time spans.
     }
     \label{fig:twomass_energy_2}  %FIGURE CHANGED, FIX CAPTION
 \end{figure}
@@ -1043,7 +1028,7 @@ The variation in the result from Figure \ref{fig:twomass_energy_3} is bounded en
 
 In our computation, even when the tolerances are extremely small,
 the evaluations of the energy constant will always diverge slightly.
-This occurs since the error of the numerical method is non-zero,
+This occurs since the error of the numerical method is small but finite,
 so an error accrues in the energy of the system.
 Our criterion for a reliable solution is for the energy constant to be exact up to four decimal places.
 When producing Figures \ref{fig:twomass_energy_madplot}, \ref{fig:twomass_energy_2} and \ref{fig:twomass_energy_3}, we have restricted the tolerances such that the solutions meet this criterion,
@@ -1090,6 +1075,7 @@ Figure \ref{fig:twomass_poincare_nice} visualises the Poincar\'e map for this pr
 We see the intersection points begin to diverge as the computation continues,
 shown in the visualisations that include the transient.
 However, these diversions are small and the intersection points are mapped in clearly bounded regions.
+The diversions shown in the Poincar\'e map could be attributed to the small but finite numerical error present in the computation.
 
 The method used to compute the Poincar\'e map \cite{manohar_2011} constructs a new array of time points $T_n$ of intersections with the Poincar\'e section,
 hence the figures do not plot to the same time scale as the original computations.
@@ -1099,80 +1085,8 @@ for a case we have explored earlier.
 The points on the Poincar\'e map are much more irregular and break out of a pattern approximately halfway through the visualised computation.
 This result is not reliable, justified again by the large scale of change in the energy constant we computed earlier in Figure \ref{fig:twomass_energy_madplot}.
 
-The computations from the two mass model are, in general, very difficult to obtain reliable information from.
-We cannot expect a numerical method to produce results which would match analytical behaviours.
-However, it is sensible to deduce that there are families of behaviours that the model may exhibit,
-which the numerical methods are incapable of reproducing.
-For example, the computation shows that the initial quasiperiodic behaviour of Figure \ref{fig:twomass_nested_interesting_1},
-which eventually settles to the stable equilibrium as shown in Figure \ref{fig:twomass_timeseries_settling},
-can be shown to be invalid through computing the energy constant shown in Figure \ref{fig:twomass_energy_madplot}.
-Since the computation of the energy constant for this problem progressively decreases,
-we could guess that the quasiperiodic motions will instead continue indefinitely as shown in the early region of the time series.
-
-\subsection{Unstable results}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\linewidth]{figures/twomass_individual_converging}
-	\caption{
-		Parameters given are \((1, 0.8, 3, 1)\). The masses oscillate near independently starting at different positions $(1.96, 0.83)$ at time $t=0$.
-		The figures, left to right, progressively increase the time we run the computation.
-		We can see in the left-most plot that the weak coupling leads to the masses oscillating at independent frequencies.
-		As running time increases, the masses converge to their own equilibrium positions.
-	}
-	\label{fig:twomass_independent}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\linewidth]{figures/twomass_error_convergence.eps}
-	\caption{
-		Changes in solution as \(\mathtt{AbsTol}\) is decreased.
-		Computations under parameters \((1, 0.8, 3, 1)\) with initial positions \((1.96, 0.83)\).
-		The computed solution fundamentally changes under stepping down the tolerance.   
-	}
-	\label{fig:twomass_stepping_tolerance}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\linewidth]{figures/twomass_energy_comparison.eps}
-	\caption{
-		Solution from \texttt{ode45()} for the problem seen in Figures \ref{fig:twomass_nested_interesting_1} and \ref{fig:twomass_energy_madplot}.
-		Without reducing the tolerance of the solver,
-		the solution diverges.
-	}
-	\label{fig:twomass_energy_mistake}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.9\linewidth]{figures/twomass_poincare_map.eps}
-	\caption{
-		Another example of the Poincar\'e map, for the computation shown earlier in Figures \ref{fig:twomass_timeseries_settling}, \ref{fig:twomass_nested_interesting_1} and \ref{fig:twomass_energy_madplot}.
-		We have shown that this result is not reliable, since we can compute that the energy constant diverges.
-		As we can see, the orbits break out of a pattern and the points on the Poincar\'e map begin to converge.
-	}
-	\label{fig:twomass_poincare_bad}
-\end{figure}
-
-The numerical solver struggles with the unstable equilibrium solutions,
-since near these points, the ODE is extremely sensitive to minute differences in the numerical values.
-Due to finite precision floating point arithmetic,
-it is extremely difficult to produce consistent results near the unstable equilibria numerically.
-In combination with the stiffness coupling, there are often heavily unbalanced forces on each mass,
-for example if an unstable equilibrium lies between the two masses.
-Figures \ref{fig:twomass_energy_mistake} and \ref{fig:twomass_poincare_bad} show analysis of computations where the behaviour has diverged from a consistent result.
-The time series slowly breaks out of quasiperiodic orbits and begins to converge towards a stable equilibrium,
-while the reliable solution in Figure \ref{fig:twomass_energy_madplot} shows continuous quasiperiodic behaviour.
-
-Figure \ref{fig:twomass_stepping_tolerance} shows a change in results when reducing the $\mathtt{AbsTol}$ parameter for the MATLAB \texttt{ode45()} function.
-The figures show that decreasing the error tolerance can fundamentally change the numerical solution,
-especially where closure is not observed for tolerance of order $10^{-5}$,
-but is observed for $10^{-10}$.
-Recall that $\mathtt{AbsTol}$ is a lower bound on the magnitude of the solution that MATLAB will compute.
-Clearly, the closure of the model, being the case of a mass approaching zero,
-is affected by how MATLAB handles solutions that approach zero.
+A regular Poincar\'e map is a strong indicator that the model exhibits a consistent behaviour,
+even if that behaviour is extremely complex and difficult to analyse from simpler visualisations.
 
 \section{Voiced sounds}
 
@@ -1237,7 +1151,7 @@ Playable sound files are available \hyperlink{https://gitlab.com/willwoolfenden/
 with three results each containing a time series graph we have shown,
 and two playable sound files for each mass.
 
-A Fourier transform can be applied to the original time series data to provide information on the frequencies of the oscillations.
+A Fourier transform \cite{grigoryan_2018} can be applied to the original time series data to provide information on the frequencies of the oscillations.
 Figures \ref{fig:twomass_fourier_first},
 \ref{fig:twomass_fourier_second} and \ref{fig:twomass_fourier_madplot} apply the transform to data we are familiar with,
 having extended the time scale.
@@ -1272,6 +1186,13 @@ In Figure \ref{fig:twomass_fourier_madplot},
 the spectral information is much richer,
 where frequencies cluster together instead of being distinct spikes.
 The form of this Fourier transform representation describes much more complex motion of the masses than the other cases we have shown.
+
+\section{Review}
+
+Evidently, a two mass model produces far more insightful results,
+which reflect the intricate quasiperiodic oscillations that take place in real phonation.
+We will now conclude our analysis, review potential improvements to our models,
+and discuss our findings collectively.
 
 %\bibliographystyle{unsrt}
 %\bibliography{sources.bib}
