@@ -86,7 +86,7 @@ We would assume that the fluid velocity is zero local to the lung (in),
 being driven by the pressure.
 Hence the pressure at the opening (out) is a function of the speed local to the opening,
 and the forcing pressure at the lung.
-Note that the term $|\mathbf{u}|^2/2$ is the fluid kinetic energy per unit mass.
+Note that the term $|\mathbf{u}|^2/2$ is the fluid kinetic energy per unit volume.
 We obtain the force $F_b$ by multiplying this pressure term by the cross-sectional area of the plate.
 If this pressure is below atmospheric,
 then the resulting force on the plate is acting inwards,
@@ -186,8 +186,6 @@ Figure \ref{fig:acc_b_plot} shows a plot of $f(b)= 1 - q - b - \mu q^2/2b^2$ aga
 
 We will introduce the concept of equilibrium solutions of the ODE,
 being fixed-point solutions that tell us a lot of information about the behaviour of the model.
-For example, later on we will construct an approximation to the ODE close to an equilibrium solution,
-and this approximation will be linear.
 An equilibrium solution is a zero of the function \(f(b)\), since all time derivatives of \(b(t)\) are zero if \(b\) is fixed.
 
 This plot allows us to deduce some intuition about the behaviour of $b$.
@@ -638,7 +636,7 @@ and plotting its square root forms a sharp point where it intersects with the ho
 This resembles the shape of the unstable equilibrium in the phase portrait,
 which we visualised in Figure \ref{fig:unstable_trajectories}.
 
-We will now rigorously show that Equation \ref{eqn:osc_condition} guarantees oscillations.
+We will now show that Equation \ref{eqn:osc_condition} guarantees oscillations.
 Assume that $f(b)$ is somewhere strictly positive, which is equivalent to \ref{eqn:osc_condition}.
 We do not include the case of equality,
 which is where $f(b)$ is zero exactly once.

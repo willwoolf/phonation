@@ -13,18 +13,6 @@
 \usepackage{natbib}
 \usepackage{hyperref}
 
-%\usepackage{amssymb}
-%\usepackage{amsfonts}
-%\usepackage{amsmath}
-%\usepackage{dsfont}
-%\usepackage{bm}
-%\usepackage[a4paper, total={6in,8in}]{geometry}
-%\usepackage{graphicx}
-%\usepackage{float}
-%\usepackage{subcaption}
-%\usepackage{natbib}
-%\usepackage{hyperref}
-
 \graphicspath{{/figures/}{Matlab Demos/sounds/}{voiced_sounds/case_1}{voiced_sounds/case_2}{voiced_sounds/case_3}}
 
 \title{Models for Phonation}
@@ -57,7 +45,7 @@
 
         \vspace{0.8cm}
             %final submission
-        Submission for MATH30000 Double Project for the $2022/23$ academic year
+        Final submission for MATH30000 Double Project for the $2022/23$ academic year
             
         \vspace{0.8cm}
             
@@ -407,7 +395,7 @@ The matrix \(\mathbf{J}\) is the \textit{Jacobian matrix}.
 The Hartman-Grobman Theorem in dynamical systems tells us a very important result,
 being that the behaviour of the system near the stationary point can be determined by computing the Jacobian matrix \(\mathbf{J}\) at the equilibrium solution,
 and computing the eigenvalues of the matrix.
-The Jacobian is often a sparse matrix, and its eigenvalues are often complex.
+The Jacobian is often a sparse matrix, and its eigenvalues are often complex-valued.
 For every equilibrium solution, we must compute the Jacobian and its eigenvalues in order to determine the behaviour of the system at all equilibrium points.
 For clarity, the eigenvalues of the Jacobian are the constant terms \(\lambda\) that solve the equation \( \mathbf{J} -  \lambda \mathbf{I} = \mathbf{0}\),
 where \(\mathbf{I}\) is the appropriate size identity matrix.
@@ -431,9 +419,10 @@ then we can model the trajectory from this eigenvector by the ODE and initial co
 \end{equation*}
 This is a first order vector ODE and has a general solution
 \begin{equation}
-	\mathbf{u} = \mathbf{u}_0 e^{\lambda t}
+	\mathbf{u} = A\mathbf{u}_0 e^{\lambda t}
 \end{equation}
-and hence the value of $\lambda$ determines the trajectory from the initial point $\mathbf{u}_0$.
+with free scalar $A$.
+Hence the value of $\lambda$ determines the trajectory from the initial point $\mathbf{u}_0$.
 If $\lambda$ has a positive real part then the trajectory diverges exponentially from the equilibrium and hence the equilibrium is unstable.
 
 For a more rigorous understanding of the linearisation of a system of equations and an understanding of the Hartman-Grobman Theorem,
@@ -467,12 +456,12 @@ using the $64$-bit double precision floating point arithmetic standard.
 
 \section{Structure}
 
-The first section of this project studies the single mass model from ``Theory and measurement of snores'' \cite{gavriely_jensen_1993},
+The first chapter of this project studies the single mass model from ``Theory and measurement of snores'' \cite{gavriely_jensen_1993},
 which is a model formulated to consider the factors involved in obstructive sleep apnea.
 We will find that the features derived in the model are very relevant to the investigation of phonation,
 and that this single mass model serves as a strong basis for more generalised models.
 
-In the second section, we generalise the single mass model into a structure in which two masses model a single vocal cord,
+In the second chapter, we generalise the single mass model into a structure in which two masses model a single vocal cord,
 where the masses have a component of stiffness coupling between them.
 This model builds on the single mass model,
 but also takes strong inspiration from the two mass model formulated in ``Synthesis of voiced sounds from a two-mass model of the vocal cords'' \cite{ishizaka_flanagan_1972},

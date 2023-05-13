@@ -28,7 +28,7 @@
     \centering
     \includegraphics[width=\linewidth]{figures/twomass_bothsides.jpeg}
     \caption{General illustration of the two mass model. Plates with mass ${m_1},{m_2}$ are connected to the wall of the channel by springs.
-    The fluid velocity $\bm{u(x)}$ and pressure $p$ are terms we can fix local to the lung.
+    The fluid velocity $\mathbf{u}$ and pressure $p$ are terms we can fix local to the lung.
     The stiffness coupling between masses provides a horizontal force which we ignore by restricting the masses to one-dimensional motion along the width of the channel.}
     \label{fig:twomass_bothsides}
 \end{figure}
@@ -58,6 +58,7 @@ The two mass model considers a quasisteady flow in order to simplify the relatio
 However, we will first discuss a full formulation without this assumption.
 
 We assume that each mass moves one-dimensionally in the direction perpendicular to the dominant flow.
+The extruding motion of each mass $j$ into the channel is given by $b_j$.
 The masses may close to $b_j = \mathrm{h}$ at closure, or extend outwards (increasingly negative $b_j$) indefinitely.
 We assume an incompressible fluid travels in a plug flow, which neglects the possibility of any stagnation or interference.
 In the introduction we defined the concept of flux,
@@ -288,8 +289,7 @@ so the initial conditions \((1,2)\) mean the time-stepping MATLAB computation st
     \includegraphics[width=\linewidth]{figures/twomass_phaseplanes_separate.eps}
     \caption{
         Separate phase portrait representations of solutions to the two mass model.
-        Parameters \((1,1,3,20)\). Numerical methods do not provide exact results,
-        and it is very easy to produce results which seem plausible but are fundamentally wrong. High $\omega$ induces a strong coupling which replicates the behaviour of the single mass model.
+        Parameters \((1,1,3,20)\). High $\omega$ induces a strong coupling which replicates the behaviour of the single mass model.
         Perturbations of distance of between $h_1$ and $h_2$ of order $10^{-2}$ induce small oscillations,
         shown by the closed loops in the phase portraits which do not draw perfect circles.
     }
@@ -347,8 +347,6 @@ When this is the case, this equation is satisfied for all positive $\beta>0$ and
 If the initial conditions for \(h_1, h_2\) set their individual positions between the two equilibrium solutions,
 provided they exist,
 then we observe coupled oscillations as in Figure \ref{fig:twomass_dominant_osc}.
-An important feature is that for \(\lambda = 1\), there exists a stationary stable equilibrium solution.
-We will see later that this case may not be satisfied under other conditions. %or is it
 The equilibria, being the solutions of Equation \ref{eqn:twomass_existence_of_equilibria}, are identical for both components of the system of differential equations,
 provided the parameters satisfy \(\alpha = 1, \lambda = 1, \omega \gggtr 1\) in order to model two strongly coupled masses.
 This allows us to discuss the solutions to a single equation without loss of generality.
@@ -484,7 +482,7 @@ we will be able to understand the properties of the model better.
     \label{fig:twomass_equilibrium_curves}
 \end{figure}
 We want all equilibrium solutions \(h_1 = x, h_2 = y\) which solve the coupled differential equations.
-From here on, an equilibrium solution is a pair \((h_1,h_2)\).
+From here on, an equilibrium solution is a pair \((h_1,h_2)\) = \((x,y)\).
 We make the definition
 \begin{equation}
     \begin{aligned}
@@ -676,10 +674,6 @@ In order for closure to occur,
 one of the masses must be perturbed enough towards zero that the system loses stability and collapses.
 There is often a bound for oscillations, within which the quasiperiodic orbits will continue indefinitely.
 
-Divergence from an initial bound is a regualar behaviour.
-If we set initial conditions to be some \((h,h+\delta h)\),
-we cannot specify a time $T$ up to which the displacement between the masses can be bounded.
-
 \section{A collection of results}
 
 \begin{figure}[h!]
@@ -798,7 +792,7 @@ but this is not guaranteed.
 The conditions for oscillations,
 which we explored in Equation \ref{eqn:twomass_coupled_equilibria_uncoupled},
 give us the conditions \(\beta=0.5,~\lambda=1\) to guarantee the existence of exactly one equilibrium solution.
-The value of $\omega$ is unrestrained, since the stiffness term itself is cancelled by the solution at \((1,1)\).
+The value of $\omega$ is unrestrained, since the stiffness term itself is cancelled by the solution at \((1,1)\) being the only solution to the equations.
 
 Consider the configuration of parameters \((1,~1,~0.5,~2)\),
 which guarantees the existence of the single equilibrium solution \((1,1)\).
@@ -830,7 +824,7 @@ The opposing displacement plot itself is of high interest since it draws a bound
 We will explore extended behaviours of this example, as well as others, later on when discussing verification of energy. For now, briefly see Figure \ref{fig:twomass_energy_madplot}.
 The two plates oscillate around the equilibrium solution \((4.31,5.88)\).
 In this case, the eigenvalues of this equilibrium can be computed at $\pm 1.17i$ and $\pm 0.79i$,
-indicating that the equilibrium is stable.
+which are purely imaginary.
 This case is similar to the eigenvalues of equilibria represented in Figure \ref{fig:twomass_argand_eigenvalues}. All eigenvalues belong to the same regions of the complex p
 
 \section{Verification of results}
@@ -1010,11 +1004,10 @@ Since the constant is unchanging in time, we can use it to verify that a compute
 Figure \ref{fig:twomass_energy_madplot} shows an attempted verification of a result using this constant.
 Due to the nature of the integration method,
 the energy constant accrues error over the time span of the computation.
-The computation of the energy constant forms a curve which is fairly smooth,
-however there is a large change in value,
-which discredits the reliability of this result as an actual demonstration of the behaviour of the system.
-Figures \ref{fig:twomass_energy_2} and \ref{fig:twomass_energy_3} show stronger results involving verification using the energy constant.
-The variation in the result from Figure \ref{fig:twomass_energy_3} is bounded enough that we can claim it to be a stable result.
+The computation of the energy constant forms a smooth line,
+since a small error accrues over the time span of the computation.
+In this figure, as well as Figures \ref{fig:twomass_energy_2} and \ref{fig:twomass_energy_3},
+we show verification of behaviour through computing the energy constant.
 
 In our computation, even when the tolerances are extremely small,
 the evaluations of the energy constant will always diverge slightly.
